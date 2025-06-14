@@ -1,2 +1,1 @@
-# scnt-dip
-SciNumTools: Dimensional Input Parameters
+# Open Scientific Numerical Tools (OpenSNT)
