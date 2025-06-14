@@ -50,7 +50,7 @@ function grep_code {
 }
 
 function show_help {
-    echo "SCientific Numerical Tools (SCNT)"
+    echo "Open Scientific Numerical Tools (OpenSNT)"
     echo ""
     echo "Options:"
     echo " -c|--clean          clean the build directory"

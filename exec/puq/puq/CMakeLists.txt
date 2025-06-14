@@ -2,8 +2,8 @@
 file(GLOB exec_files "./*.cpp" "./**/*.cpp")
 add_executable(puq ${exec_files} )
 target_include_directories(puq PRIVATE ${CMAKE_SOURCE_DIR}/src)
-target_link_libraries(puq PRIVATE scnt-puq)
+target_link_libraries(puq PRIVATE opensnt-puq)
 
 # install libraries and executables
-install(TARGETS puq EXPORT TargetsSCNT
+install(TARGETS puq EXPORT TargetsOpenSNT
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
