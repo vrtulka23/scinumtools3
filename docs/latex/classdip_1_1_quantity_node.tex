@@ -1,0 +1,146 @@
+\doxysection{dip\+::Quantity\+Node Class Reference}
+\hypertarget{classdip_1_1_quantity_node}{}\label{classdip_1_1_quantity_node}\index{dip::QuantityNode@{dip::QuantityNode}}
+Inheritance diagram for dip\+::Quantity\+Node\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{classdip_1_1_quantity_node}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_quantity_node_a9ca84418c6f7a8f5afa5f5ddaacde938}\label{classdip_1_1_quantity_node_a9ca84418c6f7a8f5afa5f5ddaacde938} 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classdip_1_1_quantity_node}{Quantity\+Node}} $>$ {\bfseries Pointer\+Type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classdip_1_1_value_node}{dip\+::\+Value\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classdip_1_1_value_node}{Value\+Node}} $>$ {\bfseries Pointer\+Type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classdip_1_1_base_node}{Base\+Node}} $>$ {\bfseries Pointer\+Type}
+\item 
+typedef std\+::deque$<$ Base\+Node\+::\+Pointer\+Type $>$ {\bfseries Node\+List\+Type}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_quantity_node_abbbcf49ef12a001e510758d87be75a3c}\label{classdip_1_1_quantity_node_abbbcf49ef12a001e510758d87be75a3c} 
+void {\bfseries set\+\_\+units} (Quantity\+::\+Pointer\+Type units\+\_\+input=nullptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_value_node}{dip\+::\+Value\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Value\+Node} (const Value\+Dtype vdt)
+\item 
+{\bfseries Value\+Node} (const std\+::string \&nm, Base\+Value\+::\+Pointer\+Type val, const Value\+Dtype vdt)
+\item 
+Base\+Value\+::\+Pointer\+Type {\bfseries cast\+\_\+value} ()
+\item 
+Base\+Value\+::\+Pointer\+Type {\bfseries cast\+\_\+value} (Array\+::\+String\+Type \&value\+\_\+input, const Array\+::\+Shape\+Type \&shape)
+\item 
+void {\bfseries set\+\_\+value} (Base\+Value\+::\+Pointer\+Type value\+\_\+input=nullptr)
+\item 
+void {\bfseries modify\+\_\+value} (Base\+Node\+::\+Pointer\+Type node, \mbox{\hyperlink{classdip_1_1_environment}{Environment}} \&env)
+\item 
+virtual Base\+Node\+::\+Pointer\+Type {\bfseries clone} (const std\+::string \&nm) const =0
+\item 
+virtual bool \mbox{\hyperlink{classdip_1_1_value_node_a9874e61dee9775cdeb89f55a08ad276e}{set\+\_\+property}} (Property\+Type property, Array\+::\+String\+Type \&values, std\+::string \&units) override
+\item 
+void {\bfseries validate\+\_\+constant} () const
+\item 
+void {\bfseries validate\+\_\+definition} () const
+\item 
+void {\bfseries validate\+\_\+condition} () const
+\item 
+virtual void {\bfseries validate\+\_\+options} () const
+\item 
+virtual void {\bfseries validate\+\_\+format} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Base\+Node} (const Node\+Dtype dt)
+\item 
+{\bfseries Base\+Node} (\mbox{\hyperlink{classdip_1_1_parser}{Parser}} \&parser, const Node\+Dtype dt)
+\item 
+virtual Node\+List\+Type {\bfseries parse} (\mbox{\hyperlink{classdip_1_1_environment}{Environment}} \&env)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_node}{dip\+::\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Node} (const \mbox{\hyperlink{structdip_1_1_line}{Line}} \&l)
+\item 
+{\bfseries Node} (const std\+::string \&nm)
+\item 
+std\+::string {\bfseries to\+\_\+string} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_quantity_node_a5e9891fb7091b2b05a7a4a7b5b2c701f}\label{classdip_1_1_quantity_node_a5e9891fb7091b2b05a7a4a7b5b2c701f} 
+Quantity\+::\+Pointer\+Type {\bfseries units}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_value_node}{dip\+::\+Value\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+Base\+Value\+::\+Pointer\+Type {\bfseries value}
+\item 
+Array\+::\+String\+Type {\bfseries tags}
+\item 
+bool {\bfseries constant}
+\item 
+std\+::string {\bfseries description}
+\item 
+std\+::string {\bfseries condition}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structdip_1_1_value_node_1_1_option_struct}{Option\+Struct}} $>$ {\bfseries options}
+\item 
+std\+::string {\bfseries format}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+Node\+Dtype {\bfseries dtype}
+\item 
+size\+\_\+t {\bfseries branch\+\_\+id}
+\item 
+size\+\_\+t {\bfseries case\+\_\+id}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_node}{dip\+::\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structdip_1_1_line}{Line}} {\bfseries line}
+\item 
+size\+\_\+t {\bfseries indent}
+\item 
+std\+::string {\bfseries name}
+\item 
+std\+::array$<$ std\+::string, 3 $>$ {\bfseries dtype\+\_\+raw}
+\item 
+Array\+::\+String\+Type {\bfseries value\+\_\+raw}
+\item 
+Array\+::\+Shape\+Type {\bfseries value\+\_\+shape}
+\item 
+Value\+Origin {\bfseries value\+\_\+origin}
+\item 
+Array\+::\+Range\+Type {\bfseries value\+\_\+slice}
+\item 
+std\+::string {\bfseries units\+\_\+raw}
+\item 
+Array\+::\+Range\+Type {\bfseries dimension}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classdip_1_1_value_node}{dip\+::\+Value\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+Value\+Dtype {\bfseries value\+\_\+dtype}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/dip/nodes/nodes.\+h\item 
+src/dip/nodes/node\+\_\+quantity.\+cpp\end{DoxyCompactItemize}

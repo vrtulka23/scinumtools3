@@ -1,0 +1,168 @@
+\doxysection{dip\+::Value\+Node Class Reference}
+\hypertarget{classdip_1_1_value_node}{}\label{classdip_1_1_value_node}\index{dip::ValueNode@{dip::ValueNode}}
+Inheritance diagram for dip\+::Value\+Node\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{classdip_1_1_value_node}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdip_1_1_value_node_1_1_option_struct}{Option\+Struct}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_value_node_a9cc8d0c7cb6b828e8162f24e4343debd}\label{classdip_1_1_value_node_a9cc8d0c7cb6b828e8162f24e4343debd} 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classdip_1_1_value_node}{Value\+Node}} $>$ {\bfseries Pointer\+Type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classdip_1_1_base_node}{Base\+Node}} $>$ {\bfseries Pointer\+Type}
+\item 
+typedef std\+::deque$<$ Base\+Node\+::\+Pointer\+Type $>$ {\bfseries Node\+List\+Type}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_value_node_a371512292e5f1caec6441f6875f38a27}\label{classdip_1_1_value_node_a371512292e5f1caec6441f6875f38a27} 
+{\bfseries Value\+Node} (const Value\+Dtype vdt)
+\item 
+\Hypertarget{classdip_1_1_value_node_a1d0c574b7c3d668d492da34f70f5d08c}\label{classdip_1_1_value_node_a1d0c574b7c3d668d492da34f70f5d08c} 
+{\bfseries Value\+Node} (const std\+::string \&nm, Base\+Value\+::\+Pointer\+Type val, const Value\+Dtype vdt)
+\item 
+\Hypertarget{classdip_1_1_value_node_abc506e914d631322ac86f501d40902e9}\label{classdip_1_1_value_node_abc506e914d631322ac86f501d40902e9} 
+Base\+Value\+::\+Pointer\+Type {\bfseries cast\+\_\+value} ()
+\item 
+\Hypertarget{classdip_1_1_value_node_ab3f397fd4341e9664727f1a74e5f5359}\label{classdip_1_1_value_node_ab3f397fd4341e9664727f1a74e5f5359} 
+Base\+Value\+::\+Pointer\+Type {\bfseries cast\+\_\+value} (Array\+::\+String\+Type \&value\+\_\+input, const Array\+::\+Shape\+Type \&shape)
+\item 
+\Hypertarget{classdip_1_1_value_node_ad66a9d90de6eb01820d957a788318c59}\label{classdip_1_1_value_node_ad66a9d90de6eb01820d957a788318c59} 
+void {\bfseries set\+\_\+value} (Base\+Value\+::\+Pointer\+Type value\+\_\+input=nullptr)
+\item 
+\Hypertarget{classdip_1_1_value_node_a93a93951d1645c22217b435d2a636d8c}\label{classdip_1_1_value_node_a93a93951d1645c22217b435d2a636d8c} 
+void {\bfseries modify\+\_\+value} (Base\+Node\+::\+Pointer\+Type node, \mbox{\hyperlink{classdip_1_1_environment}{Environment}} \&env)
+\item 
+\Hypertarget{classdip_1_1_value_node_a92bd9f4e963c595f461dd659dc0fb506}\label{classdip_1_1_value_node_a92bd9f4e963c595f461dd659dc0fb506} 
+virtual Base\+Node\+::\+Pointer\+Type {\bfseries clone} (const std\+::string \&nm) const =0
+\item 
+virtual bool \mbox{\hyperlink{classdip_1_1_value_node_a9874e61dee9775cdeb89f55a08ad276e}{set\+\_\+property}} (Property\+Type property, Array\+::\+String\+Type \&values, std\+::string \&units) override
+\item 
+\Hypertarget{classdip_1_1_value_node_a544e7dbe180e48dc070fb5e45f00b238}\label{classdip_1_1_value_node_a544e7dbe180e48dc070fb5e45f00b238} 
+void {\bfseries validate\+\_\+constant} () const
+\item 
+\Hypertarget{classdip_1_1_value_node_ad1c6167d236480037281cd477045eb49}\label{classdip_1_1_value_node_ad1c6167d236480037281cd477045eb49} 
+void {\bfseries validate\+\_\+definition} () const
+\item 
+\Hypertarget{classdip_1_1_value_node_a4def6a0f5d0a45d53cdb84042a6dbb04}\label{classdip_1_1_value_node_a4def6a0f5d0a45d53cdb84042a6dbb04} 
+void {\bfseries validate\+\_\+condition} () const
+\item 
+\Hypertarget{classdip_1_1_value_node_aea09682e201f64ad42b35afd1b973085}\label{classdip_1_1_value_node_aea09682e201f64ad42b35afd1b973085} 
+virtual void {\bfseries validate\+\_\+options} () const
+\item 
+\Hypertarget{classdip_1_1_value_node_aa77044882d5eb7634566eb10cac2d2ef}\label{classdip_1_1_value_node_aa77044882d5eb7634566eb10cac2d2ef} 
+virtual void {\bfseries validate\+\_\+format} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Base\+Node} (const Node\+Dtype dt)
+\item 
+{\bfseries Base\+Node} (\mbox{\hyperlink{classdip_1_1_parser}{Parser}} \&parser, const Node\+Dtype dt)
+\item 
+virtual Node\+List\+Type {\bfseries parse} (\mbox{\hyperlink{classdip_1_1_environment}{Environment}} \&env)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_node}{dip\+::\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Node} (const \mbox{\hyperlink{structdip_1_1_line}{Line}} \&l)
+\item 
+{\bfseries Node} (const std\+::string \&nm)
+\item 
+std\+::string {\bfseries to\+\_\+string} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_value_node_a7fd8830f4f33df349a3f971e8e7bc6c6}\label{classdip_1_1_value_node_a7fd8830f4f33df349a3f971e8e7bc6c6} 
+Base\+Value\+::\+Pointer\+Type {\bfseries value}
+\item 
+\Hypertarget{classdip_1_1_value_node_af6fdd1b34fc089ecf03f4c7ec74e853d}\label{classdip_1_1_value_node_af6fdd1b34fc089ecf03f4c7ec74e853d} 
+Array\+::\+String\+Type {\bfseries tags}
+\item 
+\Hypertarget{classdip_1_1_value_node_acb06c9ea4a71b41e0d66d81fda3ab718}\label{classdip_1_1_value_node_acb06c9ea4a71b41e0d66d81fda3ab718} 
+bool {\bfseries constant}
+\item 
+\Hypertarget{classdip_1_1_value_node_ac15e21a6d0572c2f999d374da43cbff8}\label{classdip_1_1_value_node_ac15e21a6d0572c2f999d374da43cbff8} 
+std\+::string {\bfseries description}
+\item 
+\Hypertarget{classdip_1_1_value_node_a0111ca04061530ab4aa4120ed7ff95b6}\label{classdip_1_1_value_node_a0111ca04061530ab4aa4120ed7ff95b6} 
+std\+::string {\bfseries condition}
+\item 
+\Hypertarget{classdip_1_1_value_node_a2ef417e1d56b2009d59245caa6d0e6b2}\label{classdip_1_1_value_node_a2ef417e1d56b2009d59245caa6d0e6b2} 
+std\+::vector$<$ \mbox{\hyperlink{structdip_1_1_value_node_1_1_option_struct}{Option\+Struct}} $>$ {\bfseries options}
+\item 
+\Hypertarget{classdip_1_1_value_node_ab03fabfc601a3893b51d064f15292e17}\label{classdip_1_1_value_node_ab03fabfc601a3893b51d064f15292e17} 
+std\+::string {\bfseries format}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+Node\+Dtype {\bfseries dtype}
+\item 
+size\+\_\+t {\bfseries branch\+\_\+id}
+\item 
+size\+\_\+t {\bfseries case\+\_\+id}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_node}{dip\+::\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structdip_1_1_line}{Line}} {\bfseries line}
+\item 
+size\+\_\+t {\bfseries indent}
+\item 
+std\+::string {\bfseries name}
+\item 
+std\+::array$<$ std\+::string, 3 $>$ {\bfseries dtype\+\_\+raw}
+\item 
+Array\+::\+String\+Type {\bfseries value\+\_\+raw}
+\item 
+Array\+::\+Shape\+Type {\bfseries value\+\_\+shape}
+\item 
+Value\+Origin {\bfseries value\+\_\+origin}
+\item 
+Array\+::\+Range\+Type {\bfseries value\+\_\+slice}
+\item 
+std\+::string {\bfseries units\+\_\+raw}
+\item 
+Array\+::\+Range\+Type {\bfseries dimension}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_value_node_a08068c4321c0de00dc92d53bd0218e8e}\label{classdip_1_1_value_node_a08068c4321c0de00dc92d53bd0218e8e} 
+Value\+Dtype {\bfseries value\+\_\+dtype}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{classdip_1_1_value_node_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classdip_1_1_value_node_a9874e61dee9775cdeb89f55a08ad276e}\index{dip::ValueNode@{dip::ValueNode}!set\_property@{set\_property}}
+\index{set\_property@{set\_property}!dip::ValueNode@{dip::ValueNode}}
+\doxysubsubsection{\texorpdfstring{set\_property()}{set\_property()}}
+{\footnotesize\ttfamily \label{classdip_1_1_value_node_a9874e61dee9775cdeb89f55a08ad276e} 
+bool dip\+::\+Value\+Node\+::set\+\_\+property (\begin{DoxyParamCaption}\item[{Property\+Type}]{property}{, }\item[{Array\+::\+String\+Type \&}]{values}{, }\item[{std\+::string \&}]{units}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/dip/nodes/nodes.\+h\item 
+src/dip/nodes/node\+\_\+value.\+cpp\end{DoxyCompactItemize}

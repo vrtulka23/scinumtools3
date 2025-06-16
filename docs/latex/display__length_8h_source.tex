@@ -1,0 +1,54 @@
+\doxysection{display\+\_\+length.\+h}
+\hypertarget{display__length_8h_source}{}\label{display__length_8h_source}\index{src/puq/util/display\_length.h@{src/puq/util/display\_length.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PUQ\_DISPLAY\_LENGTH\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PUQ\_DISPLAY\_LENGTH\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }puq\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{size\_t}\ display\_length(\textcolor{keyword}{const}\ std::string\&\ str)\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ length\ =\ 0;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ str.size();\ )\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c\ =\ str[i];}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ it's\ an\ ASCII\ character\ (single-\/byte)}}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((c\ \&\ 0x80)\ ==\ 0)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//\ Single-\/byte\ ASCII\ character}}
+\DoxyCodeLine{00018\ \ \ \ \ i\ +=\ 1;}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ multi-\/byte\ characters}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xE0)\ ==\ 0xC0)\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ Two-\/byte\ character}}
+\DoxyCodeLine{00023\ \ \ \ \ i\ +=\ 2;}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xF0)\ ==\ 0xE0)\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{//\ Three-\/byte\ character}}
+\DoxyCodeLine{00027\ \ \ \ \ i\ +=\ 3;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xF8)\ ==\ 0xF0)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{comment}{//\ Four-\/byte\ character}}
+\DoxyCodeLine{00031\ \ \ \ \ i\ +=\ 4;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//\ Invalid\ UTF-\/8\ byte,\ skip\ it\ (or\ handle\ as\ an\ error\ if\ preferred)}}
+\DoxyCodeLine{00035\ \ \ \ \ i\ +=\ 1;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \textcolor{comment}{//\ Increment\ display\ length\ for\ each\ full\ character}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ ++length;}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{return}\ length;}
+\DoxyCodeLine{00044\ \ \ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PUQ\_DISPLAY\_LENGTH\_H}}
+
+\end{DoxyCode}

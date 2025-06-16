@@ -1,0 +1,149 @@
+\doxysection{value.\+h}
+\hypertarget{value_8h_source}{}\label{value_8h_source}\index{src/puq/value/value.h@{src/puq/value/value.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PUQ\_VALUE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PUQ\_VALUE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../settings.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../systems/systems.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }puq\ \{}
+\DoxyCodeLine{00010\ \ \ }
+\DoxyCodeLine{00011\ \ \ \textcolor{keyword}{class\ }UnitValueExcept:\ \textcolor{keyword}{public}\ std::exception\ \{}
+\DoxyCodeLine{00012\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00013\ \ \ \ \ std::string\ message;}
+\DoxyCodeLine{00014\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ UnitValueExcept(std::string\ m)\ :\ message(m)\ \{\}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ what\ ()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ message.c\_str();}
+\DoxyCodeLine{00018\ \ \ \ \ \}}
+\DoxyCodeLine{00019\ \ \ \};}
+\DoxyCodeLine{00020\ \ \ }
+\DoxyCodeLine{00021\ \ \ \textcolor{keyword}{class\ }Dimensions\ \{}
+\DoxyCodeLine{00022\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ MAGNITUDE\_TYPE\ numerical;\ }
+\DoxyCodeLine{00024\ \ \ \ \ BaseDimensions\ physical;}
+\DoxyCodeLine{00025\ \ \ \ \ std::vector<std::string>\ symbols;}
+\DoxyCodeLine{00026\ \ \ \ \ Utype\ utype;}
+\DoxyCodeLine{00027\ \ \ \ \ Dimensions();}
+\DoxyCodeLine{00028\ \ \ \ \ Dimensions(\textcolor{keyword}{const}\ MAGNITUDE\_TYPE\&\ n);}
+\DoxyCodeLine{00029\ \ \ \ \ Dimensions(\textcolor{keyword}{const}\ MAGNITUDE\_TYPE\&\ n,\ \textcolor{keyword}{const}\ BaseDimensions\&\ p):\ utype(Utype::NUL),\ numerical(n),\ physical(p)\ \{\};}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00031\ \ \ \ \ Dimensions(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ e);}
+\DoxyCodeLine{00032\ \ \ \ \ Dimensions(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ e,\ \textcolor{keyword}{const}\ BaseDimensions\&\ p):\ utype(Utype::NUL),\ numerical(m,e),\ physical(p)\ \{\};}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_unit_format}{UnitFormat}}\&\ format\ =\ \mbox{\hyperlink{classpuq_1_1_unit_format}{UnitFormat}}())\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ os,\ \textcolor{keyword}{const}\ Dimensions\&\ d);}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ Dimensions\&\ d)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator!=(\textcolor{keyword}{const}\ Dimensions\&\ d)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ \ \ \};}
+\DoxyCodeLine{00039\ \ \ }
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{class\ }BaseUnit\ \{}
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00042\ \ \ \ \ std::string\ prefix;}
+\DoxyCodeLine{00043\ \ \ \ \ std::string\ unit;}
+\DoxyCodeLine{00044\ \ \ \ \ EXPONENT\_TYPE\ exponent;}
+\DoxyCodeLine{00045\ \ \ \ \ BaseUnit()\ \{\};}
+\DoxyCodeLine{00046\ \ \ \ \ BaseUnit(\textcolor{keyword}{const}\ EXPONENT\_INT\_PRECISION\&\ n):\ exponent(n)\ \{\};}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#ifdef\ EXPONENT\_FRACTIONS}}
+\DoxyCodeLine{00048\ \ \ \ \ BaseUnit(\textcolor{keyword}{const}\ EXPONENT\_INT\_PRECISION\&\ n,\ \textcolor{keyword}{const}\ EXPONENT\_INT\_PRECISION\&\ d):\ exponent(n,d)\ \{\};}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00050\ \ \ \ \ BaseUnit(\textcolor{keyword}{const}\ std::string\&\ p,\ \textcolor{keyword}{const}\ std::string\&\ u,\ \textcolor{keyword}{const}\ EXPONENT\_TYPE\&\ e):\ prefix(p),\ unit(u),\ exponent(e)\ \{\};}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#ifdef\ EXPONENT\_FRACTIONS}}
+\DoxyCodeLine{00052\ \ \ \ \ BaseUnit(\textcolor{keyword}{const}\ std::string\&\ p,\ \textcolor{keyword}{const}\ std::string\&\ u,\ \textcolor{keyword}{const}\ EXPONENT\_INT\_PRECISION\&\ n,\ \textcolor{keyword}{const}\ EXPONENT\_INT\_PRECISION\&\ d):\ prefix(p),\ unit(u),\ exponent(n,d)\ \{\};}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00054\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_unit_format}{UnitFormat}}\&\ format\ =\ \mbox{\hyperlink{classpuq_1_1_unit_format}{UnitFormat}}());}
+\DoxyCodeLine{00055\ \ \ \};}
+\DoxyCodeLine{00056\ \ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{typedef}\ std::vector<BaseUnit>\ BaseUnitsList;}
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{class\ }BaseUnits\ \{}
+\DoxyCodeLine{00059\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00060\ \ \ \ \ BaseUnitsList\ baseunits;}
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00062\ \ \ \ \ BaseUnits()\ \{\}}
+\DoxyCodeLine{00063\ \ \ \ \ BaseUnits(\textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00064\ \ \ \ \ BaseUnits(\textcolor{keyword}{const}\ BaseUnitsList\&\ bu):\ baseunits(bu)\ \{\}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ append(\mbox{\hyperlink{classpuq_1_1_base_unit}{BaseUnit}}\ bu);}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ append(std::string\ p,\ std::string\ u,\ EXPONENT\_TYPE\ e);}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#ifdef\ EXPONENT\_FRACTIONS}}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ append(std::string\ p,\ std::string\ u,\ EXPONENT\_INT\_PRECISION\ n,\ EXPONENT\_INT\_PRECISION\ d);}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00070\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_unit_format}{UnitFormat}}\&\ format\ =\ \mbox{\hyperlink{classpuq_1_1_unit_format}{UnitFormat}}())\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_base_unit}{BaseUnit}}\&\ operator[]\ (\textcolor{keywordtype}{int}\ index)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{friend}\ BaseUnits\ operator+(\textcolor{keyword}{const}\ BaseUnits\&\ bu1,\ \textcolor{keyword}{const}\ BaseUnits\&\ bu2);}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{friend}\ BaseUnits\ operator-\/(\textcolor{keyword}{const}\ BaseUnits\&\ bu1,\ \textcolor{keyword}{const}\ BaseUnits\&\ bu2);}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ os,\ \textcolor{keyword}{const}\ BaseUnits\&\ bu);}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ operator+=(\textcolor{keyword}{const}\ BaseUnits\&\ bu);}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ operator-\/=(\textcolor{keyword}{const}\ BaseUnits\&\ bu);}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ operator*=(\textcolor{keyword}{const}\ EXPONENT\_TYPE\&\ e);}
+\DoxyCodeLine{00078\ \ \ \ \ BaseUnitsList::const\_iterator\ begin()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00079\ \ \ \ \ BaseUnitsList::const\_iterator\ end()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00080\ \ \ \ \ std::size\_t\ size()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{classpuq_1_1_dimensions}{Dimensions}}\ dimensions()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00082\ \ \ \};}
+\DoxyCodeLine{00083\ \ \ }
+\DoxyCodeLine{00084\ \ \ \textcolor{keyword}{class\ }UnitValue\ \{}
+\DoxyCodeLine{00085\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00086\ \ \ \ \ MAGNITUDE\_TYPE\ magnitude;}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{classpuq_1_1_base_units}{BaseUnits}}\ baseunits;}
+\DoxyCodeLine{00088\ \ \ \ \ UnitValue():\ magnitude(1)\ \{\}}
+\DoxyCodeLine{00089\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00090\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_TYPE\&\ m):\ magnitude(m)\ \{\}}
+\DoxyCodeLine{00091\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_TYPE\&\ m,\ \textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00092\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_TYPE\&\ m,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_dimensions}{Dimensions}}\&\ dim);}
+\DoxyCodeLine{00093\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_TYPE\&\ m,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_base_units}{BaseUnits}}\&\ bu):\ magnitude(m),\ baseunits(bu)\ \{\}}
+\DoxyCodeLine{00094\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_TYPE\&\ m,\ \textcolor{keyword}{const}\ BaseUnitsList\&\ bul):\ magnitude(m),\ baseunits(bul)\ \{\}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00096\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00097\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m):\ magnitude(m)\ \{\};}
+\DoxyCodeLine{00098\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_base_units}{BaseUnits}}\&\ bu):\ magnitude(m),\ baseunits(bu)\ \{\}}
+\DoxyCodeLine{00099\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ BaseUnitsList\&\ bul):\ magnitude(m),\ baseunits(bul)\ \{\}}
+\DoxyCodeLine{00100\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ e,\ \textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00101\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ e):\ magnitude(m,e)\ \{\}}
+\DoxyCodeLine{00102\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ e,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_base_units}{BaseUnits}}\&\ bu):\ magnitude(m,e),\ baseunits(bu)\ \{\}}
+\DoxyCodeLine{00103\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ e,\ \textcolor{keyword}{const}\ BaseUnitsList\&\ bul):\ magnitude(m,e),\ baseunits(bul)\ \{\}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00105\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ m,\ \textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00106\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ m):\ magnitude(m)\ \{\};}
+\DoxyCodeLine{00107\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ m,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_base_units}{BaseUnits}}\&\ bu):\ magnitude(m),\ baseunits(bu)\ \{\}}
+\DoxyCodeLine{00108\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ m,\ \textcolor{keyword}{const}\ BaseUnitsList\&\ bul):\ magnitude(m),\ baseunits(bul)\ \{\}}
+\DoxyCodeLine{00109\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ m,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ e,\ \textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00110\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ m,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ e):\ magnitude(m,e)\ \{\}}
+\DoxyCodeLine{00111\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ m,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ e,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_base_units}{BaseUnits}}\&\ bu):\ magnitude(m,e),\ baseunits(bu)\ \{\}}
+\DoxyCodeLine{00112\ \ \ \ \ UnitValue(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ m,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_array}{Array}}\&\ e,\ \textcolor{keyword}{const}\ BaseUnitsList\&\ bul):\ magnitude(m,e),\ baseunits(bul)\ \{\}\ \ \ \ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00115\ \ \ \ \ std::size\_t\ size()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00117\ \ \ \ \ ArrayShape\ shape()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00119\ \ \ \ \ std::string\ to\_string(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_unit_format}{UnitFormat}}\&\ format\ =\ \mbox{\hyperlink{classpuq_1_1_unit_format}{UnitFormat}}())\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{friend}\ UnitValue\ operator+(\textcolor{keyword}{const}\ UnitValue\&\ v1,\ \textcolor{keyword}{const}\ UnitValue\&\ v2);}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{friend}\ UnitValue\ operator-\/(\textcolor{keyword}{const}\ UnitValue\&\ v1,\ \textcolor{keyword}{const}\ UnitValue\&\ v2);}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{friend}\ UnitValue\ operator*(\textcolor{keyword}{const}\ UnitValue\&\ v1,\ \textcolor{keyword}{const}\ UnitValue\&\ v2);}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{friend}\ UnitValue\ operator/(\textcolor{keyword}{const}\ UnitValue\&\ v1,\ \textcolor{keyword}{const}\ UnitValue\&\ v2);}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{friend}\ UnitValue\ operator+(\textcolor{keyword}{const}\ UnitValue\&\ v);}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{friend}\ UnitValue\ operator-\/(\textcolor{keyword}{const}\ UnitValue\&\ v);}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ os,\ \textcolor{keyword}{const}\ UnitValue\&\ v);}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{void}\ operator+=(\textcolor{keyword}{const}\ UnitValue\&\ v);}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{void}\ operator-\/=(\textcolor{keyword}{const}\ UnitValue\&\ v);}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{void}\ operator*=(\textcolor{keyword}{const}\ UnitValue\&\ v);}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{void}\ operator/=(\textcolor{keyword}{const}\ UnitValue\&\ v);}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{void}\ pow(\textcolor{keyword}{const}\ EXPONENT\_TYPE\&\ e);}
+\DoxyCodeLine{00132\ \ \ \ \ UnitValue\ convert(\textcolor{keyword}{const}\ Format::Base\&\ format)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00133\ \ \ \ \ UnitValue\ convert(\textcolor{keyword}{const}\ std::string\&\ s)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00134\ \ \ \ \ UnitValue\ convert(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpuq_1_1_base_units}{BaseUnits}}\&\ bu)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00135\ \ \ \ \ UnitValue\ convert(\textcolor{keyword}{const}\ UnitValue\&\ v)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00136\ \ \ \ \ UnitValue\ rebase\_prefixes();}
+\DoxyCodeLine{00137\ \ \ \ \ UnitValue\ rebase\_dimensions();}
+\DoxyCodeLine{00138\ \ \ \};}
+\DoxyCodeLine{00139\ \ \ }
+\DoxyCodeLine{00140\ \}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PUQ\_VALUE\_H}}
+\DoxyCodeLine{00143\ }
+
+\end{DoxyCode}

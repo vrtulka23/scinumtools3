@@ -1,0 +1,48 @@
+\doxysection{expression.\+h}
+\hypertarget{expression_8h_source}{}\label{expression_8h_source}\index{src/exs/expression.h@{src/exs/expression.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EXS\_EXPRESSION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EXS\_EXPRESSION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }exs\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }Expression\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ std::string\ left;\ \ \textcolor{comment}{//\ left\ side}}
+\DoxyCodeLine{00011\ \ \ std::string\ right;\ \textcolor{comment}{//\ right\ side}}
+\DoxyCodeLine{00012\ \ \ std::string\ expr;\ \ \textcolor{comment}{//\ original\ expression}}
+\DoxyCodeLine{00013\ \ \ Expression(std::string\ expression)\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ left\ \ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00015\ \ \ \ \ right\ =\ expression;}
+\DoxyCodeLine{00016\ \ \ \ \ expr\ \ =\ expression;}
+\DoxyCodeLine{00017\ \ \ \};}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordtype}{void}\ shift(\textcolor{keywordtype}{int}\ nchar=1)\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ left\ \ +=\ right.substr(0,nchar);}
+\DoxyCodeLine{00020\ \ \ \ \ right\ =\ \ right.substr(nchar,right.length());}
+\DoxyCodeLine{00021\ \ \ \};}
+\DoxyCodeLine{00022\ \ \ \textcolor{keywordtype}{void}\ remove(std::string\ \textcolor{keywordtype}{string})\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ right\ =\ right.substr(\textcolor{keywordtype}{string}.length(),\ right.length());}
+\DoxyCodeLine{00024\ \ \ \};}
+\DoxyCodeLine{00025\ \ \ std::string\ pop\_left()\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ std::string\ dummy\ =\ trim(left);}
+\DoxyCodeLine{00027\ \ \ \ \ left\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordflow}{return}\ dummy;}
+\DoxyCodeLine{00029\ \ \ \};}
+\DoxyCodeLine{00030\ \ \ std::string\ to\_string()\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ std::stringstream\ ss;}
+\DoxyCodeLine{00032\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}Expression(L'"{}}\ <<\ left\ <<\ \textcolor{stringliteral}{"{}'\ R'"{}}\ <<\ right\ <<\ \textcolor{stringliteral}{"{}'\ E'"{}}\ <<\ expr\ <<\ \textcolor{stringliteral}{"{}')"{}};}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordflow}{return}\ ss.str();}
+\DoxyCodeLine{00034\ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordtype}{void}\ print()\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ std::cout\ <<\ to\_string()\ <<\ std::endl;}
+\DoxyCodeLine{00037\ \ \ \};}
+\DoxyCodeLine{00038\ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXS\_EXPRESSION\_H}}
+
+\end{DoxyCode}

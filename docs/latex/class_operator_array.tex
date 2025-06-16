@@ -1,0 +1,79 @@
+\doxysection{Operator\+Array Class Reference}
+\hypertarget{class_operator_array}{}\label{class_operator_array}\index{OperatorArray@{OperatorArray}}
+Inheritance diagram for Operator\+Array\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_operator_array}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_operator_array_a1a4e0287b39db20ed3c3d8fff7556986}{operate\+\_\+group}} (\mbox{\hyperlink{classexs_1_1_token_list_base}{exs\+::\+Token\+List\+Base}}$<$ \mbox{\hyperlink{class_custom_atom}{Custom\+Atom}} $>$ \texorpdfstring{$\ast$}{*}tokens)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classexs_1_1_operator_group}{exs\+::\+Operator\+Group$<$ Custom\+Atom $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Operator\+Group} (const std\+::string n, const std\+::string s, const int t)
+\item 
+virtual void \mbox{\hyperlink{classexs_1_1_operator_group_af810a542f39fa2f7df58477d0836b2af}{parse}} (\mbox{\hyperlink{classexs_1_1_expression}{Expression}} \&expr) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classexs_1_1_operator_base}{exs\+::\+Operator\+Base$<$ Custom\+Atom, Empty\+Settings $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Operator\+Base} (std\+::string n, std\+::string s, int t)
+\item 
+virtual bool {\bfseries check} (\mbox{\hyperlink{classexs_1_1_expression}{Expression}} \&expr)
+\item 
+virtual void {\bfseries operate\+\_\+unary} (\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ \mbox{\hyperlink{class_custom_atom}{Custom\+Atom}} $>$ \texorpdfstring{$\ast$}{*}tokens)
+\item 
+virtual void {\bfseries operate\+\_\+binary} (\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ \mbox{\hyperlink{class_custom_atom}{Custom\+Atom}} $>$ \texorpdfstring{$\ast$}{*}tokens)
+\item 
+virtual void {\bfseries operate\+\_\+ternary} (\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ \mbox{\hyperlink{class_custom_atom}{Custom\+Atom}} $>$ \texorpdfstring{$\ast$}{*}tokens)
+\item 
+virtual void {\bfseries print} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classexs_1_1_operator_group}{exs\+::\+Operator\+Group$<$ Custom\+Atom $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t {\bfseries num\+\_\+groups}
+\item 
+std\+::string {\bfseries symbol\+\_\+open}
+\item 
+std\+::string {\bfseries symbol\+\_\+close}
+\item 
+std\+::string {\bfseries symbol\+\_\+separator}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classexs_1_1_operator_base}{exs\+::\+Operator\+Base$<$ Custom\+Atom, Empty\+Settings $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+std\+::string {\bfseries symbol}
+\item 
+int {\bfseries type}
+\item 
+std\+::vector$<$ std\+::string $>$ {\bfseries groups}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{class_operator_array_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_operator_array_a1a4e0287b39db20ed3c3d8fff7556986}\index{OperatorArray@{OperatorArray}!operate\_group@{operate\_group}}
+\index{operate\_group@{operate\_group}!OperatorArray@{OperatorArray}}
+\doxysubsubsection{\texorpdfstring{operate\_group()}{operate\_group()}}
+{\footnotesize\ttfamily \label{class_operator_array_a1a4e0287b39db20ed3c3d8fff7556986} 
+void Operator\+Array\+::operate\+\_\+group (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classexs_1_1_token_list_base}{exs\+::\+Token\+List\+Base}}$<$ \mbox{\hyperlink{class_custom_atom}{Custom\+Atom}} $>$ \texorpdfstring{$\ast$}{*}}]{tokens}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classexs_1_1_operator_group}{exs\+::\+Operator\+Group$<$ Custom\+Atom $>$}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+exec/exs/\+Array\+Solver/main.\+h\item 
+exec/exs/\+Array\+Solver/operator\+\_\+array.\+cpp\end{DoxyCompactItemize}

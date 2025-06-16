@@ -1,0 +1,61 @@
+\doxysection{solvers.\+h}
+\hypertarget{solvers_8h_source}{}\label{solvers_8h_source}\index{src/dip/solvers/solvers.h@{src/dip/solvers/solvers.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ H\_SOLVERS}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ H\_SOLVERS}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../exs/exs.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../environment.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../values/values.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }dip\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structdip_1_1_logical_settings}{LogicalSettings}}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classdip_1_1_environment}{Environment}}*\ env;}
+\DoxyCodeLine{00012\ \ \ \};}
+\DoxyCodeLine{00013\ \ \ }
+\DoxyCodeLine{00014\ \ \ \textcolor{keyword}{class\ }LogicalAtom:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classexs_1_1_atom_base}{exs::AtomBase}}<BaseValue::PointerType>\ \{}
+\DoxyCodeLine{00015\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ Constructor\ from\ unique\_ptr}}
+\DoxyCodeLine{00017\ \ \ \ \ LogicalAtom(BaseValue::PointerType\ b):\ AtomBase(std::move(b))\ \{\};}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{//\ Deep\ copy\ constructor}}
+\DoxyCodeLine{00019\ \ \ \ \ LogicalAtom(\textcolor{keyword}{const}\ LogicalAtom\&\ a);}
+\DoxyCodeLine{00020\ \ \ \ \ LogicalAtom\&\ operator=(\textcolor{keyword}{const}\ LogicalAtom\&\ a);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ Move\ constructor}}
+\DoxyCodeLine{00022\ \ \ \ \ LogicalAtom(LogicalAtom\&\&\ a)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00023\ \ \ \ \ LogicalAtom\&\ operator=(LogicalAtom\&\&\ a)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00024\ \ \ \ \ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{static}\ BaseValue::PointerType\ from\_string(std::string\ s,\ \mbox{\hyperlink{structdip_1_1_logical_settings}{LogicalSettings}}*\ settings);}
+\DoxyCodeLine{00026\ \ \ \ \ std::string\ to\_string();}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ comparison\_equal(LogicalAtom\ *other);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ comparison\_not\_equal(LogicalAtom\ *other);}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ comparison\_lower\_equal(LogicalAtom\ *other);}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ comparison\_greater\_equal(LogicalAtom\ *other);}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ comparison\_lower(LogicalAtom\ *other);}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ comparison\_greater(LogicalAtom\ *other);}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ logical\_not();}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ logical\_and(LogicalAtom*\ other);}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ logical\_or(LogicalAtom*\ other);}
+\DoxyCodeLine{00036\ \ \ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{class\ }LogicalSolver\ \{}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00040\ \ \ \ \ std::unique\_ptr<exs::Solver<LogicalAtom,\ LogicalSettings>>\ solver;}
+\DoxyCodeLine{00041\ \ \ \ \ LogicalSolver(\mbox{\hyperlink{classdip_1_1_environment}{Environment}}\&\ env);}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{classdip_1_1_logical_atom}{LogicalAtom}}\ eval(\textcolor{keyword}{const}\ std::string\&\ expression);}
+\DoxyCodeLine{00043\ \ \ \};}
+\DoxyCodeLine{00044\ \ \ }
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classdip_1_1_numerical_solver}{NumericalSolver}}\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ }
+\DoxyCodeLine{00047\ \ \ \};}
+\DoxyCodeLine{00048\ \ \ }
+\DoxyCodeLine{00049\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classdip_1_1_template_solver}{TemplateSolver}}\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \};}
+\DoxyCodeLine{00052\ \ \ }
+\DoxyCodeLine{00053\ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ H\_SOLVERS}}
+
+\end{DoxyCode}

@@ -1,0 +1,37 @@
+\doxysection{lists.\+h}
+\hypertarget{puq_2lists_8h_source}{}\label{puq_2lists_8h_source}\index{src/puq/lists.h@{src/puq/lists.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PUQ\_LISTS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PUQ\_LISTS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}systems/systems.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }puq\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ std::string\ table\_header(std::string\ title,\ std::vector<std::string>\ header,\ std::vector<int>\ width);}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \textcolor{keyword}{namespace\ }lists\ \{\ }
+\DoxyCodeLine{00015\ \ \ \ \ std::string\ unit\_systems(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ json=\textcolor{keyword}{false});}
+\DoxyCodeLine{00016\ \ \ \ \ std::string\ prefixes(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ json=\textcolor{keyword}{false},\ \textcolor{keyword}{const}\ UnitFormat\&\ format=UnitFormat());}
+\DoxyCodeLine{00017\ \ \ \ \ std::string\ base\_units(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ json=\textcolor{keyword}{false},\ \textcolor{keyword}{const}\ UnitFormat\&\ format=UnitFormat());}
+\DoxyCodeLine{00018\ \ \ \ \ std::string\ derived\_units(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ json=\textcolor{keyword}{false},\ \textcolor{keyword}{const}\ UnitFormat\&\ format=UnitFormat());}
+\DoxyCodeLine{00019\ \ \ \ \ std::string\ constants(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ json=\textcolor{keyword}{false},\ \textcolor{keyword}{const}\ UnitFormat\&\ format=UnitFormat());}
+\DoxyCodeLine{00020\ \ \ \ \ std::string\ quantities(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ json=\textcolor{keyword}{false},\ \textcolor{keyword}{const}\ UnitFormat\&\ format=UnitFormat());}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifdef\ UNITS\_TEMPERATURES}}
+\DoxyCodeLine{00022\ \ \ \ \ std::string\ temperature\_units(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ json=\textcolor{keyword}{false});}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#ifdef\ UNITS\_LOGARITHMIC}}
+\DoxyCodeLine{00025\ \ \ \ \ std::string\ logarithmic\_units(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ json=\textcolor{keyword}{false});}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ \ \ \}}
+\DoxyCodeLine{00028\ \ }
+\DoxyCodeLine{00029\ \}}
+\DoxyCodeLine{00030\ \ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PUQ\_LISTS\_H}}
+
+\end{DoxyCode}

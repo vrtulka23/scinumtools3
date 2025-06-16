@@ -1,0 +1,144 @@
+\doxysection{dip\+::Array\+Value\texorpdfstring{$<$}{<} std\+::string \texorpdfstring{$>$}{>} Class Reference}
+\hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4}{}\label{classdip_1_1_array_value_3_01std_1_1string_01_4}\index{dip::ArrayValue$<$ std::string $>$@{dip::ArrayValue$<$ std::string $>$}}
+Inheritance diagram for dip\+::Array\+Value\texorpdfstring{$<$}{<} std\+::string \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classdip_1_1_array_value_3_01std_1_1string_01_4}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4_ae277171eebb91442a03c0f0d3f1fa0e3}\label{classdip_1_1_array_value_3_01std_1_1string_01_4_ae277171eebb91442a03c0f0d3f1fa0e3} 
+{\bfseries Array\+Value} (const std\+::string \&val, const Array\+::\+Shape\+Type \&sh, const Value\+Dtype dt)
+\item 
+\Hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4_a5ae5bf7dfb9bc861b93df924f59ee6e5}\label{classdip_1_1_array_value_3_01std_1_1string_01_4_a5ae5bf7dfb9bc861b93df924f59ee6e5} 
+{\bfseries Array\+Value} (const Array\+::\+String\+Type \&arr, const Array\+::\+Shape\+Type \&sh, const Value\+Dtype dt)
+\item 
+\Hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4_a269051645272f46aea9ea5019f4080bb}\label{classdip_1_1_array_value_3_01std_1_1string_01_4_a269051645272f46aea9ea5019f4080bb} 
+{\bfseries Array\+Value} (const std\+::string \&val, const Array\+::\+Shape\+Type \&sh)
+\item 
+\Hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4_a49b5e728fe97489151366e1ac7bc1d88}\label{classdip_1_1_array_value_3_01std_1_1string_01_4_a49b5e728fe97489151366e1ac7bc1d88} 
+{\bfseries Array\+Value} (const Array\+::\+String\+Type \&arr, const Array\+::\+Shape\+Type \&sh)
+\item 
+std\+::string \mbox{\hyperlink{classdip_1_1_array_value_3_01std_1_1string_01_4_aef9f54d513f6e39b20d6b19b0bc5d319}{to\+\_\+string}} (int precision=0) const override
+\item 
+Base\+Value\+::\+Pointer\+Type \mbox{\hyperlink{classdip_1_1_array_value_3_01std_1_1string_01_4_abc747e15765d4e7fbe61a9c237f734b0}{clone}} () const override
+\item 
+Base\+Value\+::\+Pointer\+Type \mbox{\hyperlink{classdip_1_1_array_value_3_01std_1_1string_01_4_a12d8e73413d992122fe95a78440a465a}{slice}} (const Array\+::\+Range\+Type \&slice) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_base_array_value}{dip\+::\+Base\+Array\+Value$<$ std\+::string $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Base\+Array\+Value} (const std\+::string \&val, const Array\+::\+Shape\+Type \&sh, const Value\+Dtype dt)
+\item 
+void \mbox{\hyperlink{classdip_1_1_base_array_value_ac502feccbacb1a0e1321a86c9c84226f}{print}} () override
+\item 
+std\+::vector$<$ std\+::string $>$ {\bfseries get\+\_\+value} ()
+\item 
+Array\+::\+Shape\+Type \mbox{\hyperlink{classdip_1_1_base_array_value_a8179daa12e3e29c16d0fc75e5fe94896}{get\+\_\+shape}} () const override
+\item 
+size\+\_\+t \mbox{\hyperlink{classdip_1_1_base_array_value_af5da7156ec1a62666fdcb1d03faca5d7}{get\+\_\+size}} () const override
+\item 
+std\+::string \mbox{\hyperlink{classdip_1_1_base_array_value_a03e4f1a0146c0972368b1a72f7e626fe}{to\+\_\+string}} (const int precision=0) const override
+\item 
+bool \mbox{\hyperlink{classdip_1_1_base_array_value_a420fd701515ce7591a6fc6065b430e69}{operator==}} (const \mbox{\hyperlink{classdip_1_1_base_value}{Base\+Value}} \texorpdfstring{$\ast$}{*}other) const override
+\item 
+bool \mbox{\hyperlink{classdip_1_1_base_array_value_a27247992cc330e624c914ced0feecaa8}{operator$<$}} (const \mbox{\hyperlink{classdip_1_1_base_value}{Base\+Value}} \texorpdfstring{$\ast$}{*}other) const override
+\item 
+Base\+Value\+::\+Pointer\+Type {\bfseries slice\+\_\+value} (const Array\+::\+Range\+Type \&slice)
+\item 
+void \mbox{\hyperlink{classdip_1_1_base_array_value_a11383b57a5699f313f92b4d1215efec1}{convert\+\_\+units}} (const std\+::string \&from\+\_\+units, const Quantity\+::\+Pointer\+Type \&to\+\_\+quantity) override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a803cc4cff040dd41d73016ae5b2388b9}{operator bool}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a752f941a347567dafeca2c25d05e0f13}{operator short}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a4a595cf0b2be39a9732e6e7a02bc5d9c}{operator unsigned short}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a7b25a0d6588f353521ccebe1a587a837}{operator int}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a480c4ebc41fa88419f2ab6bfbd2d24f6}{operator unsigned int}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_abb2a7e497fad70da76b98923ef7b9f0f}{operator long long}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a42210b08f71c73db5d8030aa80899997}{operator unsigned long long}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a200da0e5901b8356b3df95d03c87b778}{operator float}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a93f425f785102f6296569a6764745c00}{operator double}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_a98349eaaa73b638c81547d7874e15f08}{operator long double}} () const override
+\item 
+\mbox{\hyperlink{classdip_1_1_base_array_value_adf8b2667aa3f10ae87289f3be06671f4}{operator std\+::string}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Base\+Value} (Value\+Dtype dt)
+\item 
+virtual void {\bfseries convert\+\_\+units} (const Quantity\+::\+Pointer\+Type \&from\+\_\+quantity, const std\+::string \&to\+\_\+units)=0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classdip_1_1_base_value}{Base\+Value}} $>$ {\bfseries Pointer\+Type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}}
+\begin{DoxyCompactItemize}
+\item 
+Value\+Dtype {\bfseries dtype}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classdip_1_1_base_array_value}{dip\+::\+Base\+Array\+Value$<$ std\+::string $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries to\+\_\+string\+\_\+dim} (size\+\_\+t \&offset, const int \&precision=0, int dim=0) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classdip_1_1_base_array_value}{dip\+::\+Base\+Array\+Value$<$ std\+::string $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::string $>$ {\bfseries value}
+\item 
+Array\+::\+Shape\+Type {\bfseries shape}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4_abc747e15765d4e7fbe61a9c237f734b0}\index{dip::ArrayValue$<$ std::string $>$@{dip::ArrayValue$<$ std::string $>$}!clone@{clone}}
+\index{clone@{clone}!dip::ArrayValue$<$ std::string $>$@{dip::ArrayValue$<$ std::string $>$}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \label{classdip_1_1_array_value_3_01std_1_1string_01_4_abc747e15765d4e7fbe61a9c237f734b0} 
+Base\+Value\+::\+Pointer\+Type \mbox{\hyperlink{classdip_1_1_array_value}{dip\+::\+Array\+Value}}$<$ std\+::string $>$\+::clone (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}.
+
+\Hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4_a12d8e73413d992122fe95a78440a465a}\index{dip::ArrayValue$<$ std::string $>$@{dip::ArrayValue$<$ std::string $>$}!slice@{slice}}
+\index{slice@{slice}!dip::ArrayValue$<$ std::string $>$@{dip::ArrayValue$<$ std::string $>$}}
+\doxysubsubsection{\texorpdfstring{slice()}{slice()}}
+{\footnotesize\ttfamily \label{classdip_1_1_array_value_3_01std_1_1string_01_4_a12d8e73413d992122fe95a78440a465a} 
+Base\+Value\+::\+Pointer\+Type \mbox{\hyperlink{classdip_1_1_array_value}{dip\+::\+Array\+Value}}$<$ std\+::string $>$\+::slice (\begin{DoxyParamCaption}\item[{const Array\+::\+Range\+Type \&}]{slice}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}.
+
+\Hypertarget{classdip_1_1_array_value_3_01std_1_1string_01_4_aef9f54d513f6e39b20d6b19b0bc5d319}\index{dip::ArrayValue$<$ std::string $>$@{dip::ArrayValue$<$ std::string $>$}!to\_string@{to\_string}}
+\index{to\_string@{to\_string}!dip::ArrayValue$<$ std::string $>$@{dip::ArrayValue$<$ std::string $>$}}
+\doxysubsubsection{\texorpdfstring{to\_string()}{to\_string()}}
+{\footnotesize\ttfamily \label{classdip_1_1_array_value_3_01std_1_1string_01_4_aef9f54d513f6e39b20d6b19b0bc5d319} 
+std\+::string \mbox{\hyperlink{classdip_1_1_array_value}{dip\+::\+Array\+Value}}$<$ std\+::string $>$\+::to\+\_\+string (\begin{DoxyParamCaption}\item[{int}]{precision}{ = {\ttfamily 0}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/dip/values/values\+\_\+array.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,53 @@
+\doxysection{add.\+h}
+\hypertarget{add_8h_source}{}\label{add_8h_source}\index{src/exs/math/add.h@{src/exs/math/add.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EXS\_OPERATOR\_ADD\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EXS\_OPERATOR\_ADD\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }exs\ \{}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A,\ \textcolor{keyword}{typename}\ S\ =\ EmptySettings>}
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }OperatorAdd:\ \textcolor{keyword}{public}\ OperatorBase<A,\ S>\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ OperatorAdd(std::string\ s=\textcolor{stringliteral}{"{}+"{}}):\ OperatorBase<A,\ S>(\textcolor{stringliteral}{"{}add"{}},\ s,\ ADD\_OPERATOR)\ \{\}}
+\DoxyCodeLine{00010\ \ \ \textcolor{keywordtype}{void}\ operate\_unary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}operate\_unary"{}\ <<\ std::endl;}}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//tokens-\/>print(true);}}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ left\ =\ tokens-\/>get\_left();}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ right\ =\ tokens-\/>get\_right();}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordflow}{if}\ (left.type==EMPTY\_TOKEN\ \&\&\ right.type==ATOM\_TOKEN)\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}a\ "{}\ <<\ left.to\_string()\ <<\ "{}\ "{}\ <<\ right.to\_string()\ <<\ std::endl;}}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ tokens-\/>put\_left(right);}
+\DoxyCodeLine{00018\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (right.optype==ADD\_OPERATOR)\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}b\ "{}\ <<\ left.to\_string()\ <<\ "{}\ "{}\ <<\ right.to\_string()\ <<\ std::endl;}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ tokens-\/>put\_left(left);}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ tokens-\/>put\_right(right);}
+\DoxyCodeLine{00022\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (right.optype==SUBTRACT\_OPERATOR)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}c"{}\ <<\ std::endl;}}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ tokens-\/>put\_left(left);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ tokens-\/>put\_right(right);}
+\DoxyCodeLine{00026\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (left.type!=ATOM\_TOKEN\ \&\&\ right.type==ATOM\_TOKEN)\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}d"{}\ <<\ std::endl;}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ tokens-\/>put\_left(left);}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ tokens-\/>put\_right(right);\ \ \ \ \ \ }
+\DoxyCodeLine{00030\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}e"{}\ <<\ std::endl;}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ tokens-\/>put\_left(left);}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ tokens-\/>put\_left(\mbox{\hyperlink{classexs_1_1_token}{Token<A>}}(OPERATOR\_TOKEN,\ ADD\_OPERATOR));}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ tokens-\/>put\_right(right);\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \};}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{void}\ operate\_binary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ left\ =\ tokens-\/>get\_left();}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ right\ =\ tokens-\/>get\_right();}
+\DoxyCodeLine{00040\ \ \ \ \ left.atom-\/>math\_add(right.atom);}
+\DoxyCodeLine{00041\ \ \ \ \ tokens-\/>put\_left(left);}
+\DoxyCodeLine{00042\ \ \ \};}
+\DoxyCodeLine{00043\ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \}}
+\DoxyCodeLine{00046\ \ \ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXS\_OPERATOR\_ADD\_H}}
+
+\end{DoxyCode}

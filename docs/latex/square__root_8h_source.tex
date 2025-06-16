@@ -1,0 +1,25 @@
+\doxysection{square\+\_\+root.\+h}
+\hypertarget{square__root_8h_source}{}\label{square__root_8h_source}\index{src/exs/math/square\_root.h@{src/exs/math/square\_root.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EXS\_OPERATOR\_SQUARE\_ROOT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EXS\_OPERATOR\_SQUARE\_ROOT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }exs\ \{}
+\DoxyCodeLine{00005\ \ \ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A,\ \textcolor{keyword}{typename}\ S\ =\ EmptySettings>}
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }OperatorSquareRoot:\ \textcolor{keyword}{public}\ OperatorGroup<A,\ 1,\ S>\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ OperatorSquareRoot():\ OperatorGroup<A,\ 1,\ S>(\textcolor{stringliteral}{"{}sqrt"{}},\textcolor{stringliteral}{"{}sqrt("{}},SQUARE\_ROOT\_OPERATOR)\ \{\}}
+\DoxyCodeLine{00010\ \ \ \textcolor{keywordtype}{void}\ operate\_group(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ group1\ =\ tokens-\/>get\_left();}
+\DoxyCodeLine{00012\ \ \ \ \ group1.atom-\/>math\_square\_root();}
+\DoxyCodeLine{00013\ \ \ \ \ tokens-\/>put\_left(group1);}
+\DoxyCodeLine{00014\ \ \ \};}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXS\_OPERATOR\_SQUARE\_ROOT\_H}}
+
+\end{DoxyCode}

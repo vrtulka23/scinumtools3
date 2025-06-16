@@ -1,0 +1,190 @@
+\doxysection{atom.\+h}
+\hypertarget{atom_8h_source}{}\label{atom_8h_source}\index{src/exs/atom.h@{src/exs/atom.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EXS\_ATOM\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EXS\_ATOM\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <regex>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }exs\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }AtomBase\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ T\ value;}
+\DoxyCodeLine{00016\ \ \ \ \textcolor{comment}{//\ Copy\ constructor}}
+\DoxyCodeLine{00017\ \ \ AtomBase(\textcolor{keyword}{const}\ AtomBase\&\ a)\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_copy\_constructible\_v<T>)\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ value\ =\ a.value;}
+\DoxyCodeLine{00020\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_copy\_constructible\_v<T>,\ \textcolor{stringliteral}{"{}T\ is\ not\ copyable"{}});}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ \ \ \}}
+\DoxyCodeLine{00024\ \ \ \textcolor{comment}{//\ Move\ constructor}}
+\DoxyCodeLine{00025\ \ \ AtomBase(AtomBase\&\&\ a)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_move\_constructible\_v<T>)\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ value\ =\ std::move(a.value);}
+\DoxyCodeLine{00028\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_move\_constructible\_v<T>,\ \textcolor{stringliteral}{"{}T\ is\ not\ movable"{}});}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \}}
+\DoxyCodeLine{00032\ \ \ \textcolor{comment}{//\ Constructor\ from\ value}}
+\DoxyCodeLine{00033\ \ \ AtomBase(T\ v):\ value(std::move(v))\ \{\}}
+\DoxyCodeLine{00034\ \ \ \ \textcolor{comment}{//\ Copy\ assignment}}
+\DoxyCodeLine{00035\ \ \ AtomBase\&\ operator=(\textcolor{keyword}{const}\ AtomBase\&\ a)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_copy\_assignable\_v<T>)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ value\ =\ a.value;}
+\DoxyCodeLine{00038\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_copy\_assignable\_v<T>,\ \textcolor{stringliteral}{"{}T\ is\ not\ copy-\/assignable"{}});}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00042\ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \textcolor{comment}{//\ Move\ assignment}}
+\DoxyCodeLine{00044\ \ \ AtomBase\&\ operator=(AtomBase\&\&\ a)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_move\_assignable\_v<T>)\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ value\ =\ std::move(a.value);}
+\DoxyCodeLine{00047\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_move\_assignable\_v<T>,\ \textcolor{stringliteral}{"{}T\ is\ not\ move-\/assignable"{}});}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00051\ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \textcolor{keyword}{virtual}\ std::string\ to\_string()\ =0;}
+\DoxyCodeLine{00053\ \ \ \textcolor{keywordtype}{void}\ print()\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ std::cout\ <<\ to\_string()\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00055\ \ \ \}}
+\DoxyCodeLine{00056\ \};}
+\DoxyCodeLine{00057\ \ \ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{typedef}\ std::variant<float,\ bool>\ AtomValueType;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{class\ }Atom:\ \textcolor{keyword}{public}\ AtomBase<AtomValueType>\ \{}
+\DoxyCodeLine{00061\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00062\ \ \ Atom(Atom\ \&a):\ AtomBase(a)\ \{\};}
+\DoxyCodeLine{00063\ \ \ Atom(AtomValueType\ v):\ AtomBase(v)\ \{\};\ \ }
+\DoxyCodeLine{00064\ \ \ \textcolor{keyword}{static}\ AtomValueType\ from\_string(std::string\ s)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{//\ NOTE:\ In\ case\ Settings\ are\ passed\ to\ the\ Solver,\ this\ method\ needs\ to\ be\ defined\ as}}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ from\_string(std::string\ s,\ Settings*\ set\ =\ nullptr)}}
+\DoxyCodeLine{00067\ \ \ \ \ AtomValueType\ v;}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{if}\ (s==\textcolor{stringliteral}{"{}true"{}})\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ v=\textcolor{keyword}{true};\ }
+\DoxyCodeLine{00070\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (s==\textcolor{stringliteral}{"{}false"{}})\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ v=\textcolor{keyword}{false};}
+\DoxyCodeLine{00072\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ std::regex\ rx(\textcolor{stringliteral}{"{}((\(\backslash\)\(\backslash\)+|-\/)?[[:digit:]]+)(\(\backslash\)\(\backslash\).(([[:digit:]]+)?))?((e|E)((\(\backslash\)\(\backslash\)+|-\/)?)[[:digit:]]+)?"{}});}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::regex\_match(s,\ rx))\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ v=std::stof(s);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Atom\ string\ could\ not\ be\ parsed,\ probably\ due\ to\ unknown\ symbol\ or\ operator:\ "{}}+s);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordflow}{return}\ v;}
+\DoxyCodeLine{00081\ \ \ \}}
+\DoxyCodeLine{00082\ \ \ std::string\ to\_string()\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordflow}{if}\ (std::holds\_alternative<float>(value))\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ std::stringstream\ str;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ str\ <<\ std::get<float>(value)\ <<\ std::scientific;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str.str();}
+\DoxyCodeLine{00087\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::get<bool>(value)==0)\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}false"{}};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}true"{}};}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \textcolor{comment}{//\ Math\ operations}}
+\DoxyCodeLine{00093\ \ \ \textcolor{keywordtype}{void}\ math\_add(Atom\ *other)\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ +\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00095\ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \textcolor{keywordtype}{void}\ math\_subtract(Atom\ *other)\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ -\/\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00098\ \ \ \}}
+\DoxyCodeLine{00099\ \ \ \textcolor{keywordtype}{void}\ math\_negate()\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ value\ =\ -\/std::get<float>(value);}
+\DoxyCodeLine{00101\ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \textcolor{keywordtype}{void}\ math\_multiply(Atom\ *other)\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ *\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00104\ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \textcolor{keywordtype}{void}\ math\_divide(Atom\ *other)\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ /\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00107\ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \textcolor{keywordtype}{void}\ math\_power(Atom\ *other)\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ value\ =\ pow(std::get<float>(value),\ std::get<float>(other-\/>value));}
+\DoxyCodeLine{00110\ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \textcolor{keywordtype}{void}\ math\_modulo(Atom\ *other)\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ value\ =\ (float)((\textcolor{keywordtype}{int})std::get<float>(value)\ \%\ (\textcolor{keywordtype}{int})\ std::get<float>(other-\/>value));}
+\DoxyCodeLine{00113\ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \textcolor{comment}{//\ Argument\ math\ operators}}
+\DoxyCodeLine{00116\ \ \ \textcolor{keywordtype}{void}\ math\_exponent()\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ value\ =\ std::exp(std::get<float>(value));}
+\DoxyCodeLine{00118\ \ \ \}}
+\DoxyCodeLine{00119\ \ \ \textcolor{keywordtype}{void}\ math\_logarithm()\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ value\ =\ std::log(std::get<float>(value));}
+\DoxyCodeLine{00121\ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \textcolor{keywordtype}{void}\ math\_logarithm\_10()\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ value\ =\ std::log10(std::get<float>(value));}
+\DoxyCodeLine{00124\ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \textcolor{keywordtype}{void}\ math\_logarithm\_base(Atom\ *other)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ value\ =\ std::log(std::get<float>(value))\ /\ std::log(std::get<float>(other-\/>value));}
+\DoxyCodeLine{00127\ \ \ \}}
+\DoxyCodeLine{00128\ \ \ \textcolor{keywordtype}{void}\ math\_power\_base(Atom\ *other)\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ value\ =\ pow(std::get<float>(value),\ std::get<float>(other-\/>value));}
+\DoxyCodeLine{00130\ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \textcolor{keywordtype}{void}\ math\_square\_root()\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ value\ =\ std::sqrt(std::get<float>(value));}
+\DoxyCodeLine{00133\ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \textcolor{keywordtype}{void}\ math\_sinus()\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ value\ =\ std::sin(std::get<float>(value));}
+\DoxyCodeLine{00136\ \ \ \}}
+\DoxyCodeLine{00137\ \ \ \textcolor{keywordtype}{void}\ math\_cosinus()\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ value\ =\ std::cos(std::get<float>(value));}
+\DoxyCodeLine{00139\ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \textcolor{keywordtype}{void}\ math\_tangens()\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ value\ =\ std::tan(std::get<float>(value));}
+\DoxyCodeLine{00142\ \ \ \}}
+\DoxyCodeLine{00143\ \ \ }
+\DoxyCodeLine{00144\ \ \ \textcolor{comment}{//\ Comparison\ operations}}
+\DoxyCodeLine{00145\ \ \ \textcolor{keywordtype}{void}\ comparison\_equal(Atom\ *other)\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ ==\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00147\ \ \ \}}
+\DoxyCodeLine{00148\ \ \ \textcolor{keywordtype}{void}\ comparison\_not\_equal(Atom\ *other)\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ !=\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00150\ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \textcolor{keywordtype}{void}\ comparison\_lower\_equal(Atom\ *other)\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ <=\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00153\ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \textcolor{keywordtype}{void}\ comparison\_greater\_equal(Atom\ *other)\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ >=\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00156\ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \textcolor{keywordtype}{void}\ comparison\_lower(Atom\ *other)\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ <\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00159\ \ \ \}}
+\DoxyCodeLine{00160\ \ \ \textcolor{keywordtype}{void}\ comparison\_greater(Atom\ *other)\ \{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ value\ =\ std::get<float>(value)\ >\ std::get<float>(other-\/>value);}
+\DoxyCodeLine{00162\ \ \ \}}
+\DoxyCodeLine{00163\ \ \ }
+\DoxyCodeLine{00164\ \ \ \textcolor{comment}{//\ Logical\ operations}}
+\DoxyCodeLine{00165\ \ \ \textcolor{keywordtype}{void}\ logical\_not()\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ value\ =\ !std::get<bool>(value);}
+\DoxyCodeLine{00167\ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \textcolor{keywordtype}{void}\ logical\_and(Atom\ *other)\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ value\ =\ std::get<bool>(value)\ \&\&\ std::get<bool>(other-\/>value);}
+\DoxyCodeLine{00170\ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \textcolor{keywordtype}{void}\ logical\_or(Atom\ *other)\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ value\ =\ std::get<bool>(value)\ ||\ std::get<bool>(other-\/>value);}
+\DoxyCodeLine{00173\ \ \ \}}
+\DoxyCodeLine{00174\ \ \ }
+\DoxyCodeLine{00175\ \ \ \textcolor{comment}{//\ Conditional\ operator}}
+\DoxyCodeLine{00176\ \ \ \textcolor{keywordtype}{void}\ condition(Atom\ *option1,\ Atom\ *option2)\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ value\ =\ std::get<bool>(value)\ ?\ std::get<float>(option1-\/>value)\ :\ std::get<float>(option2-\/>value);}
+\DoxyCodeLine{00178\ \ \ \}}
+\DoxyCodeLine{00179\ \ \ }
+\DoxyCodeLine{00180\ \};}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXS\_ATOM\_H}}
+
+\end{DoxyCode}

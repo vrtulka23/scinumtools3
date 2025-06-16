@@ -1,0 +1,155 @@
+\doxysection{solver.\+h}
+\hypertarget{exs_2solver_8h_source}{}\label{exs_2solver_8h_source}\index{src/exs/solver.h@{src/exs/solver.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EXS\_SOLVER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EXS\_SOLVER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}settings.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }exs\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A,\ \textcolor{keyword}{typename}\ S\ =\ EmptySettings>}
+\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{class\ }Solver\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ S\ settings;}
+\DoxyCodeLine{00015\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_operator_list}{OperatorList<A,S>}}\ operators;}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_step_list}{StepList}}\ steps;}
+\DoxyCodeLine{00018\ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{comment}{//\ constructors\ without\ settings}}
+\DoxyCodeLine{00020\ \ \ \ \ Solver(S\ set\ =\ \{\}):\ settings(set)\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ init\_steps();}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ init\_operators();}
+\DoxyCodeLine{00023\ \ \ \ \ \};}
+\DoxyCodeLine{00024\ \ \ \ \ Solver(\mbox{\hyperlink{classexs_1_1_operator_list}{OperatorList<A,S>}}\&\ o,\ S\ set\ =\ \{\}):\ operators(o),\ settings(set)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ init\_steps();}
+\DoxyCodeLine{00026\ \ \ \ \ \};}
+\DoxyCodeLine{00027\ \ \ \ \ Solver(\mbox{\hyperlink{classexs_1_1_step_list}{StepList}}\&\ s,\ S\ set\ =\ \{\}):\ steps(s),\ settings(set)\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ init\_operators();}
+\DoxyCodeLine{00029\ \ \ \ \ \};}
+\DoxyCodeLine{00030\ \ \ \ \ Solver(\mbox{\hyperlink{classexs_1_1_operator_list}{OperatorList<A,S>}}\&\ o,\ \mbox{\hyperlink{classexs_1_1_step_list}{StepList}}\&\ s,\ S\ set\ =\ \{\}):\ operators(o),\ steps(s),\ settings(set)\ \{\};}
+\DoxyCodeLine{00031\ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{comment}{//\ solve\ expressions}}
+\DoxyCodeLine{00033\ \ \ \ \ A\ solve(std::string\ expression)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_expression}{Expression}}\ expr(expression);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \textcolor{comment}{//expr.print();}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token_list}{TokenList<A,S>}}\ tokens(\&operators,\ \&settings);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \textcolor{comment}{//\ Tokenize\ expression}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (expr.right.length()>0)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_operator\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ o\ :\ operators.order)\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_operator_base}{OperatorBase<A,S>}}\ *op\ =\ operators.select(o);}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ op-\/>symbol\ <<\ std::endl;}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (op-\/>check(expr))\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ is\_operator\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ std::string\ left\ =\ expr.pop\_left();}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (left.length()>0)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ tokens.append(ATOM\_TOKEN,\ left);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ op-\/>parse(expr);}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (op-\/>groups.size()>0)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ std::vector<std::string>\ groups\ =\ op-\/>groups;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ \ groups.size()\ <<\ std::endl;}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ e:\ groups)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ tokens.append(ATOM\_TOKEN,\ solve(e));}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ tokens.append(OPERATOR\_TOKEN,\ op-\/>type);}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//expr.print();}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_operator\ ==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ expr.shift();}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \textcolor{comment}{//expr.print();}}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{//tokens.print(true);}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ std::string\ left\ =\ expr.pop\_left();}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (left.length()>0)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ tokens.append(ATOM\_TOKEN,\ left);}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \textcolor{comment}{//expr.print();\ \ }}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ s:\ steps.steps)\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{comment}{//tokens.print(true);\ }}
+\DoxyCodeLine{00076\ \ \ \ \ tokens.operate(s.second,\ s.first);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \textcolor{comment}{//tokens.print(true);}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tokens.left.size()>0\ or\ tokens.right.size()>1)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{comment}{//tokens.print(true);}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Cannot\ solve\ expression\ due\ to\ unprocessed\ tokens:\ "{}}+tokens.to\_string(\textcolor{keyword}{true}));}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token}}\ token\ =\ tokens.get\_right();}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ \&token\ <<\ "{}\ "{}\ <<\ token.atom\ <<\ "{}\ "{}\ <<\ token.atom-\/>value\ <<\ std::endl;}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *token.atom;}
+\DoxyCodeLine{00088\ \ \ \ \ \};}
+\DoxyCodeLine{00089\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ init\_steps()\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ steps.append(GROUP\_OPERATION,\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ PARENTHESES\_OPERATOR,\ EXPONENT\_OPERATOR,\ LOGARITHM\_OPERATOR,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ LOGARITHM\_10\_OPERATOR,\ LOGARITHM\_BASE\_OPERATOR,\ POWER\_BASE\_OPERATOR,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ SQUARE\_ROOT\_OPERATOR,\ SINUS\_OPERATOR,\ COSINUS\_OPERATOR,\ TANGENS\_OPERATOR}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ steps.append(UNARY\_OPERATION,\ \ \ \ \ \{ADD\_OPERATOR,\ SUBTRACT\_OPERATOR\});}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ steps.append(TERNARY\_OPERATION,\ \ \ \{CONDITION\_OPERATOR\});}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ steps.append(BINARY\_OPERATION,\ \ \ \ \{POWER\_OPERATOR\});}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ steps.append(BINARY\_OPERATION,\ \ \ \ \{MULTIPLY\_OPERATOR,\ DIVIDE\_OPERATOR,\ MODULO\_OPERATOR\});}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ steps.append(BINARY\_OPERATION,\ \ \ \ \{ADD\_OPERATOR,\ SUBTRACT\_OPERATOR\});}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ steps.append(BINARY\_OPERATION,\ \ \ \ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ LOWER\_EQUAL\_OPERATOR,GREATER\_EQUAL\_OPERATOR,}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ LOWER\_OPERATOR,GREATER\_OPERATOR}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ steps.append(BINARY\_OPERATION,\ \ \ \ \{EQUAL\_OPERATOR,NOT\_EQUAL\_OPERATOR\});}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ steps.append(UNARY\_OPERATION,\ \ \ \ \ \{NOT\_OPERATOR\});}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ steps.append(BINARY\_OPERATION,\ \ \ \ \{AND\_OPERATOR\});}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ steps.append(BINARY\_OPERATION,\ \ \ \ \{OR\_OPERATOR\});}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ init\_operators()\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ operators.append(TANGENS\_OPERATOR,\ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_tangens}{OperatorTangens<A,S>}}>());}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ operators.append(COSINUS\_OPERATOR,\ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_cosinus}{OperatorCosinus<A,S>}}>());}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ operators.append(SINUS\_OPERATOR,\ \ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_sinus}{OperatorSinus<A,S>}}>());}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ operators.append(SQUARE\_ROOT\_OPERATOR,\ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_square_root}{OperatorSquareRoot<A,S>}}>());}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ operators.append(POWER\_BASE\_OPERATOR,\ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_power_base}{OperatorPowerBase<A,S>}}>());}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ operators.append(LOGARITHM\_BASE\_OPERATOR,\ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_logarithm_base}{OperatorLogarithmBase<A,S>}}>());}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ operators.append(LOGARITHM\_10\_OPERATOR,\ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_logarithm10}{OperatorLogarithm10<A,S>}}>());}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ operators.append(LOGARITHM\_OPERATOR,\ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_logarithm}{OperatorLogarithm<A,S>}}>());}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ operators.append(EXPONENT\_OPERATOR,\ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_exponent}{OperatorExponent<A,S>}}>());}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ operators.append(PARENTHESES\_OPERATOR,\ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_parentheses}{OperatorParentheses<A,S>}}>());\ \textcolor{comment}{//\ should\ be\ last\ of\ group\ operators}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ operators.append(CONDITION\_OPERATOR,\ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_condition}{OperatorCondition<A,S>}}>());}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ operators.append(POWER\_OPERATOR,\ \ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_power}{OperatorPower<A,S>}}>());}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ operators.append(MODULO\_OPERATOR,\ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_modulo}{OperatorModulo<A,S>}}>());}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ operators.append(MULTIPLY\_OPERATOR,\ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_multiply}{OperatorMultiply<A,S>}}>());}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ operators.append(DIVIDE\_OPERATOR,\ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_divide}{OperatorDivide<A,S>}}>());}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ operators.append(ADD\_OPERATOR,\ \ \ \ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_add}{OperatorAdd<A,S>}}>());}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ operators.append(SUBTRACT\_OPERATOR,\ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_subtract}{OperatorSubtract<A,S>}}>());}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ operators.append(EQUAL\_OPERATOR,\ \ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_equal}{OperatorEqual<A,S>}}>());}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ operators.append(NOT\_EQUAL\_OPERATOR,\ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_not_equal}{OperatorNotEqual<A,S>}}>());}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ operators.append(NOT\_OPERATOR,\ \ \ \ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_not}{OperatorNot<A,S>}}>());\ \textcolor{comment}{//\ needs\ to\ be\ after\ NOT\_EQUAL}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ operators.append(LOWER\_EQUAL\_OPERATOR,\ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_lower_equal}{OperatorLowerEqual<A,S>}}>());}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ operators.append(GREATER\_EQUAL\_OPERATOR,\ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_greater_equal}{OperatorGreaterEqual<A,S>}}>());}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ operators.append(LOWER\_OPERATOR,\ \ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_lower}{OperatorLower<A,S>}}>());}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ operators.append(GREATER\_OPERATOR,\ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_greater}{OperatorGreater<A,S>}}>());}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ operators.append(AND\_OPERATOR,\ \ \ \ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_and}{OperatorAnd<A,S>}}>());}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ operators.append(OR\_OPERATOR,\ \ \ \ \ \ \ \ \ \ \ \ \ std::make\_shared<\mbox{\hyperlink{classexs_1_1_operator_or}{OperatorOr<A,S>}}>());}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \};}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXS\_SOLVER\_H}}
+
+\end{DoxyCode}

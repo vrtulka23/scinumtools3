@@ -1,0 +1,101 @@
+\doxysection{dip\+::Source\+Node Class Reference}
+\hypertarget{classdip_1_1_source_node}{}\label{classdip_1_1_source_node}\index{dip::SourceNode@{dip::SourceNode}}
+Inheritance diagram for dip\+::Source\+Node\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classdip_1_1_source_node}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_source_node_a6d17352e312f2c352d2a2688c627ddf6}\label{classdip_1_1_source_node_a6d17352e312f2c352d2a2688c627ddf6} 
+{\bfseries Source\+Node} (\mbox{\hyperlink{classdip_1_1_parser}{Parser}} \&parser)
+\item 
+Base\+Node\+::\+Node\+List\+Type \mbox{\hyperlink{classdip_1_1_source_node_a757a2f630dc3ba65bb1e1af008f92e4b}{parse}} (\mbox{\hyperlink{classdip_1_1_environment}{Environment}} \&env) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Base\+Node} (const Node\+Dtype dt)
+\item 
+{\bfseries Base\+Node} (\mbox{\hyperlink{classdip_1_1_parser}{Parser}} \&parser, const Node\+Dtype dt)
+\item 
+virtual bool {\bfseries set\+\_\+property} (Property\+Type property, Array\+::\+String\+Type \&values, std\+::string \&units)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_node}{dip\+::\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Node} (const \mbox{\hyperlink{structdip_1_1_line}{Line}} \&l)
+\item 
+{\bfseries Node} (const std\+::string \&nm)
+\item 
+std\+::string {\bfseries to\+\_\+string} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_source_node_a7d502d8dd262d88add601ca8ed1837e2}\label{classdip_1_1_source_node_a7d502d8dd262d88add601ca8ed1837e2} 
+static Base\+Node\+::\+Pointer\+Type {\bfseries is\+\_\+node} (\mbox{\hyperlink{classdip_1_1_parser}{Parser}} \&parser)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classdip_1_1_base_node}{Base\+Node}} $>$ {\bfseries Pointer\+Type}
+\item 
+typedef std\+::deque$<$ Base\+Node\+::\+Pointer\+Type $>$ {\bfseries Node\+List\+Type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+Node\+Dtype {\bfseries dtype}
+\item 
+size\+\_\+t {\bfseries branch\+\_\+id}
+\item 
+size\+\_\+t {\bfseries case\+\_\+id}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_node}{dip\+::\+Node}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structdip_1_1_line}{Line}} {\bfseries line}
+\item 
+size\+\_\+t {\bfseries indent}
+\item 
+std\+::string {\bfseries name}
+\item 
+std\+::array$<$ std\+::string, 3 $>$ {\bfseries dtype\+\_\+raw}
+\item 
+Array\+::\+String\+Type {\bfseries value\+\_\+raw}
+\item 
+Array\+::\+Shape\+Type {\bfseries value\+\_\+shape}
+\item 
+Value\+Origin {\bfseries value\+\_\+origin}
+\item 
+Array\+::\+Range\+Type {\bfseries value\+\_\+slice}
+\item 
+std\+::string {\bfseries units\+\_\+raw}
+\item 
+Array\+::\+Range\+Type {\bfseries dimension}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{classdip_1_1_source_node_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classdip_1_1_source_node_a757a2f630dc3ba65bb1e1af008f92e4b}\index{dip::SourceNode@{dip::SourceNode}!parse@{parse}}
+\index{parse@{parse}!dip::SourceNode@{dip::SourceNode}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily \label{classdip_1_1_source_node_a757a2f630dc3ba65bb1e1af008f92e4b} 
+Base\+Node\+::\+Node\+List\+Type dip\+::\+Source\+Node\+::parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdip_1_1_environment}{Environment}} \&}]{env}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classdip_1_1_base_node}{dip\+::\+Base\+Node}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/dip/nodes/nodes.\+h\item 
+src/dip/nodes/node\+\_\+source.\+cpp\end{DoxyCompactItemize}

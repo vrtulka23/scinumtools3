@@ -1,0 +1,25 @@
+\doxysection{main.\+h}
+\hypertarget{exs_2_unique_ptr_solver_2main_8h_source}{}\label{exs_2_unique_ptr_solver_2main_8h_source}\index{exec/exs/UniquePtrSolver/main.h@{exec/exs/UniquePtrSolver/main.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}exs/exs.h"{}}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{keyword}{typedef}\ std::unique\_ptr<bool>\ UniquePtrType;}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }LogicalAtom:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classexs_1_1_atom_base}{exs::AtomBase}}<UniquePtrType>\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \textcolor{comment}{//\ Constructor\ from\ unique\_ptr}}
+\DoxyCodeLine{00008\ \ \ LogicalAtom(UniquePtrType\ b):\ AtomBase(std::move(b))\ \{\};}
+\DoxyCodeLine{00009\ \ \ \textcolor{comment}{//\ Deep\ copy\ constructor}}
+\DoxyCodeLine{00010\ \ \ LogicalAtom(\textcolor{keyword}{const}\ LogicalAtom\&\ a);}
+\DoxyCodeLine{00011\ \ \ LogicalAtom\&\ operator=(\textcolor{keyword}{const}\ LogicalAtom\&\ a);}
+\DoxyCodeLine{00012\ \ \ \textcolor{comment}{//\ Move\ constructor}}
+\DoxyCodeLine{00013\ \ \ LogicalAtom(LogicalAtom\&\&\ a)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00014\ \ \ LogicalAtom\&\ operator=(LogicalAtom\&\&\ a)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00015\ \ \ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keyword}{static}\ UniquePtrType\ from\_string(std::string\ s);}
+\DoxyCodeLine{00017\ \ \ std::string\ to\_string();}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordtype}{void}\ logical\_and(LogicalAtom*\ other);}
+\DoxyCodeLine{00019\ \};}
+
+\end{DoxyCode}

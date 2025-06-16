@@ -1,0 +1,86 @@
+\doxysection{dip\+::Scalar\+Value\texorpdfstring{$<$}{<} std\+::string \texorpdfstring{$>$}{>} Class Reference}
+\hypertarget{classdip_1_1_scalar_value_3_01std_1_1string_01_4}{}\label{classdip_1_1_scalar_value_3_01std_1_1string_01_4}\index{dip::ScalarValue$<$ std::string $>$@{dip::ScalarValue$<$ std::string $>$}}
+Inheritance diagram for dip\+::Scalar\+Value\texorpdfstring{$<$}{<} std\+::string \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classdip_1_1_scalar_value_3_01std_1_1string_01_4}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classdip_1_1_scalar_value_3_01std_1_1string_01_4_a5e155e3f17e0f9034522f32f33047beb}\label{classdip_1_1_scalar_value_3_01std_1_1string_01_4_a5e155e3f17e0f9034522f32f33047beb} 
+{\bfseries Scalar\+Value} (const std\+::string \&val, const Value\+Dtype dt)
+\item 
+\Hypertarget{classdip_1_1_scalar_value_3_01std_1_1string_01_4_a89ff8313ac103817cccdf06c84b718e9}\label{classdip_1_1_scalar_value_3_01std_1_1string_01_4_a89ff8313ac103817cccdf06c84b718e9} 
+{\bfseries Scalar\+Value} (const std\+::string \&val)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_base_scalar_value}{dip\+::\+Base\+Scalar\+Value$<$ std\+::string $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Base\+Scalar\+Value} (const std\+::string \&val, const Value\+Dtype dt)
+\item 
+void \mbox{\hyperlink{classdip_1_1_base_scalar_value_a1540ff3cd1ebf562f5e8a43da199086f}{print}} () override
+\item 
+std\+::string {\bfseries get\+\_\+value} ()
+\item 
+Array\+::\+Shape\+Type \mbox{\hyperlink{classdip_1_1_base_scalar_value_a8cb4d88042be1d15d0a9619708a1cc8c}{get\+\_\+shape}} () const override
+\item 
+size\+\_\+t \mbox{\hyperlink{classdip_1_1_base_scalar_value_ab376648e2f8ea6c3bff3b29450ae0a7a}{get\+\_\+size}} () const override
+\item 
+std\+::string \mbox{\hyperlink{classdip_1_1_base_scalar_value_ae6333d16c50f53402185196641b9db6f}{to\+\_\+string}} (const int precision=0) const override
+\item 
+bool \mbox{\hyperlink{classdip_1_1_base_scalar_value_ad7cc5cbb5901d137e6d724105fed72ac}{operator==}} (const \mbox{\hyperlink{classdip_1_1_base_value}{Base\+Value}} \texorpdfstring{$\ast$}{*}other) const override
+\item 
+bool \mbox{\hyperlink{classdip_1_1_base_scalar_value_a63e8bfc5dfb086a2af6573800489cd71}{operator$<$}} (const \mbox{\hyperlink{classdip_1_1_base_value}{Base\+Value}} \texorpdfstring{$\ast$}{*}other) const override
+\item 
+Base\+Value\+::\+Pointer\+Type \mbox{\hyperlink{classdip_1_1_base_scalar_value_acadc50222ebc3b2928f8e7eb4d6a5396}{slice}} (const Array\+::\+Range\+Type \&slice) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Base\+Value} (Value\+Dtype dt)
+\item 
+virtual void {\bfseries convert\+\_\+units} (const Quantity\+::\+Pointer\+Type \&from\+\_\+quantity, const std\+::string \&to\+\_\+units)=0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classdip_1_1_scalar_value_a8a834cd160a7059fbcb07598bcb51462}{convert\+\_\+units}} (const std\+::string \&from\+\_\+units, const Quantity\+::\+Pointer\+Type \&to\+\_\+quantity) override
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classdip_1_1_base_value}{Base\+Value}} $>$ {\bfseries Pointer\+Type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classdip_1_1_base_value}{dip\+::\+Base\+Value}}}
+\begin{DoxyCompactItemize}
+\item 
+Value\+Dtype {\bfseries dtype}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classdip_1_1_base_scalar_value}{dip\+::\+Base\+Scalar\+Value$<$ std\+::string $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries value}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{classdip_1_1_scalar_value_3_01std_1_1string_01_4_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classdip_1_1_scalar_value_a8a834cd160a7059fbcb07598bcb51462}\index{dip::ScalarValue$<$ std::string $>$@{dip::ScalarValue$<$ std::string $>$}!convert\_units@{convert\_units}}
+\index{convert\_units@{convert\_units}!dip::ScalarValue$<$ std::string $>$@{dip::ScalarValue$<$ std::string $>$}}
+\doxysubsubsection{\texorpdfstring{convert\_units()}{convert\_units()}}
+{\footnotesize\ttfamily \label{classdip_1_1_scalar_value_a8a834cd160a7059fbcb07598bcb51462} 
+void \mbox{\hyperlink{classdip_1_1_scalar_value}{dip\+::\+Scalar\+Value}}$<$ std\+::string $>$\+::convert\+\_\+units (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{from\+\_\+units}{, }\item[{const Quantity\+::\+Pointer\+Type \&}]{to\+\_\+quantity}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classdip_1_1_base_scalar_value}{dip\+::\+Base\+Scalar\+Value$<$ std\+::string $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/dip/values/values\+\_\+scalar.\+h\end{DoxyCompactItemize}

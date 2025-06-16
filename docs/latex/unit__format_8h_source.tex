@@ -1,0 +1,84 @@
+\doxysection{unit\+\_\+format.\+h}
+\hypertarget{unit__format_8h_source}{}\label{unit__format_8h_source}\index{src/puq/unit\_format.h@{src/puq/unit\_format.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PUQ\_UNIT\_FORMAT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PUQ\_UNIT\_FORMAT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}settings.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }puq\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00014\ \ \ std::optional<T>\ get\_option(\textcolor{keyword}{const}\ Args\&...\ args)\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ std::optional<T>\ result;\ \ \ \ }
+\DoxyCodeLine{00016\ \ \ \ \ ([\&](\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ arg)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<std::decay\_t<\textcolor{keyword}{decltype}(arg)>,\ T>)\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ result\ =\ arg;}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \}(args),\ ...);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00022\ \ \ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \textcolor{keyword}{namespace\ }Format\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{enum\ class}\ System\ \ \ \ \{SHOW,\ HIDE\};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Math\ \ \ \ \ \ \{ASCII,\ UNICODE,\ HTML,\ MATH\};}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Display\ \ \ \{BOTH,\ MAGNITUDE,\ UNITS\};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Base\ \ \ \ \ \ \{UNITS,\ MGS,\ MKS,\ CGS,\ FPS\};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Error\ \ \ \ \ \{SHOW,\ HIDE\};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ Precision;}
+\DoxyCodeLine{00031\ \ \ \}}
+\DoxyCodeLine{00032\ \ \ }
+\DoxyCodeLine{00033\ \ \ \textcolor{keyword}{class\ }UnitFormat\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::unordered\_map<char,\ std::string>\ superscript\_map;\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::unordered\_map<std::string,\ std::string>\ symbol\_map;}
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ Format::System\ system;}
+\DoxyCodeLine{00038\ \ \ \ \ Format::Precision\ precision;}
+\DoxyCodeLine{00039\ \ \ \ \ Format::Math\ math;}
+\DoxyCodeLine{00040\ \ \ \ \ Format::Display\ part;}
+\DoxyCodeLine{00041\ \ \ \ \ Format::Base\ base;}
+\DoxyCodeLine{00042\ \ \ \ \ Format::Error\ error;}
+\DoxyCodeLine{00043\ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ UnitFormat(\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&...\ args)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ math\ =\ get\_option<Format::Math>(args...).value\_or(Format::Math::ASCII);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ precision\ =\ get\_option<Format::Precision>(args...).value\_or(std::cout.precision());}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ system\ =\ get\_option<Format::System>(args...).value\_or(Format::System::HIDE);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ part\ =\ get\_option<Format::Display>(args...).value\_or(Format::Display::BOTH);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ base\ =\ get\_option<Format::Base>(args...).value\_or(Format::Base::UNITS);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ error\ =\ get\_option<Format::Error>(args...).value\_or(Format::Error::SHOW);}
+\DoxyCodeLine{00051\ \ \ \ \ \};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ UnitFormat\ merge(\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&...\ args)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ UnitFormat\ uf(get\_option<Format::Math>(args...).value\_or(math),}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ get\_option<Format::Precision>(args...).value\_or(precision),}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ get\_option<Format::System>(args...).value\_or(system),}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ get\_option<Format::Display>(args...).value\_or(part),}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ get\_option<Format::Base>(args...).value\_or(base),}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ get\_option<Format::Error>(args...).value\_or(error)}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ uf;}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ preprocess\_system(std::string\&\ expression,\ \textcolor{keyword}{const}\ std::string\&\ abbrev);}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ preprocess\_symbols(std::string\&\ expression);}
+\DoxyCodeLine{00066\ \ \ \ \ std::string\ multiply\_symbol()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00067\ \ \ \ \ std::string\ format\_exponents(std::string\ expression)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00068\ \ \ \ \ std::string\ format\_order(std::string\ expression)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00069\ \ \ \ \ std::string\ format\_system(std::string\ expression,\ \textcolor{keyword}{const}\ std::string\&\ abbrev)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{bool}\ display\_magnitude()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{bool}\ display\_units()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{bool}\ display\_error()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00073\ \ \ \ \ }
+\DoxyCodeLine{00074\ \ \ \};}
+\DoxyCodeLine{00075\ \ \ }
+\DoxyCodeLine{00076\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PUQ\_UNIT\_FORMAT\_H}}
+
+\end{DoxyCode}

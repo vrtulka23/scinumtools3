@@ -1,0 +1,65 @@
+\doxysection{puq\+::Base\+Units Class Reference}
+\hypertarget{classpuq_1_1_base_units}{}\label{classpuq_1_1_base_units}\index{puq::BaseUnits@{puq::BaseUnits}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classpuq_1_1_base_units_a6317829f3723cfba10c5c24b626f5fe7}\label{classpuq_1_1_base_units_a6317829f3723cfba10c5c24b626f5fe7} 
+{\bfseries Base\+Units} (const std\+::string \&s)
+\item 
+\Hypertarget{classpuq_1_1_base_units_a26e69724142f2166c357114ee56f4879}\label{classpuq_1_1_base_units_a26e69724142f2166c357114ee56f4879} 
+{\bfseries Base\+Units} (const Base\+Units\+List \&bu)
+\item 
+\Hypertarget{classpuq_1_1_base_units_a09d81def95ef88ef0ec28840128efe7d}\label{classpuq_1_1_base_units_a09d81def95ef88ef0ec28840128efe7d} 
+void {\bfseries append} (\mbox{\hyperlink{classpuq_1_1_base_unit}{Base\+Unit}} bu)
+\item 
+\Hypertarget{classpuq_1_1_base_units_ad55c5d9e56e2c0be92bc1ee1e38fae57}\label{classpuq_1_1_base_units_ad55c5d9e56e2c0be92bc1ee1e38fae57} 
+void {\bfseries append} (std\+::string p, std\+::string u, EXPONENT\+\_\+\+TYPE e)
+\item 
+\Hypertarget{classpuq_1_1_base_units_a19a27e27ab975ae3d54db386cc7d0a90}\label{classpuq_1_1_base_units_a19a27e27ab975ae3d54db386cc7d0a90} 
+void {\bfseries append} (std\+::string p, std\+::string u, EXPONENT\+\_\+\+INT\+\_\+\+PRECISION n, EXPONENT\+\_\+\+INT\+\_\+\+PRECISION d)
+\item 
+\Hypertarget{classpuq_1_1_base_units_a695c683f7b2b10afc055baa9e3649446}\label{classpuq_1_1_base_units_a695c683f7b2b10afc055baa9e3649446} 
+std\+::string {\bfseries to\+\_\+string} (const \mbox{\hyperlink{classpuq_1_1_unit_format}{Unit\+Format}} \&format=\mbox{\hyperlink{classpuq_1_1_unit_format}{Unit\+Format}}()) const
+\item 
+\Hypertarget{classpuq_1_1_base_units_a8b5640103f7543a9230f7d17fb88845c}\label{classpuq_1_1_base_units_a8b5640103f7543a9230f7d17fb88845c} 
+const \mbox{\hyperlink{classpuq_1_1_base_unit}{Base\+Unit}} \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (int index) const
+\item 
+\Hypertarget{classpuq_1_1_base_units_a3b6e2e4dbb65c28bee3a35d781eb8bae}\label{classpuq_1_1_base_units_a3b6e2e4dbb65c28bee3a35d781eb8bae} 
+void {\bfseries operator+=} (const \mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} \&bu)
+\item 
+\Hypertarget{classpuq_1_1_base_units_ae1cf5c77181fbbf0051710debd271427}\label{classpuq_1_1_base_units_ae1cf5c77181fbbf0051710debd271427} 
+void {\bfseries operator-\/=} (const \mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} \&bu)
+\item 
+\Hypertarget{classpuq_1_1_base_units_aee39335ebe221b055a2e74db8d615d8c}\label{classpuq_1_1_base_units_aee39335ebe221b055a2e74db8d615d8c} 
+void {\bfseries operator\texorpdfstring{$\ast$}{*}=} (const EXPONENT\+\_\+\+TYPE \&e)
+\item 
+\Hypertarget{classpuq_1_1_base_units_a6d036234907e3ff1dc9aad7487d067cb}\label{classpuq_1_1_base_units_a6d036234907e3ff1dc9aad7487d067cb} 
+Base\+Units\+List\+::const\+\_\+iterator {\bfseries begin} () const
+\item 
+\Hypertarget{classpuq_1_1_base_units_ad3ccdaa3aaba49483d6192c5d6e9c56e}\label{classpuq_1_1_base_units_ad3ccdaa3aaba49483d6192c5d6e9c56e} 
+Base\+Units\+List\+::const\+\_\+iterator {\bfseries end} () const
+\item 
+\Hypertarget{classpuq_1_1_base_units_a568c982e890c538ead16b0d596c39c73}\label{classpuq_1_1_base_units_a568c982e890c538ead16b0d596c39c73} 
+std\+::size\+\_\+t {\bfseries size} () const
+\item 
+\Hypertarget{classpuq_1_1_base_units_a06642388749b2168b778dd3ae5a9576f}\label{classpuq_1_1_base_units_a06642388749b2168b778dd3ae5a9576f} 
+\mbox{\hyperlink{classpuq_1_1_dimensions}{Dimensions}} {\bfseries dimensions} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classpuq_1_1_base_units_a32e1d4733a58db1703e85883f6ca1e87}\label{classpuq_1_1_base_units_a32e1d4733a58db1703e85883f6ca1e87} 
+\mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} {\bfseries operator+} (const \mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} \&bu1, const \mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} \&bu2)
+\item 
+\Hypertarget{classpuq_1_1_base_units_aee51d7532b59905b8c333c9745d872a6}\label{classpuq_1_1_base_units_aee51d7532b59905b8c333c9745d872a6} 
+\mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} {\bfseries operator-\/} (const \mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} \&bu1, const \mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} \&bu2)
+\item 
+\Hypertarget{classpuq_1_1_base_units_a12f0b733ef090a25938fe75808e1530d}\label{classpuq_1_1_base_units_a12f0b733ef090a25938fe75808e1530d} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \mbox{\hyperlink{classpuq_1_1_base_units}{Base\+Units}} \&bu)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/puq/value/value.\+h\item 
+src/puq/value/base\+\_\+units.\+cpp\end{DoxyCompactItemize}

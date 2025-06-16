@@ -1,0 +1,100 @@
+\doxysection{exs\+::Operator\+Group\texorpdfstring{$<$}{<} A, N, S \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classexs_1_1_operator_group}{}\label{classexs_1_1_operator_group}\index{exs::OperatorGroup$<$ A, N, S $>$@{exs::OperatorGroup$<$ A, N, S $>$}}
+Inheritance diagram for exs\+::Operator\+Group\texorpdfstring{$<$}{<} A, N, S \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classexs_1_1_operator_group}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classexs_1_1_operator_group_a48d01d4a4cc2af89cd990bd5c087f6ac}\label{classexs_1_1_operator_group_a48d01d4a4cc2af89cd990bd5c087f6ac} 
+{\bfseries Operator\+Group} (const std\+::string n, const std\+::string s, const int t)
+\item 
+\Hypertarget{classexs_1_1_operator_group_a8f01a6358d0b2b904717dc9b3aaa4e5f}\label{classexs_1_1_operator_group_a8f01a6358d0b2b904717dc9b3aaa4e5f} 
+{\bfseries Operator\+Group} (const std\+::string n, const std\+::string s, const int t, const std\+::string so, const std\+::string sc)
+\item 
+\Hypertarget{classexs_1_1_operator_group_a657d8978ce026c64c63777fb37475ab8}\label{classexs_1_1_operator_group_a657d8978ce026c64c63777fb37475ab8} 
+{\bfseries Operator\+Group} (const std\+::string n, const std\+::string s, const int t, const std\+::string so, const std\+::string sc, const std\+::string ss)
+\item 
+virtual void \mbox{\hyperlink{classexs_1_1_operator_group_af810a542f39fa2f7df58477d0836b2af}{parse}} (\mbox{\hyperlink{classexs_1_1_expression}{Expression}} \&expr) override
+\item 
+virtual void \mbox{\hyperlink{classexs_1_1_operator_group_a43b06bc018e505e4a804b186f906d79f}{operate\+\_\+group}} (\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ A $>$ \texorpdfstring{$\ast$}{*}tokens) override
+\item 
+\Hypertarget{classexs_1_1_operator_group_a850b1a8820a0e6c840487fddfddb194f}\label{classexs_1_1_operator_group_a850b1a8820a0e6c840487fddfddb194f} 
+virtual void {\bfseries operate\+\_\+group} (\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ A $>$ \texorpdfstring{$\ast$}{*}tokens, S \texorpdfstring{$\ast$}{*}settings) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classexs_1_1_operator_base}{exs\+::\+Operator\+Base$<$ A, Empty\+Settings $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Operator\+Base} (std\+::string n, std\+::string s, int t)
+\item 
+virtual bool {\bfseries check} (\mbox{\hyperlink{classexs_1_1_expression}{Expression}} \&expr)
+\item 
+virtual void {\bfseries operate\+\_\+unary} (\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ A $>$ \texorpdfstring{$\ast$}{*}tokens)
+\item 
+virtual void {\bfseries operate\+\_\+binary} (\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ A $>$ \texorpdfstring{$\ast$}{*}tokens)
+\item 
+virtual void {\bfseries operate\+\_\+ternary} (\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ A $>$ \texorpdfstring{$\ast$}{*}tokens)
+\item 
+virtual void {\bfseries print} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classexs_1_1_operator_group_a248028eb54340f582c3cc69967225e63}\label{classexs_1_1_operator_group_a248028eb54340f582c3cc69967225e63} 
+size\+\_\+t {\bfseries num\+\_\+groups} = N
+\item 
+\Hypertarget{classexs_1_1_operator_group_a2f2d261cfc111f96eaf14b67a599ffdc}\label{classexs_1_1_operator_group_a2f2d261cfc111f96eaf14b67a599ffdc} 
+std\+::string {\bfseries symbol\+\_\+open}
+\item 
+\Hypertarget{classexs_1_1_operator_group_a08cdbaa4b00e19bfd707e8bbefcb4a9e}\label{classexs_1_1_operator_group_a08cdbaa4b00e19bfd707e8bbefcb4a9e} 
+std\+::string {\bfseries symbol\+\_\+close}
+\item 
+\Hypertarget{classexs_1_1_operator_group_a15d1764261f3a2650820350fa1886744}\label{classexs_1_1_operator_group_a15d1764261f3a2650820350fa1886744} 
+std\+::string {\bfseries symbol\+\_\+separator}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classexs_1_1_operator_base}{exs\+::\+Operator\+Base$<$ A, Empty\+Settings $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+std\+::string {\bfseries symbol}
+\item 
+int {\bfseries type}
+\item 
+std\+::vector$<$ std\+::string $>$ {\bfseries groups}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{classexs_1_1_operator_group_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classexs_1_1_operator_group_a43b06bc018e505e4a804b186f906d79f}\index{exs::OperatorGroup$<$ A, N, S $>$@{exs::OperatorGroup$<$ A, N, S $>$}!operate\_group@{operate\_group}}
+\index{operate\_group@{operate\_group}!exs::OperatorGroup$<$ A, N, S $>$@{exs::OperatorGroup$<$ A, N, S $>$}}
+\doxysubsubsection{\texorpdfstring{operate\_group()}{operate\_group()}}
+{\footnotesize\ttfamily \label{classexs_1_1_operator_group_a43b06bc018e505e4a804b186f906d79f} 
+template$<$class A, int N = 0, typename S = Empty\+Settings$>$ \\
+virtual void \mbox{\hyperlink{classexs_1_1_operator_group}{exs\+::\+Operator\+Group}}$<$ A, N, S $>$\+::operate\+\_\+group (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classexs_1_1_token_list_base}{Token\+List\+Base}}$<$ A $>$ \texorpdfstring{$\ast$}{*}}]{tokens}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classexs_1_1_operator_base}{exs\+::\+Operator\+Base$<$ A, Empty\+Settings $>$}}.
+
+\Hypertarget{classexs_1_1_operator_group_af810a542f39fa2f7df58477d0836b2af}\index{exs::OperatorGroup$<$ A, N, S $>$@{exs::OperatorGroup$<$ A, N, S $>$}!parse@{parse}}
+\index{parse@{parse}!exs::OperatorGroup$<$ A, N, S $>$@{exs::OperatorGroup$<$ A, N, S $>$}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily \label{classexs_1_1_operator_group_af810a542f39fa2f7df58477d0836b2af} 
+template$<$class A, int N = 0, typename S = Empty\+Settings$>$ \\
+virtual void \mbox{\hyperlink{classexs_1_1_operator_group}{exs\+::\+Operator\+Group}}$<$ A, N, S $>$\+::parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classexs_1_1_expression}{Expression}} \&}]{expr}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classexs_1_1_operator_base}{exs\+::\+Operator\+Base$<$ A, Empty\+Settings $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/exs/operators.\+h\end{DoxyCompactItemize}

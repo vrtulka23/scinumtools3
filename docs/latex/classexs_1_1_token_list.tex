@@ -1,0 +1,125 @@
+\doxysection{exs\+::Token\+List\texorpdfstring{$<$}{<} A, S \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classexs_1_1_token_list}{}\label{classexs_1_1_token_list}\index{exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}}
+Inheritance diagram for exs\+::Token\+List\texorpdfstring{$<$}{<} A, S \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classexs_1_1_token_list}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classexs_1_1_token_list_a22c362dc271daa6a15ae998f610d152d}\label{classexs_1_1_token_list_a22c362dc271daa6a15ae998f610d152d} 
+{\bfseries Token\+List} (\mbox{\hyperlink{classexs_1_1_operator_list}{Operator\+List}}$<$ A, S $>$ \texorpdfstring{$\ast$}{*}o, S \texorpdfstring{$\ast$}{*}set=nullptr)
+\item 
+\Hypertarget{classexs_1_1_token_list_a81f8e96b0e06e87db8b1a459d38b7968}\label{classexs_1_1_token_list_a81f8e96b0e06e87db8b1a459d38b7968} 
+void {\bfseries append} (Token\+Type t)
+\item 
+\Hypertarget{classexs_1_1_token_list_a2ff2a234671ef75fc7eb0010ac852e1f}\label{classexs_1_1_token_list_a2ff2a234671ef75fc7eb0010ac852e1f} 
+void {\bfseries append} (Token\+Type t, int o)
+\item 
+\Hypertarget{classexs_1_1_token_list_af362f0c4e7048b8b928ebba6b44da771}\label{classexs_1_1_token_list_af362f0c4e7048b8b928ebba6b44da771} 
+void {\bfseries append} (Token\+Type t, std\+::string s)
+\item 
+\Hypertarget{classexs_1_1_token_list_ae2540fbd81461247a22c3fa9647fe07a}\label{classexs_1_1_token_list_ae2540fbd81461247a22c3fa9647fe07a} 
+void {\bfseries append} (Token\+Type t, A at)
+\item 
+\mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$ \mbox{\hyperlink{classexs_1_1_token_list_a52ebc8cabf608acde42f4d136bc4cc08}{get\+\_\+left}} ()
+\item 
+\mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$ \mbox{\hyperlink{classexs_1_1_token_list_a4129d34872bb238e9b5970303ed7025c}{get\+\_\+right}} ()
+\item 
+void \mbox{\hyperlink{classexs_1_1_token_list_a831690fd5bcb0f00f8677d7209a0f4b9}{put\+\_\+left}} (\mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$ t)
+\item 
+void \mbox{\hyperlink{classexs_1_1_token_list_af63890bf6aff7dce3e1589811192ee08}{put\+\_\+right}} (\mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$ t)
+\item 
+\Hypertarget{classexs_1_1_token_list_a0df94ea06814a1805945c59307b0b8b9}\label{classexs_1_1_token_list_a0df94ea06814a1805945c59307b0b8b9} 
+void {\bfseries operate} (const std\+::vector$<$ int $>$ \&ops, Operation\+Type oitype)
+\item 
+void \mbox{\hyperlink{classexs_1_1_token_list_aa472b1647af6dcdff79b5934d7a73e11}{print}} (bool details=false)
+\item 
+\Hypertarget{classexs_1_1_token_list_a855e6a602c95b8ad02524d23941f6eaf}\label{classexs_1_1_token_list_a855e6a602c95b8ad02524d23941f6eaf} 
+std\+::string {\bfseries to\+\_\+string} (bool details=false)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classexs_1_1_token_list_ab00da65266adc12b7ac3117515e303ba}\label{classexs_1_1_token_list_ab00da65266adc12b7ac3117515e303ba} 
+std\+::deque$<$ \mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$ $>$ {\bfseries left}
+\item 
+\Hypertarget{classexs_1_1_token_list_a6a9641a9f0853a957b8b734660c5cf57}\label{classexs_1_1_token_list_a6a9641a9f0853a957b8b734660c5cf57} 
+std\+::deque$<$ \mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$ $>$ {\bfseries right}
+\item 
+\Hypertarget{classexs_1_1_token_list_a92ad9f8ae20f872514e91c21d8b9a145}\label{classexs_1_1_token_list_a92ad9f8ae20f872514e91c21d8b9a145} 
+\mbox{\hyperlink{classexs_1_1_operator_list}{Operator\+List}}$<$ A, S $>$ \texorpdfstring{$\ast$}{*} {\bfseries operators}
+\item 
+\Hypertarget{classexs_1_1_token_list_a28d6db07ff29f16fc111455155cc2487}\label{classexs_1_1_token_list_a28d6db07ff29f16fc111455155cc2487} 
+S \texorpdfstring{$\ast$}{*} {\bfseries settings}
+\item 
+\Hypertarget{classexs_1_1_token_list_afeebcb50b3404ee684838365a93024d1}\label{classexs_1_1_token_list_afeebcb50b3404ee684838365a93024d1} 
+\mbox{\hyperlink{classexs_1_1_atom_list}{Atom\+List}}$<$ A, S $>$ {\bfseries atoms}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{classexs_1_1_token_list_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classexs_1_1_token_list_a52ebc8cabf608acde42f4d136bc4cc08}\index{exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}!get\_left@{get\_left}}
+\index{get\_left@{get\_left}!exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}}
+\doxysubsubsection{\texorpdfstring{get\_left()}{get\_left()}}
+{\footnotesize\ttfamily \label{classexs_1_1_token_list_a52ebc8cabf608acde42f4d136bc4cc08} 
+template$<$class A, typename S = Empty\+Settings$>$ \\
+\mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$ \mbox{\hyperlink{classexs_1_1_token_list}{exs\+::\+Token\+List}}$<$ A, S $>$\+::get\+\_\+left (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classexs_1_1_token_list_base}{exs\+::\+Token\+List\+Base$<$ A $>$}}.
+
+\Hypertarget{classexs_1_1_token_list_a4129d34872bb238e9b5970303ed7025c}\index{exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}!get\_right@{get\_right}}
+\index{get\_right@{get\_right}!exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}}
+\doxysubsubsection{\texorpdfstring{get\_right()}{get\_right()}}
+{\footnotesize\ttfamily \label{classexs_1_1_token_list_a4129d34872bb238e9b5970303ed7025c} 
+template$<$class A, typename S = Empty\+Settings$>$ \\
+\mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$ \mbox{\hyperlink{classexs_1_1_token_list}{exs\+::\+Token\+List}}$<$ A, S $>$\+::get\+\_\+right (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classexs_1_1_token_list_base}{exs\+::\+Token\+List\+Base$<$ A $>$}}.
+
+\Hypertarget{classexs_1_1_token_list_aa472b1647af6dcdff79b5934d7a73e11}\index{exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}!print@{print}}
+\index{print@{print}!exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily \label{classexs_1_1_token_list_aa472b1647af6dcdff79b5934d7a73e11} 
+template$<$class A, typename S = Empty\+Settings$>$ \\
+void \mbox{\hyperlink{classexs_1_1_token_list}{exs\+::\+Token\+List}}$<$ A, S $>$\+::print (\begin{DoxyParamCaption}\item[{bool}]{details}{ = {\ttfamily false}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classexs_1_1_token_list_base}{exs\+::\+Token\+List\+Base$<$ A $>$}}.
+
+\Hypertarget{classexs_1_1_token_list_a831690fd5bcb0f00f8677d7209a0f4b9}\index{exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}!put\_left@{put\_left}}
+\index{put\_left@{put\_left}!exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}}
+\doxysubsubsection{\texorpdfstring{put\_left()}{put\_left()}}
+{\footnotesize\ttfamily \label{classexs_1_1_token_list_a831690fd5bcb0f00f8677d7209a0f4b9} 
+template$<$class A, typename S = Empty\+Settings$>$ \\
+void \mbox{\hyperlink{classexs_1_1_token_list}{exs\+::\+Token\+List}}$<$ A, S $>$\+::put\+\_\+left (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$}]{t}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classexs_1_1_token_list_base}{exs\+::\+Token\+List\+Base$<$ A $>$}}.
+
+\Hypertarget{classexs_1_1_token_list_af63890bf6aff7dce3e1589811192ee08}\index{exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}!put\_right@{put\_right}}
+\index{put\_right@{put\_right}!exs::TokenList$<$ A, S $>$@{exs::TokenList$<$ A, S $>$}}
+\doxysubsubsection{\texorpdfstring{put\_right()}{put\_right()}}
+{\footnotesize\ttfamily \label{classexs_1_1_token_list_af63890bf6aff7dce3e1589811192ee08} 
+template$<$class A, typename S = Empty\+Settings$>$ \\
+void \mbox{\hyperlink{classexs_1_1_token_list}{exs\+::\+Token\+List}}$<$ A, S $>$\+::put\+\_\+right (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classexs_1_1_token}{Token}}$<$ A $>$}]{t}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classexs_1_1_token_list_base}{exs\+::\+Token\+List\+Base$<$ A $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/exs/token\+\_\+list.\+h\end{DoxyCompactItemize}

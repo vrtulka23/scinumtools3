@@ -1,0 +1,28 @@
+\doxysection{power.\+h}
+\hypertarget{power_8h_source}{}\label{power_8h_source}\index{src/exs/math/power.h@{src/exs/math/power.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EXS\_OPERATOR\_POWER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EXS\_OPERATOR\_POWER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }exs\ \{}
+\DoxyCodeLine{00007\ \ \ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A,\ \textcolor{keyword}{typename}\ S\ =\ EmptySettings>}
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }OperatorPower:\ \textcolor{keyword}{public}\ OperatorBase<A,\ S>\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ OperatorPower(std::string\ s=\textcolor{stringliteral}{"{}**"{}}):\ OperatorBase<A,\ S>(\textcolor{stringliteral}{"{}pow"{}},\ s,\ POWER\_OPERATOR)\ \{\}}
+\DoxyCodeLine{00012\ \ \ \textcolor{keywordtype}{void}\ operate\_binary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ left\ =\ tokens-\/>get\_left();}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ right\ =\ tokens-\/>get\_right();}
+\DoxyCodeLine{00015\ \ \ \ \ left.atom-\/>math\_power(right.atom);}
+\DoxyCodeLine{00016\ \ \ \ \ tokens-\/>put\_left(left);}
+\DoxyCodeLine{00017\ \ \ \};}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXS\_OPERATOR\_POWER\_H}}
+
+\end{DoxyCode}

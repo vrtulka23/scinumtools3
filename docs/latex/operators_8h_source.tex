@@ -1,0 +1,149 @@
+\doxysection{operators.\+h}
+\hypertarget{operators_8h_source}{}\label{operators_8h_source}\index{src/exs/operators.h@{src/exs/operators.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EXS\_OPERATORS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EXS\_OPERATORS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}settings.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }exs\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A,\ \textcolor{keyword}{typename}\ S\ =\ EmptySettings>}
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }OperatorBase\ \{}
+\DoxyCodeLine{00012\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ std::string\ name;}
+\DoxyCodeLine{00014\ \ \ std::string\ symbol;}
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordtype}{int}\ type;}
+\DoxyCodeLine{00016\ \ \ std::vector<std::string>\ groups;}
+\DoxyCodeLine{00017\ \ \ OperatorBase(std::string\ n,\ std::string\ s,\ \textcolor{keywordtype}{int}\ t):\ name(n),\ symbol(s),\ type(t)\ \{\};}
+\DoxyCodeLine{00018\ \ \ \textcolor{keyword}{virtual}\ \string~OperatorBase()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00019\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{classexs_1_1_expression}{Expression}}\ \&expr)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordflow}{return}\ expr.right.rfind(symbol,\ 0)\ ==\ 0;}
+\DoxyCodeLine{00021\ \ \ \}}
+\DoxyCodeLine{00022\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ parse(\mbox{\hyperlink{classexs_1_1_expression}{Expression}}\ \&expr)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \textcolor{keywordflow}{if}\ (expr.right.length()>0)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ expr.remove(symbol);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \}\ \ }
+\DoxyCodeLine{00026\ \ \ \};}
+\DoxyCodeLine{00027\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_unary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\ \ \ \{\textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Unary\ operation\ is\ not\ implemented"{}});\};}
+\DoxyCodeLine{00028\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_binary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\ \ \{\textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Binary\ operation\ is\ not\ implemented"{}});\};}
+\DoxyCodeLine{00029\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_ternary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\ \{\textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Ternary\ operation\ is\ not\ implemented"{}});\};}
+\DoxyCodeLine{00030\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_group(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\ \ \ \{\textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Group\ operation\ is\ not\ implemented"{}});\};}
+\DoxyCodeLine{00031\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_unary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens,\ S*\ settings)\ \ \ \{operate\_unary(tokens);\};}
+\DoxyCodeLine{00032\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_binary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens,\ S*\ settings)\ \ \{operate\_binary(tokens);\};}
+\DoxyCodeLine{00033\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_ternary(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens,\ S*\ settings)\ \{operate\_ternary(tokens);\};}
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_group(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens,\ S*\ settings)\ \ \ \{operate\_group(tokens);\};}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ print()\ \{\};}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A,\ \textcolor{keyword}{typename}\ S\ =\ EmptySettings>}
+\DoxyCodeLine{00039\ \textcolor{keyword}{class\ }OperatorTernary:\ \textcolor{keyword}{public}\ OperatorBase<A,\ S>\ \{}
+\DoxyCodeLine{00040\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00041\ \ \ std::string\ symbol\_other;}
+\DoxyCodeLine{00042\ \ \ OperatorTernary(}
+\DoxyCodeLine{00043\ \ \ \ \ std::string\ \ n,}
+\DoxyCodeLine{00044\ \ \ \ \ std::string\ \ s,}
+\DoxyCodeLine{00045\ \ \ \ \ std::string\ \ so,}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{int}\ t}
+\DoxyCodeLine{00047\ \ \ ):\ OperatorBase<A,\ S>(n,\ s,\ t),\ symbol\_other(so)\ \{\}}
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ parse(\mbox{\hyperlink{classexs_1_1_expression}{Expression}}\ \&expr)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00049\ \ \ \ \ this-\/>groups.clear();}
+\DoxyCodeLine{00050\ \ \ \ \ expr.remove(this-\/>symbol);}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ closed\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{while}\ (expr.right.length()>0)\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (expr.right.rfind(symbol\_other,\ 0)\ ==\ 0)\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ expr.remove(symbol\_other);}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ this-\/>groups.push\_back(expr.pop\_left());}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ closed\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ expr.shift();}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{if}\ (!closed)\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Incomplete\ ternary\ operator:\ "{}}+expr.expr);}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \};}
+\DoxyCodeLine{00065\ \};}
+\DoxyCodeLine{00066\ \ \ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A,\ \textcolor{keywordtype}{int}\ N=0,\ \textcolor{keyword}{typename}\ S\ =\ EmptySettings>}
+\DoxyCodeLine{00068\ \textcolor{keyword}{class\ }OperatorGroup:\ \textcolor{keyword}{public}\ OperatorBase<A,\ S>\ \{}
+\DoxyCodeLine{00069\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordtype}{size\_t}\ num\_groups\ \ \ \ \ \ \ \ \ \ \ \ =\ N;}
+\DoxyCodeLine{00071\ \ \ std::string\ symbol\_open;}
+\DoxyCodeLine{00072\ \ \ std::string\ symbol\_close;}
+\DoxyCodeLine{00073\ \ \ std::string\ symbol\_separator;}
+\DoxyCodeLine{00074\ \ \ OperatorGroup(\textcolor{keyword}{const}\ std::string\ n,\ \textcolor{keyword}{const}\ std::string\ \ s,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ t):}
+\DoxyCodeLine{00075\ \ \ \ \ OperatorBase<A,\ S>(n,\ s,\ t),\ symbol\_open(\textcolor{stringliteral}{"{}("{}}),\ symbol\_close(\textcolor{stringliteral}{"{})"{}}),\ symbol\_separator(\textcolor{stringliteral}{"{},"{}})\ \{\}}
+\DoxyCodeLine{00076\ \ \ OperatorGroup(\textcolor{keyword}{const}\ std::string\ n,\ \textcolor{keyword}{const}\ std::string\ \ s,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ t,\ \textcolor{keyword}{const}\ std::string\ so,\ \textcolor{keyword}{const}\ std::string\ sc):}
+\DoxyCodeLine{00077\ \ \ \ \ OperatorBase<A,\ S>(n,\ s,\ t),\ symbol\_open(so),\ symbol\_close(sc),\ symbol\_separator(\textcolor{stringliteral}{"{},"{}})\ \{\}}
+\DoxyCodeLine{00078\ \ \ OperatorGroup(\textcolor{keyword}{const}\ std::string\ n,\ \textcolor{keyword}{const}\ std::string\ \ s,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ t,\ \textcolor{keyword}{const}\ std::string\ so,\ \textcolor{keyword}{const}\ std::string\ sc,\ \textcolor{keyword}{const}\ std::string\ ss):}
+\DoxyCodeLine{00079\ \ \ \ \ OperatorBase<A,\ S>(n,\ s,\ t),\ symbol\_open(so),\ symbol\_close(sc),\ symbol\_separator(ss)\ \{\}}
+\DoxyCodeLine{00080\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ parse(\mbox{\hyperlink{classexs_1_1_expression}{Expression}}\ \&expr)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00081\ \ \ \ \ this-\/>groups.clear();}
+\DoxyCodeLine{00082\ \ \ \ \ expr.remove(this-\/>symbol);}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{int}\ depth\ =\ 1;}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{while}\ (depth>0)\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (expr.right.length()==0)\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Unclosed\ parentheses:\ "{}}+expr.expr);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (expr.right.rfind(this-\/>symbol,\ 0)\ ==\ 0\ ||\ expr.right.rfind(symbol\_open,\ 0)\ ==\ 0)\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ depth++;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (expr.right.rfind(symbol\_separator,\ 0)\ ==\ 0\ \&\&\ depth==1)\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ expr.remove(symbol\_separator);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ this-\/>groups.push\_back(expr.pop\_left());}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (expr.right.rfind(symbol\_close,\ 0)\ ==\ 0)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ depth-\/-\/;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (depth==0)\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ expr.remove(symbol\_close);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ this-\/>groups.push\_back(expr.pop\_left());}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ expr.shift();}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \ \ num\_groups\ =\ this-\/>groups.size();}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordflow}{if}\ (N>0\ \&\&\ num\_groups!=N)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Wrong\ number\ of\ group\ members:\ "{}}+std::to\_string(this-\/>groups.size())+\textcolor{stringliteral}{"{},\ "{}}+std::to\_string(N));}
+\DoxyCodeLine{00105\ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \ \ \};}
+\DoxyCodeLine{00107\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_group(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens)\textcolor{keyword}{\ override\ }\{\};\ \ \textcolor{comment}{//\ this\ should\ stay\ empty}}
+\DoxyCodeLine{00108\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ operate\_group(\mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase<A>}}*\ tokens,\ S*\ settings)\textcolor{keyword}{\ override\ }\{operate\_group(tokens);\};}
+\DoxyCodeLine{00109\ \};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \}}
+\DoxyCodeLine{00112\ \ \ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#include\ "{}math/add.h"{}}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#include\ "{}math/subtract.h"{}}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#include\ "{}math/multiply.h"{}}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#include\ "{}math/divide.h"{}}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#include\ "{}math/power.h"{}}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#include\ "{}math/modulo.h"{}}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#include\ "{}math/exponent.h"{}}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#include\ "{}math/logarithm.h"{}}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#include\ "{}math/logarithm\_10.h"{}}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#include\ "{}math/logarithm\_base.h"{}}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#include\ "{}math/power\_base.h"{}}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#include\ "{}math/square\_root.h"{}}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#include\ "{}math/sinus.h"{}}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#include\ "{}math/cosinus.h"{}}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#include\ "{}math/tangens.h"{}}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#include\ "{}comparison/equal.h"{}}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#include\ "{}comparison/not\_equal.h"{}}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#include\ "{}comparison/lower\_equal.h"{}}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#include\ "{}comparison/greater\_equal.h"{}}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#include\ "{}comparison/lower.h"{}}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#include\ "{}comparison/greater.h"{}}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#include\ "{}logical/not.h"{}}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#include\ "{}logical/and.h"{}}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#include\ "{}logical/or.h"{}}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#include\ "{}branching/condition.h"{}}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#include\ "{}branching/parentheses.h"{}}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXS\_OPERATORS\_H}}
+
+\end{DoxyCode}

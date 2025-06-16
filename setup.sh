@@ -43,6 +43,10 @@ function run_code {
     ./$DIR_BUILD/$1
 }
 
+function compile_docs {
+    doxygen
+}
+
 function grep_code {
     if [[ "${1}" != "" ]]; then
 	    grep -Inr --color "${1}" ./src ./gtest ./exec
@@ -58,6 +62,7 @@ function show_help {
     echo " -i|--install        install dip"
     echo " -r|--run <example>  run an example code"
     echo " -t|--test [<test>]  run all/specific tests"
+    echo " -d|--docs           compile documentation"
     echo " -g|--grep <expr>    find expression in a code"
     echo " -h|--help           show this help"
     echo ""
@@ -82,6 +87,8 @@ while [[ $# -gt 0 ]]; do
 	    run_code $2; shift; shift;;
 	-t|--test)
 	    test_code $2 $3; shift; shift; shift;;
+	-d|--docs)
+	    compile_docs; shift;;
 	-g|--grep)
 	    grep_code $2; shift; shift;;
 	-h|--help)

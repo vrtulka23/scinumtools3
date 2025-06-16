@@ -1,0 +1,172 @@
+\doxysection{nostd.\+h}
+\hypertarget{nostd_8h_source}{}\label{nostd_8h_source}\index{src/puq/nostd/nostd.h@{src/puq/nostd/nostd.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PUQ\_NOSTD\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PUQ\_NOSTD\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\#include\ <omp.h>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../settings.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../magnitude.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../value/value.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../array.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }puq\ \{}
+\DoxyCodeLine{00016\ \ \ \textcolor{keyword}{namespace\ }nostd\ \{}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ \ \ *\ \ stof,\ stod,\ stold\ -\/>\ to\_number}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{inline}\ MAGNITUDE\_PRECISION\ to\_number(\textcolor{keyword}{const}\ std::string\&\ value)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{typeid}(MAGNITUDE\_PRECISION)==\textcolor{keyword}{typeid}(\textcolor{keywordtype}{float}))\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordflow}{return}\ std::stof(value);\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{typeid}(MAGNITUDE\_PRECISION)==\textcolor{keyword}{typeid}(\textcolor{keywordtype}{double}))\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{return}\ std::stod(value);}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{typeid}(MAGNITUDE\_PRECISION)==\textcolor{keyword}{typeid}(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}))\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordflow}{return}\ std::stold(value);}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordflow}{throw}\ std::range\_error(\textcolor{stringliteral}{"{}Unsupported\ magnitude\ precision."{}});}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ \ \ *\ \ to\_string}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00036\ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{extern}\ std::string\ to\_string(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ value,\ \textcolor{keywordtype}{int}\ precision=std::cout.precision());}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#ifdef\ EXPONENT\_FRACTIONS}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{extern}\ std::string\ to\_string(\textcolor{keyword}{const}\ Exponent\&\ value,\ \textcolor{keyword}{const}\ UnitFormat\&\ format\ =\ UnitFormat());}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{extern}\ std::string\ to\_string(\textcolor{keyword}{const}\ Array\&\ value,\ \textcolor{keywordtype}{int}\ precision=std::cout.precision());}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{extern}\ std::string\ to\_string(\textcolor{keyword}{const}\ Magnitude\&\ value,\ \textcolor{keywordtype}{int}\ precision=std::cout.precision());}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{extern}\ std::string\ to\_string(\textcolor{keyword}{const}\ BaseUnits\&\ value,\ \textcolor{keywordtype}{int}\ precision=std::cout.precision());}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{extern}\ std::string\ to\_string(\textcolor{keyword}{const}\ Dimensions\&\ value,\ \textcolor{keyword}{const}\ UnitFormat\&\ format\ =\ UnitFormat());}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{extern}\ std::string\ to\_string(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\&\ use\_prefixes,\ \textcolor{keyword}{const}\ AllowedPrefixes\&\ value);}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{extern}\ std::string\ to\_string(\textcolor{keyword}{const}\ ArrayShape\&\ shape);}
+\DoxyCodeLine{00051\ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ \ \ \ \ *\ \ exp}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00055\ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ exp(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ e);}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ exp(\textcolor{keyword}{const}\ Array\&\ e);}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ exp(\textcolor{keyword}{const}\ Magnitude\&\ e);}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{extern}\ UnitValue\ exp(\textcolor{keyword}{const}\ UnitValue\&\ uv);}
+\DoxyCodeLine{00064\ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ \ \ \ \ *\ log}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ log(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m);}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ log(\textcolor{keyword}{const}\ Array\&\ a);}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ log(\textcolor{keyword}{const}\ Magnitude\&\ m);}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00078\ \textcolor{comment}{\ \ \ \ \ *\ log10}}
+\DoxyCodeLine{00079\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00080\ \ \ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ log10(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m);}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ log10(\textcolor{keyword}{const}\ Array\&\ a);}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ log10(\textcolor{keyword}{const}\ Magnitude\&\ m);}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00090\ \textcolor{comment}{\ \ \ \ \ *\ sqrt}}
+\DoxyCodeLine{00091\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00092\ \ \ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ sqrt(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m);}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ sqrt(\textcolor{keyword}{const}\ Array\&\ a);}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ sqrt(\textcolor{keyword}{const}\ Magnitude\&\ m);}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00102\ \textcolor{comment}{\ \ \ \ \ *\ cbrt}}
+\DoxyCodeLine{00103\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00104\ \ \ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ cbrt(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m);}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ cbrt(\textcolor{keyword}{const}\ Array\&\ a);}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ cbrt(\textcolor{keyword}{const}\ Magnitude\&\ m);}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00112\ \ \ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00114\ \textcolor{comment}{\ \ \ \ \ *\ \ pow}}
+\DoxyCodeLine{00115\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ pow(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m,\ \textcolor{keyword}{const}\ EXPONENT\_REAL\_PRECISION\&\ e);}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ pow(\textcolor{keyword}{const}\ Array\ \&a,\ \textcolor{keyword}{const}\ EXPONENT\_REAL\_PRECISION\&\ e);}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ pow(\textcolor{keyword}{const}\ Array\ \&a,\ \textcolor{keyword}{const}\ Array\&\ e);}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ pow(\textcolor{keyword}{const}\ Magnitude\&\ m,\ \textcolor{keyword}{const}\ EXPONENT\_REAL\_PRECISION\&\ e);}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ pow(\textcolor{keyword}{const}\ Magnitude\&\ m,\ \textcolor{keyword}{const}\ Magnitude\&\ e);}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00128\ \textcolor{comment}{\ \ \ \ \ *\ floor}}
+\DoxyCodeLine{00129\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00130\ \ \ }
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ floor(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m);}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ floor(\textcolor{keyword}{const}\ Array\&\ a);}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ floor(\textcolor{keyword}{const}\ Magnitude\&\ m);}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00140\ \textcolor{comment}{\ \ \ \ \ *\ abs}}
+\DoxyCodeLine{00141\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00142\ \ \ }
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ abs(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m);}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ abs(\textcolor{keyword}{const}\ Array\&\ a);}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ abs(\textcolor{keyword}{const}\ Magnitude\&\ m);}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00152\ \textcolor{comment}{\ \ \ \ \ *\ max}}
+\DoxyCodeLine{00153\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00154\ \ \ }
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keyword}{extern}\ MAGNITUDE\_PRECISION\ max(\textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m1,\ \textcolor{keyword}{const}\ MAGNITUDE\_PRECISION\&\ m2);}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ARRAYS}}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keyword}{extern}\ Array\ max(\textcolor{keyword}{const}\ Array\&\ a1,\ \textcolor{keyword}{const}\ Array\&\ a2);}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#ifdef\ MAGNITUDE\_ERRORS}}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{extern}\ Magnitude\ max(\textcolor{keyword}{const}\ Magnitude\&\ m1,\ \textcolor{keyword}{const}\ Magnitude\&\ m2);}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00162\ \ \ }
+\DoxyCodeLine{00163\ \ \ \}}
+\DoxyCodeLine{00164\ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PUQ\_NOSTD\_H}}
+
+\end{DoxyCode}

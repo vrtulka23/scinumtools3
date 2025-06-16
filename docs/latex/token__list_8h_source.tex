@@ -1,0 +1,148 @@
+\doxysection{token\+\_\+list.\+h}
+\hypertarget{token__list_8h_source}{}\label{token__list_8h_source}\index{src/exs/token\_list.h@{src/exs/token\_list.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EXS\_TOKEN\_LIST\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EXS\_TOKEN\_LIST\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}settings.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }exs\ \{}
+\DoxyCodeLine{00012\ \ \ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A,\ \textcolor{keyword}{typename}\ S\ =\ EmptySettings>}
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }TokenList:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classexs_1_1_token_list_base}{TokenListBase}}<A>\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ std::deque<Token<A>>\ left;}
+\DoxyCodeLine{00017\ \ \ std::deque<Token<A>>\ right;}
+\DoxyCodeLine{00018\ \ \ \mbox{\hyperlink{classexs_1_1_operator_list}{OperatorList<A,S>}}\ *operators;}
+\DoxyCodeLine{00019\ \ \ S*\ settings;}
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{classexs_1_1_atom_list}{AtomList<A,\ S>}}\ atoms;}
+\DoxyCodeLine{00021\ \ \ TokenList(\mbox{\hyperlink{classexs_1_1_operator_list}{OperatorList<A,S>}}*\ o,\ S*\ set\ =\ \textcolor{keyword}{nullptr}):\ operators(o),\ settings(set)\ \{\};}
+\DoxyCodeLine{00022\ \ \ \textcolor{keywordtype}{void}\ append(TokenType\ t)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ right.push\_back(\mbox{\hyperlink{classexs_1_1_token}{Token<A>}}(t));}
+\DoxyCodeLine{00024\ \ \ \};}
+\DoxyCodeLine{00025\ \ \ \textcolor{keywordtype}{void}\ append(TokenType\ t,\ \textcolor{keywordtype}{int}\ o)\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ right.push\_back(\mbox{\hyperlink{classexs_1_1_token}{Token<A>}}(t,\ o));}
+\DoxyCodeLine{00027\ \ \ \};}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{void}\ append(TokenType\ t,\ std::string\ s)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ A\ *a\ =\ atoms.append(s,\ settings);}
+\DoxyCodeLine{00030\ \ \ \ \ right.push\_back(\mbox{\hyperlink{classexs_1_1_token}{Token<A>}}(t,\ a));}
+\DoxyCodeLine{00031\ \ \ \};}
+\DoxyCodeLine{00032\ \ \ \textcolor{keywordtype}{void}\ append(TokenType\ t,\ A\ at)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ A\ *a\ =\ atoms.append(at);}
+\DoxyCodeLine{00034\ \ \ \ \ right.push\_back(\mbox{\hyperlink{classexs_1_1_token}{Token<A>}}(t,\ a));}
+\DoxyCodeLine{00035\ \ \ \};}
+\DoxyCodeLine{00036\ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ get\_left()\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (left.empty())\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}(EMPTY\_TOKEN);}
+\DoxyCodeLine{00039\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ t\ =\ left.back();}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ left.pop\_back();}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ t;}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \};}
+\DoxyCodeLine{00045\ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ get\_right()\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordflow}{if}\ (right.empty())\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}(EMPTY\_TOKEN);}
+\DoxyCodeLine{00048\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ t\ =\ right.front();}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ right.pop\_front();}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ t;}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \};}
+\DoxyCodeLine{00054\ \ \ \textcolor{keywordtype}{void}\ put\_left(\mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ t)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{if}\ (t.type!=EMPTY\_TOKEN)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ left.push\_back(t);}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \};}
+\DoxyCodeLine{00059\ \ \ \textcolor{keywordtype}{void}\ put\_right(\mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ t)\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (t.type!=EMPTY\_TOKEN)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ right.push\_front(t);}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \};}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordtype}{void}\ operate(\textcolor{keyword}{const}\ std::vector<int>\ \&ops,\ OperationType\ oitype)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ \ \ \ std::cout\ <<\ "{}token\_list::operate\ oitype="{}\ <<\ oitype\ <<\ "{}\ operators=[\ "{};}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ \ \ \ for\ (auto\ i:\ ops)\ std::cout\ <<\ i\ <<\ "{}\ "{};}}
+\DoxyCodeLine{00068\ \textcolor{comment}{\ \ \ \ std::cout\ <<\ "{}]"{}\ <<\ std::endl;}}
+\DoxyCodeLine{00069\ \textcolor{comment}{\ \ \ \ print(true);}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{comment}{//\ perform\ operations\ on\ the\ individual\ tokens}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordflow}{while}\ (!right.empty())\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_token}{Token<A>}}\ token\ =\ get\_right();}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \textcolor{comment}{//token.print();}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::find(ops.begin(),\ ops.end(),\ token.optype)\ !=\ ops.end())\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_operator_base}{OperatorBase<A,\ S>}}\ *op\ =\ operators-\/>select(token.optype);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ token\ is\ an\ operator}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (oitype==UNARY\_OPERATION)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ op-\/>operate\_unary(\textcolor{keyword}{this},\ settings);}
+\DoxyCodeLine{00080\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (oitype==BINARY\_OPERATION)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ op-\/>operate\_binary(\textcolor{keyword}{this},\ settings);}
+\DoxyCodeLine{00082\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (oitype==TERNARY\_OPERATION)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ op-\/>operate\_ternary(\textcolor{keyword}{this},\ settings);}
+\DoxyCodeLine{00084\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (oitype==GROUP\_OPERATION)\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ op-\/>operate\_group(\textcolor{keyword}{this},\ settings);}
+\DoxyCodeLine{00086\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Invalid\ operation\ type:\ "{}}+std::to\_string(oitype));}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ token\ is\ something\ else}}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}putting\ left"{}\ <<\ std::endl;}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ put\_left(token);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \textcolor{comment}{//print(true);}}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{comment}{//\ move\ all\ tokens\ from\ left\ to\ right}}
+\DoxyCodeLine{00097\ \ \ \ \ left.swap(right);}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{comment}{//print(true);}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ std::endl;}}
+\DoxyCodeLine{00100\ \ \ \};}
+\DoxyCodeLine{00101\ \ \ \textcolor{keywordtype}{void}\ print(\textcolor{keywordtype}{bool}\ details=\textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ std::cout\ <<\ to\_string(details)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00103\ \ \ \};}
+\DoxyCodeLine{00104\ \ \ std::string\ to\_string(\textcolor{keywordtype}{bool}\ details=\textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ std::stringstream\ str;}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordflow}{if}\ (details)\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}TokenList(\ "{}};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ left.begin();\ i!=\ left.end();\ ++i)\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ str\ <<\ print\_details(i-\/>type,\ i-\/>optype,\ i-\/>atom);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}|\ "{}};}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ right.begin();\ i!=\ right.end();\ ++i)\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ str\ <<\ print\_details(i-\/>type,\ i-\/>optype,\ i-\/>atom);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{})\(\backslash\)n"{}};}
+\DoxyCodeLine{00116\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}TokenList("{}}\ <<\ left.size()\ <<\ \textcolor{stringliteral}{"{}\ |\ "{}}\ <<\ right.size()\ <<\ \textcolor{stringliteral}{"{})\(\backslash\)n"{}};}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordflow}{return}\ str.str();}
+\DoxyCodeLine{00120\ \ \ \}}
+\DoxyCodeLine{00121\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00122\ \ \ std::string\ print\_details(TokenType\ type,\ \textcolor{keywordtype}{int}\ optype,\ A\ *atom)\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ std::stringstream\ str;}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordflow}{switch}\ (type)\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordflow}{case}\ EMPTY\_TOKEN:}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}E\ "{}};}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{case}\ ATOM\_TOKEN:}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}A\{"{}}\ <<\ atom-\/>to\_string()\ <<\ \textcolor{stringliteral}{"{}\}\ "{}};}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordflow}{case}\ OPERATOR\_TOKEN:}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \mbox{\hyperlink{classexs_1_1_operator_base}{OperatorBase<A,S>}}\ *op\ =\ operators-\/>select(optype);}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ str\ <<\ op-\/>name\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{return}\ str.str();}
+\DoxyCodeLine{00137\ \ \ \};}
+\DoxyCodeLine{00138\ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \}}
+\DoxyCodeLine{00141\ \ \ }
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXS\_TOKEN\_LIST\_H}}
+
+\end{DoxyCode}
