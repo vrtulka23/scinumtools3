@@ -9,7 +9,11 @@ namespace val {
   
   // Array values
 
-  template <typename T> class ArrayValue; // here we need a forward declaration
+  // here we need a forward declaration
+  template <typename T> class ArrayValue; 
+  template <typename T> class BaseArrayValue; //: public BaseValue;
+  template <> class ArrayValue<std::string>; //: public BaseArrayValue<bool>;
+  template <> class ArrayValue<bool>; //: public BaseArrayValue<bool>;
   
   template <typename T>
   class BaseArrayValue: public BaseValue {
@@ -20,7 +24,8 @@ namespace val {
     BaseArrayValue(const T& val, const Array::ShapeType& sh, const ValueDtype dt): value({val}), shape(sh), BaseValue(dt) {};
     BaseArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh, const ValueDtype dt): value(arr), shape(sh), BaseValue(dt) {};
     void print() override {std::cout << to_string() << std::endl;};
-    std::vector<T> get_value() {return value;};
+    std::vector<T> get_values() const {return value;};
+    T get_value(const size_t index) const {return value.at(index);};
     Array::ShapeType get_shape() const override {return shape;};
     size_t get_size() const override {return value.size();};
   protected:
@@ -119,47 +124,13 @@ namespace val {
       if (new_size>1)
 	return std::make_unique<ArrayValue<T>>(new_value, new_shape, this->dtype);
       else
-	return std::make_unique<ScalarValue<T>>(new_value[0], this->dtype);
+	return std::make_unique<ArrayValue<T>>(new_value[0], Array::ShapeType({1}), this->dtype);
     };
     void convert_units(const std::string& from_units, const Quantity::PointerType& to_quantity) override {
       throw std::runtime_error("Array value of type '"+std::string(ValueDtypeNames[dtype])+"' does not support unit conversion.");
     };
     void convert_units(const Quantity::PointerType& from_quantity, const std::string& to_units) override {
       throw std::runtime_error("Array value of type '"+std::string(ValueDtypeNames[dtype])+"' does not support unit conversion.");
-    };
-    explicit operator bool() const override {
-      // TODO: Implement bool conversion of arrays
-      throw std::runtime_error("Bool conversion of arrays is not implemented!!!");
-    };
-    explicit operator short() const override {
-      throw std::runtime_error("Short conversion of arrays is not implemented!!!");
-    };
-    explicit operator unsigned short() const override {
-      throw std::runtime_error("Unsigned short conversion of arrays is not implemented!!!");
-    };
-    explicit operator int() const override {
-      throw std::runtime_error("Integer conversion of arrays is not implemented!!!");
-    };
-    explicit operator unsigned int() const override {
-      throw std::runtime_error("Unsigned integer conversion of arrays is not implemented!!!");
-    };
-    explicit operator long long() const override {
-      throw std::runtime_error("Long long conversion of arrays is not implemented!!!");
-    };
-    explicit operator unsigned long long() const override {
-      throw std::runtime_error("Unsigned long long conversion of arrays is not implemented!!!");
-    };
-    explicit operator float() const override {
-      throw std::runtime_error("Float conversion of arrays is not implemented!!!");
-    };
-    explicit operator double() const override {
-      throw std::runtime_error("Double conversion of arrays is not implemented!!!");
-    };
-    explicit operator long double() const override {
-      throw std::runtime_error("Double conversion of arrays is not implemented!!!");
-    };
-    explicit operator std::string() const override {
-      throw std::runtime_error("Double conversion of arrays is not implemented!!!");
     };
   };
   
@@ -168,9 +139,6 @@ namespace val {
   public:
     ArrayValue(const T& val, const Array::ShapeType& sh, const ValueDtype dt): BaseArrayValue<T>(val,sh,dt) {};
     ArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh, const ValueDtype dt): BaseArrayValue<T>(arr,sh,dt) {};
-    //ArrayValue(BaseValue::PointerType val) {
-    //  switch (val->dtype)
-    //};
   private:
     void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const override {
       if (precision==0) precision=DISPLAY_FLOAT_PRECISION;
@@ -181,8 +149,82 @@ namespace val {
         oss << std::fixed << std::setprecision(precision-exponent) << this->value[offset];
       }
     };
+  public:
     BaseValue::PointerType clone() const override {
       return std::make_unique<ArrayValue<T>>(this->value, this->shape, this->dtype);
+    };
+    BaseValue::PointerType cast_as(ValueDtype dt) const override {
+      switch (dt) {
+      case ValueDtype::Boolean: {
+	std::vector<bool> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<bool>(this->value[i]);
+	return std::make_unique<ArrayValue<bool>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Integer16: {
+	std::vector<int16_t> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<int16_t>(this->value[i]);
+	return std::make_unique<ArrayValue<int16_t>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Integer32: {
+	std::vector<int32_t> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<int32_t>(this->value[i]);
+	return std::make_unique<ArrayValue<int32_t>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Integer64: {
+	std::vector<int64_t> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<int64_t>(this->value[i]);
+	return std::make_unique<ArrayValue<int64_t>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Integer16_U: {
+	std::vector<uint16_t> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<uint16_t>(this->value[i]);
+	return std::make_unique<ArrayValue<uint16_t>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Integer32_U: {
+	std::vector<uint32_t> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<uint32_t>(this->value[i]);
+	return std::make_unique<ArrayValue<uint32_t>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Integer64_U: {
+	std::vector<uint64_t> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<uint64_t>(this->value[i]);
+	return std::make_unique<ArrayValue<uint64_t>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Float32: {
+	std::vector<float> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<float>(this->value[i]);
+	return std::make_unique<ArrayValue<float>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Float64: {
+	std::vector<double> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<double>(this->value[i]);
+	return std::make_unique<ArrayValue<double>>(arr, this->shape, dt);
+      }
+      case ValueDtype::Float128: {
+	std::vector<long double> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = static_cast<long double>(this->value[i]);
+	return std::make_unique<ArrayValue<long double>>(arr, this->shape, dt);
+      }
+      case ValueDtype::String: {
+	std::vector<std::string> arr(this->value.size());
+	for (size_t i=0; i<this->value.size(); i++)
+	  arr[i] = std::to_string(this->value[i]);
+	return std::make_unique<ArrayValue<std::string>>(arr, this->shape, dt);
+	}
+      default:
+	throw std::runtime_error("Not implemented");
+	return nullptr;
+      }
     };
     BaseValue::PointerType slice(const Array::RangeType& slice) override {
       return this->slice_value(slice);
@@ -228,6 +270,7 @@ namespace val {
     BaseValue::PointerType clone() const override {
       return std::make_unique<ArrayValue<std::string>>(this->value, this->shape, this->dtype);
     };
+    BaseValue::PointerType cast_as(ValueDtype dt) const override;
     BaseValue::PointerType slice(const Array::RangeType& slice) override {
       return this->slice_value(slice);
     };
@@ -259,6 +302,7 @@ namespace val {
     BaseValue::PointerType clone() const override {
       return std::make_unique<ArrayValue<bool>>(this->value, this->shape, this->dtype);
     };
+    BaseValue::PointerType cast_as(ValueDtype dt) const override;
     BaseValue::PointerType slice(const Array::RangeType& slice) override {
       return this->slice_value(slice);
     };

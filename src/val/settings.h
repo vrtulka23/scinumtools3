@@ -1,7 +1,7 @@
-#ifndef VAL_VALUES_SETTINGS_H
-#define VAL_VALUES_SETTINGS_H
+#ifndef VAL_SETTINGS_H
+#define VAL_SETTINGS_H
 
-#include "puq/quantity.h"
+#include "../puq/quantity.h"
 
 namespace val {
 
@@ -35,4 +35,4 @@ namespace val {
 
 }
 
-#endif // VAL_VALUES_SETTINGS_H
+#endif // VAL_SETTINGS_H
