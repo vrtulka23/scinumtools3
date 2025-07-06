@@ -3,9 +3,9 @@
 
 namespace val {
 
-  BaseValue::PointerType ArrayValue<std::string>::cast_as(ValueDtype dt) const {
+  BaseValue::PointerType ArrayValue<std::string>::cast_as(DataType dt) const {
     switch (dt) {
-    case ValueDtype::Boolean: {
+    case DataType::Boolean: {
       std::vector<bool> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++) {
 	if (this->value[i]==KEYWORD_TRUE)
@@ -17,13 +17,13 @@ namespace val {
       }
       return std::make_unique<ArrayValue<bool>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer16: {
+    case DataType::Integer16: {
       std::vector<int16_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = (int16_t)std::stoi(this->value[i]);
       return std::make_unique<ArrayValue<int16_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer32: {
+    case DataType::Integer32: {
       std::vector<int32_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++) {
 	long n = std::stol(this->value[i]);
@@ -33,7 +33,7 @@ namespace val {
       }
       return std::make_unique<ArrayValue<int32_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer64: {
+    case DataType::Integer64: {
       std::vector<int64_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++) {
 	long long n = std::stoll(this->value[i]);
@@ -43,13 +43,13 @@ namespace val {
       }
       return std::make_unique<ArrayValue<int64_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer16_U: {
+    case DataType::Integer16_U: {
       std::vector<uint16_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = (uint16_t)std::stoi(this->value[i]);
       return std::make_unique<ArrayValue<uint16_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer32_U: {
+    case DataType::Integer32_U: {
       std::vector<uint32_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++) {
 	unsigned long n = std::stoul(this->value[i]);
@@ -59,7 +59,7 @@ namespace val {
       }
       return std::make_unique<ArrayValue<uint32_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer64_U: {
+    case DataType::Integer64_U: {
       std::vector<uint64_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++) {
 	unsigned long long n = std::stoull(this->value[i]);
@@ -69,25 +69,25 @@ namespace val {
       }
       return std::make_unique<ArrayValue<uint64_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Float32: {
+    case DataType::Float32: {
       std::vector<float> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = std::stof(this->value[i]);
       return std::make_unique<ArrayValue<float>>(arr, this->shape, dt);
     }
-    case ValueDtype::Float64: {
+    case DataType::Float64: {
       std::vector<double> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = std::stod(this->value[i]);
       return std::make_unique<ArrayValue<double>>(arr, this->shape, dt);
     }
-    case ValueDtype::Float128: {
+    case DataType::Float128: {
       std::vector<long double> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = std::stold(this->value[i]);
       return std::make_unique<ArrayValue<long double>>(arr, this->shape, dt);
     }
-    case ValueDtype::String: {
+    case DataType::String: {
       return std::make_unique<ArrayValue<std::string>>(this->value, this->shape, dt);
     }
     default:
@@ -96,66 +96,66 @@ namespace val {
     }
   };
 
-  BaseValue::PointerType ArrayValue<bool>::cast_as(ValueDtype dt) const {
+  BaseValue::PointerType ArrayValue<bool>::cast_as(DataType dt) const {
     switch (dt) {
-    case ValueDtype::Boolean: {
+    case DataType::Boolean: {
       return std::make_unique<ArrayValue<bool>>(this->value, this->shape, dt);
     }
-    case ValueDtype::Integer16: {
+    case DataType::Integer16: {
       std::vector<int16_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<int16_t>(this->value[i]);
       return std::make_unique<ArrayValue<int16_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer32: {
+    case DataType::Integer32: {
       std::vector<int32_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<int32_t>(this->value[i]);
       return std::make_unique<ArrayValue<int32_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer64: {
+    case DataType::Integer64: {
       std::vector<int64_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<int64_t>(this->value[i]);
       return std::make_unique<ArrayValue<int64_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer16_U: {
+    case DataType::Integer16_U: {
       std::vector<uint16_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<uint16_t>(this->value[i]);
       return std::make_unique<ArrayValue<uint16_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer32_U: {
+    case DataType::Integer32_U: {
       std::vector<uint32_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<uint32_t>(this->value[i]);
       return std::make_unique<ArrayValue<uint32_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Integer64_U: {
+    case DataType::Integer64_U: {
       std::vector<uint64_t> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<uint64_t>(this->value[i]);
       return std::make_unique<ArrayValue<uint64_t>>(arr, this->shape, dt);
     }
-    case ValueDtype::Float32: {
+    case DataType::Float32: {
       std::vector<float> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<float>(this->value[i]);
       return std::make_unique<ArrayValue<float>>(arr, this->shape, dt);
     }
-    case ValueDtype::Float64: {
+    case DataType::Float64: {
       std::vector<double> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<double>(this->value[i]);
       return std::make_unique<ArrayValue<double>>(arr, this->shape, dt);
     }
-    case ValueDtype::Float128: {
+    case DataType::Float128: {
       std::vector<long double> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++)
 	arr[i] = static_cast<long double>(this->value[i]);
       return std::make_unique<ArrayValue<long double>>(arr, this->shape, dt);
     }
-    case ValueDtype::String: {
+    case DataType::String: {
       std::vector<std::string> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++) {
 	if (this->value[i])

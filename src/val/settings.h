@@ -11,12 +11,6 @@ namespace val {
   
   // Various settings
   constexpr int DISPLAY_FLOAT_PRECISION      = 4;
-
-  // Define a pointer type for OpenSNT-puq Quantity
-  // TODO: move this to the puq
-  namespace Quantity {
-    typedef std::unique_ptr<puq::Quantity> PointerType;
-  }  
   
   // Define common array types
   namespace Array {

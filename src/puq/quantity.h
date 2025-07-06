@@ -11,6 +11,9 @@
 namespace puq {
   
   class Quantity {
+  public:
+    typedef std::unique_ptr<Quantity> PointerType;
+  private:
     void preprocess(std::string& expression, SystemType& system) const;
     UnitValue _convert_without_context(UnitSystem& us, const SystemType stt) const;
     UnitValue _convert_with_context(UnitSystem& us, const SystemType stt, QuantityListType::iterator& qs1, QuantityListType::iterator& qs2, const std::string& q) const;

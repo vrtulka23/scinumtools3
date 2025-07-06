@@ -4,20 +4,20 @@
 
 namespace val {
   
-  std::unordered_map<ValueDtype, std::string> ValueDtypeNames = {
-    {ValueDtype::Boolean,     "bool"},
-    {ValueDtype::String,      "str"},
-    {ValueDtype::Integer16,   "int16"},
-    {ValueDtype::Integer32,   "int32"},
-    {ValueDtype::Integer64,   "int64"},
-    {ValueDtype::IntegerX,    "intx"},
-    {ValueDtype::Integer16_U, "uint16"},
-    {ValueDtype::Integer32_U, "uint32"},
-    {ValueDtype::Integer64_U, "uint64"},
-    {ValueDtype::Float32,     "float32"},
-    {ValueDtype::Float64,     "float64"},
-    {ValueDtype::Float128,    "float128"},
-    {ValueDtype::FloatX,      "floatx"}
+  std::unordered_map<DataType, std::string> DataTypeNames = {
+    {DataType::Boolean,     "bool"},
+    {DataType::String,      "str"},
+    {DataType::Integer16,   "int16"},
+    {DataType::Integer32,   "int32"},
+    {DataType::Integer64,   "int64"},
+    {DataType::IntegerX,    "intx"},
+    {DataType::Integer16_U, "uint16"},
+    {DataType::Integer32_U, "uint32"},
+    {DataType::Integer64_U, "uint64"},
+    {DataType::Float32,     "float32"},
+    {DataType::Float64,     "float64"},
+    {DataType::Float128,    "float128"},
+    {DataType::FloatX,      "floatx"}
   };
 
 }

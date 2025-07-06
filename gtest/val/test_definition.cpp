@@ -1,0 +1,96 @@
+#include <gtest/gtest.h>
+
+#include "val/values.h"
+
+TEST(Values, DefineBoolean) {
+
+  std::vector<bool> arr = {true,false,false,true,true,false};
+  val::Array::ShapeType sh = {2,3};
+  val::BaseValue::PointerType val;
+  
+  val = std::make_unique<val::ArrayValue<bool>>(arr); 
+  EXPECT_EQ(val->to_string(), "[true, false, false, true, true, false]");
+  EXPECT_EQ(val->dtype, val::DataType::Boolean);
+  EXPECT_EQ(val->shape, val::Array::ShapeType({6}));
+  
+  val = std::make_unique<val::ArrayValue<bool>>(arr, sh); 
+  EXPECT_EQ(val->to_string(), "[[true, false, false], [true, true, false]]");
+  EXPECT_EQ(val->dtype, val::DataType::Boolean);
+  EXPECT_EQ(val->shape, sh);
+  
+  val = std::make_unique<val::ArrayValue<bool>>(arr, sh, val::DataType::Boolean); 
+  EXPECT_EQ(val->to_string(), "[[true, false, false], [true, true, false]]");
+  EXPECT_EQ(val->dtype, val::DataType::Boolean);
+  EXPECT_EQ(val->shape, sh);
+  
+}
+
+TEST(Values, DefineInteger) {
+
+  std::vector<int> arr = {0, 2, 33, 45, 2343, 100023};
+  val::Array::ShapeType sh = {2,3};
+  val::BaseValue::PointerType val;
+  
+  val = std::make_unique<val::ArrayValue<int>>(arr); 
+  EXPECT_EQ(val->to_string(), "[0, 2, 33, 45, 2343, 100023]");
+  EXPECT_EQ(val->dtype, val::DataType::Integer32);
+  EXPECT_EQ(val->shape, val::Array::ShapeType({6}));
+  
+  val = std::make_unique<val::ArrayValue<int>>(arr, sh); 
+  EXPECT_EQ(val->to_string(), "[[0, 2, 33], [45, 2343, 100023]]");
+  EXPECT_EQ(val->dtype, val::DataType::Integer32);
+  EXPECT_EQ(val->shape, sh);
+  
+  val = std::make_unique<val::ArrayValue<int>>(arr, sh, val::DataType::Integer32); 
+  EXPECT_EQ(val->to_string(), "[[0, 2, 33], [45, 2343, 100023]]");
+  EXPECT_EQ(val->dtype, val::DataType::Integer32);
+  EXPECT_EQ(val->shape, sh);
+  
+}
+
+TEST(Values, DefineFloat) {
+
+  std::vector<double> arr = {0, 2, 33.3, 45e2, 3.4e2, -100023e3};
+  val::Array::ShapeType sh = {2,3};
+  val::BaseValue::PointerType val;
+
+  val = std::make_unique<val::ArrayValue<double>>(arr); 
+  EXPECT_EQ(val->to_string(), "[0.0000e+00, 2.0000, 33.300, 4500.0, 340.00, -1.0002e+08]");
+  EXPECT_EQ(val->dtype, val::DataType::Float64);
+  EXPECT_EQ(val->shape, val::Array::ShapeType({6}));
+  
+  val = std::make_unique<val::ArrayValue<double>>(arr, sh); 
+  EXPECT_EQ(val->to_string(), "[[0.0000e+00, 2.0000, 33.300], [4500.0, 340.00, -1.0002e+08]]");
+  EXPECT_EQ(val->dtype, val::DataType::Float64);
+  EXPECT_EQ(val->shape, sh);
+  
+  val = std::make_unique<val::ArrayValue<double>>(arr, sh, val::DataType::Float64); 
+  EXPECT_EQ(val->to_string(), "[[0.0000e+00, 2.0000, 33.300], [4500.0, 340.00, -1.0002e+08]]");
+  EXPECT_EQ(val->dtype, val::DataType::Float64);
+  EXPECT_EQ(val->shape, sh);
+  
+}
+
+
+TEST(Values, DefineString) {
+
+  std::vector<std::string> arr = {"a", "b", "c", "d", "e", "f"};
+  val::Array::ShapeType sh = {2,3};
+  val::BaseValue::PointerType val;
+  
+  val = std::make_unique<val::ArrayValue<std::string>>(arr); 
+  EXPECT_EQ(val->to_string(), "['a', 'b', 'c', 'd', 'e', 'f']");
+  EXPECT_EQ(val->dtype, val::DataType::String);
+  EXPECT_EQ(val->shape, val::Array::ShapeType({6}));
+  
+  val = std::make_unique<val::ArrayValue<std::string>>(arr, sh); 
+  EXPECT_EQ(val->to_string(), "[['a', 'b', 'c'], ['d', 'e', 'f']]");
+  EXPECT_EQ(val->dtype, val::DataType::String);
+  EXPECT_EQ(val->shape, val::Array::ShapeType(sh));
+  
+  val = std::make_unique<val::ArrayValue<std::string>>(arr, sh, val::DataType::String); 
+  EXPECT_EQ(val->to_string(), "[['a', 'b', 'c'], ['d', 'e', 'f']]");
+  EXPECT_EQ(val->dtype, val::DataType::String);
+  EXPECT_EQ(val->shape, val::Array::ShapeType(sh));
+  
+}
