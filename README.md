@@ -1,1 +1,1 @@
-# Open Scientific Numerical Tools (OpenSNT)
+# SciNumTools v3
