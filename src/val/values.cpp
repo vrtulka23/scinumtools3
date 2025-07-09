@@ -7,6 +7,7 @@ namespace val {
   std::unordered_map<DataType, std::string> DataTypeNames = {
     {DataType::Boolean,     "bool"},
     {DataType::String,      "str"},
+    {DataType::Character,   "char"},
     {DataType::Integer16,   "int16"},
     {DataType::Integer32,   "int32"},
     {DataType::Integer64,   "int64"},

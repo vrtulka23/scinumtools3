@@ -9,7 +9,7 @@
 namespace val {
 
   enum class DataType { // TODO: INTX and FLOATX should support arbitrary precision types
-    Boolean,     String,
+    Boolean,     String,      Character,
     Integer16,   Integer32,   Integer64,    IntegerX,   
     Integer16_U, Integer32_U, Integer64_U,  
     Float32,     Float64,     Float128,     FloatX
