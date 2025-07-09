@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 
+#include "../settings.h"
 #include "../puq/quantity.h"
 
 namespace dip {
@@ -42,9 +43,6 @@ namespace dip {
   constexpr std::string_view KEYWORD_FLOAT       = "float";
   constexpr std::string_view KEYWORD_STRING      = "str";
   
-  constexpr std::string_view KEYWORD_TRUE        = "true";
-  constexpr std::string_view KEYWORD_FALSE       = "false";
-  
   constexpr std::string_view KEYWORD_CONSTANT    = "constant";
   constexpr std::string_view KEYWORD_CONDITION   = "condition";
   constexpr std::string_view KEYWORD_DESCRIPTION = "descr";
@@ -65,7 +63,6 @@ namespace dip {
   constexpr std::string_view PATTERN_PATH = "[a-zA-Z0-9._-]";
   
   // Various settings
-  constexpr int DISPLAY_FLOAT_PRECISION      = 4;
   constexpr std::string_view FILE_SUFFIX_DIP = ".dip";
   
   struct Source {

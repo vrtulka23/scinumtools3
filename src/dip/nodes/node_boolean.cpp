@@ -50,9 +50,9 @@ namespace dip {
   }
   
   BaseValue::PointerType BooleanNode::cast_scalar_value(const std::string& value_input) const {
-    if (value_input==KEYWORD_TRUE)
+    if (value_input==snt::KEYWORD_TRUE)
       return std::make_unique<ScalarValue<bool>>(true, value_dtype);
-    else if (value_input==KEYWORD_FALSE)
+    else if (value_input==snt::KEYWORD_FALSE)
       return std::make_unique<ScalarValue<bool>>(false, value_dtype);
     else
       throw std::runtime_error("Value cannot be casted as boolean from the given string: "+value_input);
@@ -61,9 +61,9 @@ namespace dip {
   BaseValue::PointerType BooleanNode::cast_array_value(const Array::StringType& value_inputs, const Array::ShapeType& shape) const {
     std::vector<bool> bool_values;
     for (auto value: value_inputs) {
-      if (value==KEYWORD_TRUE)
+      if (value==snt::KEYWORD_TRUE)
 	bool_values.push_back(true);
-      else if (value==KEYWORD_FALSE)
+      else if (value==snt::KEYWORD_FALSE)
 	bool_values.push_back(false);
       else
 	throw std::runtime_error("Value cannot be casted as boolean from the given string: "+value);

@@ -112,9 +112,9 @@ namespace dip {
 
   void ValueNode::validate_condition() const {
     if (!condition.empty()) {
-      if (condition==KEYWORD_FALSE)
+      if (condition==snt::KEYWORD_FALSE)
 	throw std::runtime_error("Node does not satisfy the given condition: "+condition);
-      else if (condition==KEYWORD_TRUE)
+      else if (condition==snt::KEYWORD_TRUE)
 	return;
       // TODO: implement expression solver
     }

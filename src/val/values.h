@@ -35,7 +35,7 @@ namespace val {
     virtual BaseValue::PointerType slice(const Array::RangeType& slice) = 0;
     virtual void convert_units(const std::string& from_units, const puq::Quantity::PointerType& to_quantity) = 0;
     virtual void convert_units(const puq::Quantity::PointerType& from_quantity, const std::string& to_units) = 0;
-    virtual bool operator==(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_equal(const BaseValue* other) const = 0;
     virtual bool operator<(const BaseValue* other) const = 0;
   };
 

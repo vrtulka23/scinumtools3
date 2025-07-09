@@ -10,10 +10,8 @@ namespace val {
   // Array values
 
   // here we need a forward declaration
+  template <typename T> class BaseArrayValue; 
   template <typename T> class ArrayValue; 
-  template <typename T> class BaseArrayValue; //: public BaseValue;
-  template <> class ArrayValue<std::string>; //: public BaseArrayValue<bool>;
-  template <> class ArrayValue<bool>; //: public BaseArrayValue<bool>;
   
   template <typename T>
   class BaseArrayValue: public BaseValue {
@@ -22,12 +20,52 @@ namespace val {
   public:
     BaseArrayValue(const T& val, const Array::ShapeType& sh, const DataType dt): value({val}), BaseValue(dt, sh) {};
     BaseArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh, const DataType dt): value(arr), BaseValue(dt, sh) {};
+    BaseArrayValue(const BaseValue* other, const DataType dt): BaseValue(dt, other->shape) {
+      const BaseArrayValue<T>* otherT;
+      if (this->dtype==other->dtype) {
+	otherT = dynamic_cast<const BaseArrayValue<T>*>(other);
+      } else {
+	BaseValue::PointerType casted_other = other->cast_as(this->dtype);
+	otherT = dynamic_cast<const BaseArrayValue<T>*>(casted_other.get());
+      }
+      if (otherT) 
+	this->value = otherT->value;
+      else
+	throw std::runtime_error("ArrayValue could not be initialized from the given BaseValue.");
+    };
     void print() override {std::cout << to_string() << std::endl;};
     std::vector<T> get_values() const {return value;};
     T get_value(const size_t index) const {return value.at(index);};
     Array::ShapeType get_shape() const override {return shape;};
     size_t get_size() const override {return value.size();};
   protected:
+    static constexpr DataType deduce_dtype() {
+      if constexpr (std::is_same_v<T, bool>) {
+	return DataType::Boolean;
+      } else if constexpr (std::is_same_v<T, int16_t>) {
+	return DataType::Integer16;
+      } else if constexpr (std::is_same_v<T, int32_t>) {
+	return DataType::Integer32;
+      } else if constexpr (std::is_same_v<T, int64_t>) {
+	return DataType::Integer64;
+      } else if constexpr (std::is_same_v<T, uint16_t>) {
+	return DataType::Integer16_U;
+      } else if constexpr (std::is_same_v<T, uint32_t>) {
+	return DataType::Integer32_U;
+      } else if constexpr (std::is_same_v<T, uint64_t>) {
+	return DataType::Integer64_U;
+      } else if constexpr (std::is_same_v<T, float>) {
+	return DataType::Float32;
+      } else if constexpr (std::is_same_v<T, double>) {
+	return DataType::Float64;
+      } else if constexpr (std::is_same_v<T, long double>) {
+	return DataType::Float128;
+      } else if constexpr (std::is_same_v<T, std::string>) {
+            return DataType::String;
+      } else {
+	static_assert(sizeof(T) == 0, "Unsupported type T");
+      }
+    }
     virtual void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const = 0;
     std::string to_string_dim(size_t& offset, const int& precision=0, int dim=0) const {
       std::ostringstream oss;
@@ -53,20 +91,15 @@ namespace val {
 	return to_string_dim(offset, precision);
       }
     };
-    bool operator==(const BaseValue* other) const override {
-      const BaseArrayValue<T>* otherT = dynamic_cast<const BaseArrayValue<T>*>(other);
-      if (otherT) {
-	bool is_equal = true;
-	for (int i=0; i<value.size();i++)
-	  if (value[i]!=otherT->value[i])
-	    is_equal = false;
-	for (int i=0; i<shape.size();i++)
-	  if (shape[i]!=otherT->shape[i])
-	    is_equal = false;	
-	return is_equal;
-      } else {
-	throw std::runtime_error("Could not convert BaseValue into a BaseArrayValue");
-      }
+    BaseValue::PointerType compare_equal(const BaseValue* other) const override {
+      for (int i=0; i<shape.size();i++)
+	if (shape[i]!=other->shape[i])
+	  throw std::runtime_error("Arrays have incompatible shape");
+      const ArrayValue<T> otherT(other);
+      std::vector<bool> arr(value.size());
+      for (int i=0; i<value.size();i++)
+	arr[i] = (value[i]==otherT.value[i]) ? true : false;
+      return std::make_unique<ArrayValue<bool>>(arr, this->shape, this->dtype);
     };
     bool operator<(const BaseValue* other) const override {
       const BaseArrayValue<T>* otherT = dynamic_cast<const BaseArrayValue<T>*>(other);
@@ -138,11 +171,12 @@ namespace val {
   public:
     ArrayValue(const T& val, const Array::ShapeType& sh, const DataType dt): BaseArrayValue<T>(val,sh,dt) {};
     ArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh, const DataType dt): BaseArrayValue<T>(arr,sh,dt) {};
-    ArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh): BaseArrayValue<T>(arr,sh,deduce_dtype()) {};
-    ArrayValue(const std::vector<T>&  arr): BaseArrayValue<T>(arr,{static_cast<int>(arr.size())},deduce_dtype()) {};
+    ArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh): BaseArrayValue<T>(arr,sh,this->deduce_dtype()) {};
+    ArrayValue(const std::vector<T>&  arr): BaseArrayValue<T>(arr,{static_cast<int>(arr.size())},this->deduce_dtype()) {};
+    ArrayValue(const BaseValue* other): BaseArrayValue<T>(other,this->deduce_dtype()) {};
   private:
     void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const override {
-      if (precision==0) precision=DISPLAY_FLOAT_PRECISION;
+      if (precision==0) precision=snt::DISPLAY_FLOAT_PRECISION;
       int exponent = static_cast<int>(std::log10(std::fabs(this->value[offset])));
       if (exponent > 3 || exponent < -3) {
         oss << std::scientific << std::setprecision(precision) << this->value[offset];
@@ -150,27 +184,6 @@ namespace val {
         oss << std::fixed << std::setprecision(precision-exponent) << this->value[offset];
       }
     };
-    static constexpr DataType deduce_dtype() {
-      if constexpr (std::is_same_v<T, bool>) {
-	return DataType::Boolean;
-      } else if constexpr (std::is_same_v<T, int16_t>) {
-	return DataType::Integer16;
-      } else if constexpr (std::is_same_v<T, int32_t>) {
-	return DataType::Integer32;
-      } else if constexpr (std::is_same_v<T, int64_t>) {
-	return DataType::Integer64;
-      } else if constexpr (std::is_same_v<T, float>) {
-	return DataType::Float32;
-      } else if constexpr (std::is_same_v<T, double>) {
-	return DataType::Float64;
-      } else if constexpr (std::is_same_v<T, long double>) {
-	return DataType::Float128;
-      } else if constexpr (std::is_same_v<T, std::string>) {
-            return DataType::String;
-      } else {
-	static_assert(sizeof(T) == 0, "Unsupported type T");
-      }
-    }
   public:
     BaseValue::PointerType clone() const override {
       return std::make_unique<ArrayValue<T>>(this->value, this->shape, this->dtype);
@@ -277,6 +290,7 @@ namespace val {
     ArrayValue(const Array::StringType&  arr, const Array::ShapeType& sh, const DataType dt): BaseArrayValue<std::string>(arr,sh,dt) {};
     ArrayValue(const Array::StringType&  arr, const Array::ShapeType& sh): ArrayValue(arr,sh,DataType::String) {};
     ArrayValue(const Array::StringType&  arr): ArrayValue(arr,{static_cast<int>(arr.size())},DataType::String) {};
+    ArrayValue(const BaseValue* other): BaseArrayValue<std::string>(other, DataType::String) {};
   private:
     void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const override {
       oss << "'" << value[offset] << "'";
@@ -307,12 +321,13 @@ namespace val {
     ArrayValue(const std::vector<bool>&  arr, const Array::ShapeType& sh, const DataType dt): BaseArrayValue<bool>(arr,sh,dt) {};
     ArrayValue(const std::vector<bool>&  arr, const Array::ShapeType& sh): ArrayValue(arr,sh,DataType::Boolean) {};
     ArrayValue(const std::vector<bool>&  arr): ArrayValue(arr,{static_cast<int>(arr.size())},DataType::Boolean) {};
+    ArrayValue(const BaseValue* other): BaseArrayValue<bool>(other, DataType::Boolean) {};
   private:
     void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const override {
       if (value[offset])
-	oss << KEYWORD_TRUE;
+	oss << snt::KEYWORD_TRUE;
       else
-	oss << KEYWORD_FALSE;
+	oss << snt::KEYWORD_FALSE;
     }
   public:
     std::string to_string(int precision=0) const override {

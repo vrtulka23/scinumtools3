@@ -62,7 +62,7 @@ namespace dip {
     ScalarValue(const T& val, const ValueDtype dt): BaseScalarValue<T>(val, dt) {};
   protected:
     void value_to_string(std::ostringstream& oss, int precision=0) const override {
-      if (precision==0) precision=DISPLAY_FLOAT_PRECISION;
+      if (precision==0) precision=snt::DISPLAY_FLOAT_PRECISION;
       int exponent = static_cast<int>(std::log10(std::fabs(this->value)));
       if (exponent > 3 || exponent < -3) {
         oss << std::scientific << std::setprecision(precision) << this->value;
@@ -218,9 +218,9 @@ namespace dip {
     void value_to_string(std::ostringstream& oss, int precision=0) const override {    
       if (precision==0)
 	if (value)
-	  oss << KEYWORD_TRUE;
+	  oss << snt::KEYWORD_TRUE;
 	else
-	  oss << KEYWORD_FALSE;
+	  oss << snt::KEYWORD_FALSE;
       else
 	throw std::runtime_error("Boolean value does not support precision parameter for to_string() method.");
     };
@@ -259,9 +259,9 @@ namespace dip {
     };
     explicit operator std::string() const override {
       if (value)
-	return std::string(KEYWORD_TRUE);
+	return std::string(snt::KEYWORD_TRUE);
       else
-	return std::string(KEYWORD_FALSE);
+	return std::string(snt::KEYWORD_FALSE);
     };
   };
 

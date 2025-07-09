@@ -36,7 +36,7 @@ namespace dip {
 	// TODO: use logical solver to solve cases
 	if (value_raw.empty())
 	  throw std::runtime_error("Case node requires an input value: "+line.code);
-	value = (value_raw.at(0)==KEYWORD_TRUE) ? true : false;
+	value = (value_raw.at(0)==snt::KEYWORD_TRUE) ? true : false;
       } else if (case_type==CaseType::Else) {
 	value = true;
       }

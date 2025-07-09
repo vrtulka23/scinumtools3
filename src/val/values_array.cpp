@@ -8,9 +8,9 @@ namespace val {
     case DataType::Boolean: {
       std::vector<bool> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++) {
-	if (this->value[i]==KEYWORD_TRUE)
+	if (this->value[i]==snt::KEYWORD_TRUE)
 	  arr[i] = true;
-	else if (this->value[i]==KEYWORD_FALSE)
+	else if (this->value[i]==snt::KEYWORD_FALSE)
 	  arr[i] = false;
 	else
 	  throw std::runtime_error("Could not cast value as boolean: "+this->value[i]); 
@@ -159,9 +159,9 @@ namespace val {
       std::vector<std::string> arr(this->value.size());
       for (size_t i=0; i<this->value.size(); i++) {
 	if (this->value[i])
-	  arr[i] = std::string(KEYWORD_TRUE);
+	  arr[i] = std::string(snt::KEYWORD_TRUE);
 	else
-	  arr[i] = std::string(KEYWORD_FALSE);
+	  arr[i] = std::string(snt::KEYWORD_FALSE);
       }
       return std::make_unique<ArrayValue<std::string>>(arr, this->shape, dt);
     }

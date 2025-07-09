@@ -170,7 +170,7 @@ namespace dip {
     ArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh, const ValueDtype dt): BaseArrayValue<T>(arr,sh,dt) {};
   private:
     void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const override {
-      if (precision==0) precision=DISPLAY_FLOAT_PRECISION;
+      if (precision==0) precision=snt::DISPLAY_FLOAT_PRECISION;
       int exponent = static_cast<int>(std::log10(std::fabs(this->value[offset])));
       if (exponent > 3 || exponent < -3) {
         oss << std::scientific << std::setprecision(precision) << this->value[offset];
@@ -240,9 +240,9 @@ namespace dip {
   private:
     void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const override {
       if (value[offset])
-	oss << KEYWORD_TRUE;
+	oss << snt::KEYWORD_TRUE;
       else
-	oss << KEYWORD_FALSE;
+	oss << snt::KEYWORD_FALSE;
     }
   public:
     std::string to_string(int precision=0) const override {

@@ -169,7 +169,7 @@ namespace dip {
     trimmed.erase(0, trimmed.find_first_not_of(" \t\n\r"));
     trimmed.erase(trimmed.find_last_not_of(" \t\n\r") + 1);
     // Check Boolean
-    if (trimmed == KEYWORD_TRUE || trimmed == KEYWORD_FALSE) {
+    if (trimmed == snt::KEYWORD_TRUE || trimmed == snt::KEYWORD_FALSE) {
       dtype_raw = {"", std::string(KEYWORD_BOOLEAN), ""};
       value_raw.push_back(trimmed);
       value_origin = ValueOrigin::String;

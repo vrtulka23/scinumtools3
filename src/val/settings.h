@@ -1,17 +1,11 @@
 #ifndef VAL_SETTINGS_H
 #define VAL_SETTINGS_H
 
+#include "../settings.h"
 #include "../puq/quantity.h"
 
 namespace val {
-
-  // Keywords
-  constexpr std::string_view KEYWORD_TRUE        = "true";
-  constexpr std::string_view KEYWORD_FALSE       = "false";
-  
-  // Various settings
-  constexpr int DISPLAY_FLOAT_PRECISION      = 4;
-  
+    
   // Define common array types
   namespace Array {
     struct RangeStruct {
