@@ -18,11 +18,11 @@ namespace val {
   protected:
     std::vector<T> value;
   public:
-    BaseArrayValue(const T& val, const Array::ShapeType& sh): value({val}), BaseValue(this->deduce_dtype(), sh) {};
+    BaseArrayValue(const T& val): value({val}), BaseValue(this->deduce_dtype(), {1}) {};
     BaseArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh): value(arr), BaseValue(this->deduce_dtype(), sh) {};
-    BaseArrayValue(const BaseValue* other): BaseValue(this->deduce_dtype(), other->shape) {
+    BaseArrayValue(const BaseValue* other): BaseValue(this->deduce_dtype(), other->get_shape()) {
       const BaseArrayValue<T>* otherT;
-      if (this->dtype==other->dtype) {
+      if (this->dtype==other->get_dtype()) {
 	otherT = dynamic_cast<const BaseArrayValue<T>*>(other);
       } else {
 	BaseValue::PointerType casted_other = other->cast_as(this->dtype);
@@ -36,7 +36,6 @@ namespace val {
     void print() override {std::cout << to_string() << std::endl;};
     std::vector<T> get_values() const {return value;};
     T get_value(const size_t index) const {return value.at(index);};
-    Array::ShapeType get_shape() const override {return shape;};
     size_t get_size() const override {return value.size();};
   protected:
     static constexpr DataType deduce_dtype() {
@@ -71,7 +70,8 @@ namespace val {
     virtual void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const = 0;
     std::string to_string_dim(size_t& offset, const int& precision=0, int dim=0) const {
       std::ostringstream oss;
-      oss << "[";
+      if (value.size()>1)
+	oss << "[";
       for (int i=0; i<shape[dim];i++) {
 	if (i>0) oss << ", ";
 	if (dim+1<shape.size()) {
@@ -81,7 +81,8 @@ namespace val {
 	  offset++;
 	}
       }
-      oss << "]";
+      if (value.size()>1)
+	oss << "]";
       return oss.str();
     }
   public:
@@ -93,31 +94,79 @@ namespace val {
 	return to_string_dim(offset, precision);
       }
     };
-    BaseValue::PointerType compare_equal(const BaseValue* other) const override {
-      for (int i=0; i<shape.size();i++)
-	if (shape[i]!=other->shape[i])
-	  throw std::runtime_error("Arrays have incompatible shape");
-      const ArrayValue<T> otherT(other);
-      std::vector<bool> arr(value.size());
+    /*
+     * Operations
+     */
+  protected:
+    template <typename V, typename Func>
+    std::unique_ptr<ArrayValue<V>> operate_unary(const EvalMode ctype, Func f) const {
+      // apply operation
+      std::vector<V> arr(value.size());
       for (int i=0; i<value.size();i++)
-	arr[i] = (value[i]==otherT.value[i]) ? true : false;
-      return std::make_unique<ArrayValue<bool>>(arr, this->shape);
-    };
-    bool operator<(const BaseValue* other) const override {
-      const BaseArrayValue<T>* otherT = dynamic_cast<const BaseArrayValue<T>*>(other);
-      if (otherT) {
-	bool is_equal = true;
-	for (int i=0; i<value.size();i++)
-	  if (value[i]>=otherT->value[i])
-	    is_equal = false;
-	for (int i=0; i<shape.size();i++)
-	  if (shape[i]>=otherT->shape[i])
-	    is_equal = false;	
-	return is_equal;
-      } else {
-	throw std::runtime_error("Could not convert BaseValue into a BaseArrayValue");
+	arr[i] = f(value[i]);
+      // apply reduction
+      switch (ctype) {
+      case EvalMode::Piecewise: {
+	return std::make_unique<ArrayValue<V>>(arr, this->shape);
+      }
+      case EvalMode::Any: {
+	V any = std::any_of(arr.begin(), arr.end(), [](V b) { return b; });
+	return std::make_unique<ArrayValue<V>>(any);
+      }
+      case EvalMode::All: {
+	V all = std::all_of(arr.begin(), arr.end(), [](V b) { return b; });
+	return std::make_unique<ArrayValue<V>>(all);
+      }
       }
     };
+    template <typename V, typename Func>
+    std::unique_ptr<ArrayValue<V>> operate_binary(const BaseValue* other, const EvalMode ctype, Func f) const {
+      // test if shape match
+      for (int i=0; i<shape.size();i++)
+	if (shape[i]!=other->get_shape()[i])
+	  throw std::runtime_error("Arrays have incompatible shape");
+      // apply operation
+      const ArrayValue<T> otherT(other);
+      std::vector<V> arr(value.size());
+      for (int i=0; i<value.size();i++)
+	arr[i] = f(value[i], otherT.value[i]);
+      // apply reduction
+      switch (ctype) {
+      case EvalMode::Piecewise: {
+	return std::make_unique<ArrayValue<V>>(arr, this->shape);
+      }
+      case EvalMode::Any: {
+	V any = std::any_of(arr.begin(), arr.end(), [](V b) { return b; });
+	return std::make_unique<ArrayValue<V>>(any);
+      }
+      case EvalMode::All: {
+	V all = std::all_of(arr.begin(), arr.end(), [](V b) { return b; });
+	return std::make_unique<ArrayValue<V>>(all);
+      }
+      }
+    };
+  public:
+    BaseValue::PointerType compare_equal(const BaseValue* other, const EvalMode ctype) const override {
+      return operate_binary<bool>(other,ctype,[](T a, T b) {return a == b;});
+    };
+    BaseValue::PointerType compare_not_equal(const BaseValue* other, const EvalMode ctype) const override {
+      return operate_binary<bool>(other,ctype,[](T a, T b) {return a != b;});
+    };
+    BaseValue::PointerType compare_less_than(const BaseValue* other, const EvalMode ctype) const override {
+      return operate_binary<bool>(other,ctype,[](T a, T b) {return a < b;});
+    };
+    BaseValue::PointerType compare_greater_than(const BaseValue* other, const EvalMode ctype) const override {
+      return operate_binary<bool>(other,ctype,[](T a, T b) {return a > b;});
+    };
+    BaseValue::PointerType compare_less_equal(const BaseValue* other, const EvalMode ctype) const override {
+      return operate_binary<bool>(other,ctype,[](T a, T b) {return a <= b;});
+    };
+    BaseValue::PointerType compare_greater_equal(const BaseValue* other, const EvalMode ctype) const override {
+      return operate_binary<bool>(other,ctype,[](T a, T b) {return a >= b;});
+    };
+    /*
+     * Array slicing
+     */
     BaseValue::PointerType slice_value(const Array::RangeType& slice) {
       if (slice.size()!=this->shape.size())
 	throw std::runtime_error("Array slice size does not correspond with array shape: "+std::to_string(slice.size())+"!="+std::to_string(this->shape.size()));
@@ -158,8 +207,11 @@ namespace val {
       if (new_size>1)
 	return std::make_unique<ArrayValue<T>>(new_value, new_shape);
       else
-	return std::make_unique<ArrayValue<T>>(new_value[0], Array::ShapeType({1}));
+	return std::make_unique<ArrayValue<T>>(new_value[0]);
     };
+    /*
+     * Unit conversion
+     */
     void convert_units(const std::string& from_units, const puq::Quantity::PointerType& to_quantity) override {
       throw std::runtime_error("Array value of type '"+std::string(DataTypeNames[dtype])+"' does not support unit conversion.");
     };
@@ -171,7 +223,7 @@ namespace val {
   template <typename T>
   class ArrayValue: public BaseArrayValue<T> {
   public:
-    ArrayValue(const T& val, const Array::ShapeType& sh): BaseArrayValue<T>(val,sh) {};
+    ArrayValue(const T& val): BaseArrayValue<T>(val) {};
     ArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh): BaseArrayValue<T>(arr,sh) {};
     ArrayValue(const std::vector<T>&  arr): BaseArrayValue<T>(arr,{static_cast<int>(arr.size())}) {};
     ArrayValue(const BaseValue* other): BaseArrayValue<T>(other) {};
@@ -287,12 +339,21 @@ namespace val {
       std::vector<double> output = quantity.value.magnitude.value.value;
       std::copy(output.begin(), output.end(), this->value.begin());
     };
+    BaseValue::PointerType logical_and(const BaseValue* other, const EvalMode ctype) const override {
+      return this->template operate_binary<bool>(other,ctype,[](T a, T b) {return a && b;});
+    };
+    BaseValue::PointerType logical_or(const BaseValue* other, const EvalMode ctype) const override {
+      return this->template operate_binary<bool>(other,ctype,[](T a, T b) {return a || b;});
+    };
+    BaseValue::PointerType logical_not(const EvalMode ctype) const override {
+      return this->template operate_unary<bool>(ctype,[](T a) {return !a;});
+    };
   };
   
   template <>
   class ArrayValue<std::string>: public BaseArrayValue<std::string> {
   public:
-    ArrayValue(const std::string& val, const Array::ShapeType& sh): BaseArrayValue(val,sh) {};
+    ArrayValue(const std::string& val): BaseArrayValue(val) {};
     ArrayValue(const Array::StringType&  arr, const Array::ShapeType& sh): BaseArrayValue(arr,sh) {};
     ArrayValue(const Array::StringType&  arr): BaseArrayValue(arr,{static_cast<int>(arr.size())}) {};
     ArrayValue(const BaseValue* other): BaseArrayValue<std::string>(other) {};
@@ -312,16 +373,19 @@ namespace val {
     BaseValue::PointerType clone() const override {
       return std::make_unique<ArrayValue<std::string>>(this->value, this->shape);
     };
-    BaseValue::PointerType cast_as(DataType dt) const override;
     BaseValue::PointerType slice(const Array::RangeType& slice) override {
       return this->slice_value(slice);
     };
+    BaseValue::PointerType cast_as(DataType dt) const override;
+    BaseValue::PointerType logical_and(const BaseValue* other, const EvalMode ctype) const override;
+    BaseValue::PointerType logical_or(const BaseValue* other, const EvalMode ctype) const override;
+    BaseValue::PointerType logical_not(const EvalMode ctype) const override;
   };
 
   template <>
   class ArrayValue<bool>: public BaseArrayValue<bool> {
   public:
-    ArrayValue(const bool& val, const Array::ShapeType& sh): BaseArrayValue(val,sh) {};
+    ArrayValue(const bool& val): BaseArrayValue(val) {};
     ArrayValue(const std::vector<bool>&  arr, const Array::ShapeType& sh): BaseArrayValue(arr,sh) {};
     ArrayValue(const std::vector<bool>&  arr): BaseArrayValue(arr,{static_cast<int>(arr.size())}) {};
     ArrayValue(const BaseValue* other): BaseArrayValue<bool>(other) {};
@@ -344,10 +408,13 @@ namespace val {
     BaseValue::PointerType clone() const override {
       return std::make_unique<ArrayValue<bool>>(this->value, this->shape);
     };
-    BaseValue::PointerType cast_as(DataType dt) const override;
     BaseValue::PointerType slice(const Array::RangeType& slice) override {
       return this->slice_value(slice);
     };
+    BaseValue::PointerType cast_as(DataType dt) const override;
+    BaseValue::PointerType logical_and(const BaseValue* other, const EvalMode ctype) const override;
+    BaseValue::PointerType logical_or(const BaseValue* other, const EvalMode ctype) const override;
+    BaseValue::PointerType logical_not(const EvalMode ctype) const override;
   };
 
 }

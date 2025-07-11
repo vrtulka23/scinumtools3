@@ -15,28 +15,41 @@ namespace val {
     Float32,     Float64,     Float128,     FloatX
   };
 
+  enum class EvalMode {
+    Piecewise, All, Any
+  };
+  
   extern std::unordered_map<DataType, std::string> DataTypeNames;
 
   template <typename T> class ArrayValue;
   
   class BaseValue {
+  protected:
+    Array::ShapeType shape;
+    DataType dtype;
   public:
     typedef std::unique_ptr<BaseValue> PointerType;
-    DataType dtype;
-    Array::ShapeType shape;
     BaseValue(DataType dt, Array::ShapeType sh): dtype(dt), shape(sh) {};
     virtual ~BaseValue() = default;
     virtual void print() = 0;
     virtual std::string to_string(const int precision=0) const = 0;
-    virtual Array::ShapeType get_shape() const = 0;
+    Array::ShapeType get_shape() const {return shape;};
+    DataType get_dtype() const {return dtype;};
     virtual size_t get_size() const = 0;
     virtual BaseValue::PointerType clone() const = 0;
     virtual BaseValue::PointerType cast_as(DataType dt) const = 0;
     virtual BaseValue::PointerType slice(const Array::RangeType& slice) = 0;
     virtual void convert_units(const std::string& from_units, const puq::Quantity::PointerType& to_quantity) = 0;
     virtual void convert_units(const puq::Quantity::PointerType& from_quantity, const std::string& to_units) = 0;
-    virtual BaseValue::PointerType compare_equal(const BaseValue* other) const = 0;
-    virtual bool operator<(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_equal(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType compare_not_equal(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType compare_less_than(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType compare_greater_than(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType compare_less_equal(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType compare_greater_equal(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType logical_and(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType logical_or(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType logical_not(const EvalMode ctype = EvalMode::Piecewise) const = 0;
   };
 
 }

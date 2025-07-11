@@ -105,6 +105,18 @@ namespace val {
     }
   };
 
+  BaseValue::PointerType ArrayValue<std::string>::logical_and(const BaseValue* other, const EvalMode ctype) const {
+    return operate_binary<bool>(other,ctype,[](std::string a, std::string b) {return !a.empty() && !b.empty();});
+  }
+
+  BaseValue::PointerType ArrayValue<std::string>::logical_or(const BaseValue* other, const EvalMode ctype) const {
+    return operate_binary<bool>(other,ctype,[](std::string a, std::string b) {return !a.empty() || !b.empty();});
+  };
+  
+  BaseValue::PointerType ArrayValue<std::string>::logical_not(const EvalMode ctype) const {
+    return operate_unary<bool>(ctype,[](std::string a) {return a.empty();});
+  };
+  
   BaseValue::PointerType ArrayValue<bool>::cast_as(DataType dt) const {
     switch (dt) {
     case DataType::Boolean: {
@@ -184,6 +196,18 @@ namespace val {
       throw std::runtime_error("Not implemented");
       return nullptr;
     }
+  };
+
+  BaseValue::PointerType ArrayValue<bool>::logical_and(const BaseValue* other, const EvalMode ctype) const {
+    return operate_binary<bool>(other,ctype,[](bool a, bool b) {return a && b;});
+  };
+  
+  BaseValue::PointerType ArrayValue<bool>::logical_or(const BaseValue* other, const EvalMode ctype) const {
+    return operate_binary<bool>(other,ctype,[](bool a, bool b) {return a || b;});
+  };
+  
+  BaseValue::PointerType ArrayValue<bool>::logical_not(const EvalMode ctype) const {
+    return operate_unary<bool>(ctype,[](bool a) {return !a;});
   };
   
 }

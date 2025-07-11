@@ -2,19 +2,50 @@
 
 #include "val/values.h"
 
-TEST(Values, CompareEqual) {
+TEST(Values, CompareEqual) { // ==
 
-    std::vector<bool> arr1 = {true,false,false,true,true};
-    std::vector<bool> arr2 = {true,false,false,true,true};
-    std::vector<bool> arr3 = {false,false,false,false,true};
+    std::vector<bool> arr1 = {true,false,false};
+    std::vector<bool> arr2 = {false,false,false};
     val::BaseValue::PointerType val1 = std::make_unique<val::ArrayValue<bool>>(arr1); 
     val::BaseValue::PointerType val2 = std::make_unique<val::ArrayValue<bool>>(arr2); 
-    val::BaseValue::PointerType val3 = std::make_unique<val::ArrayValue<bool>>(arr3); 
+    val::BaseValue::PointerType val3;
 
-    val::BaseValue::PointerType val4 = val1->compare_equal(val2.get());
-    EXPECT_EQ(val4->to_string(), "[true, true, true, true, true]");
+    val3 = val1->compare_equal(val1.get());
+    EXPECT_EQ(val3->to_string(), "[true, true, true]");
+    val3 = val1->compare_equal(val1.get(), val::EvalMode::Any);
+    EXPECT_EQ(val3->to_string(), "true");
+    val3 = val1->compare_equal(val1.get(), val::EvalMode::All);
+    EXPECT_EQ(val3->to_string(), "true");
 
-    val::BaseValue::PointerType val5 = val1->compare_equal(val3.get());
-    EXPECT_EQ(val5->to_string(), "[false, true, true, false, true]");
+    val3 = val1->compare_equal(val2.get());
+    EXPECT_EQ(val3->to_string(), "[false, true, true]");
+    val3 = val1->compare_equal(val2.get(), val::EvalMode::Any);
+    EXPECT_EQ(val3->to_string(), "true");
+    val3 = val1->compare_equal(val2.get(), val::EvalMode::All);
+    EXPECT_EQ(val3->to_string(), "false");
+
+}
+
+TEST(Values, CompareNotEqual) { // !=
+
+    std::vector<bool> arr1 = {true,false,false};
+    std::vector<bool> arr2 = {false,false,false};
+    val::BaseValue::PointerType val1 = std::make_unique<val::ArrayValue<bool>>(arr1); 
+    val::BaseValue::PointerType val2 = std::make_unique<val::ArrayValue<bool>>(arr2); 
+    val::BaseValue::PointerType val3;
+    
+    val3 = val1->compare_not_equal(val1.get());
+    EXPECT_EQ(val3->to_string(), "[false, false, false]");
+    val3 = val1->compare_not_equal(val1.get(), val::EvalMode::Any);
+    EXPECT_EQ(val3->to_string(), "false");
+    val3 = val1->compare_not_equal(val1.get(), val::EvalMode::All);
+    EXPECT_EQ(val3->to_string(), "false");
+
+    val3 = val1->compare_not_equal(val2.get());
+    EXPECT_EQ(val3->to_string(), "[true, false, false]");
+    val3 = val1->compare_not_equal(val2.get(), val::EvalMode::Any);
+    EXPECT_EQ(val3->to_string(), "true");
+    val3 = val1->compare_not_equal(val2.get(), val::EvalMode::All);
+    EXPECT_EQ(val3->to_string(), "false");
 
 }
