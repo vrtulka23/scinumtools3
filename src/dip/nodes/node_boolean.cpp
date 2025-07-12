@@ -49,16 +49,16 @@ namespace dip {
     return {};
   }
   
-  BaseValue::PointerType BooleanNode::cast_scalar_value(const std::string& value_input) const {
+  val::BaseValue::PointerType BooleanNode::cast_scalar_value(const std::string& value_input) const {
     if (value_input==snt::KEYWORD_TRUE)
-      return std::make_unique<ScalarValue<bool>>(true, value_dtype);
+      return std::make_unique<val::ArrayValue<bool>>(true);
     else if (value_input==snt::KEYWORD_FALSE)
-      return std::make_unique<ScalarValue<bool>>(false, value_dtype);
+      return std::make_unique<val::ArrayValue<bool>>(false);
     else
       throw std::runtime_error("Value cannot be casted as boolean from the given string: "+value_input);
   }
   
-  BaseValue::PointerType BooleanNode::cast_array_value(const Array::StringType& value_inputs, const Array::ShapeType& shape) const {
+  val::BaseValue::PointerType BooleanNode::cast_array_value(const Array::StringType& value_inputs, const Array::ShapeType& shape) const {
     std::vector<bool> bool_values;
     for (auto value: value_inputs) {
       if (value==snt::KEYWORD_TRUE)
@@ -68,7 +68,7 @@ namespace dip {
       else
 	throw std::runtime_error("Value cannot be casted as boolean from the given string: "+value);
     }    
-    return std::make_unique<ArrayValue<bool>>(bool_values, shape, value_dtype);    
+    return std::make_unique<val::ArrayValue<bool>>(bool_values, shape);    
   }
 
   BaseNode::PointerType BooleanNode::clone(const std::string& nm) const {

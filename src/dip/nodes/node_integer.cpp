@@ -18,11 +18,11 @@ namespace dip {
   
   IntegerNode::IntegerNode(Parser& parser): BaseNode(parser, NodeDtype::Integer) {
     if (dtype_raw[2]=="16") {
-      value_dtype = (dtype_raw[0]=="u") ? ValueDtype::Integer16_U : ValueDtype::Integer16;
+      value_dtype = (dtype_raw[0]=="u") ? val::DataType::Integer16_U : val::DataType::Integer16;
     } else if (dtype_raw[2]=="32" or dtype_raw[2]=="") {
-      value_dtype = (dtype_raw[0]=="u") ? ValueDtype::Integer32_U : ValueDtype::Integer32;
+      value_dtype = (dtype_raw[0]=="u") ? val::DataType::Integer32_U : val::DataType::Integer32;
     } else if (dtype_raw[2]=="64") {
-      value_dtype = (dtype_raw[0]=="u") ? ValueDtype::Integer64_U : ValueDtype::Integer64;
+      value_dtype = (dtype_raw[0]=="u") ? val::DataType::Integer64_U : val::DataType::Integer64;
     } else {
       throw std::runtime_error("Value data type cannot be determined from the node settings");
     }
@@ -56,26 +56,26 @@ namespace dip {
     return {};
   }  
     
-  BaseValue::PointerType IntegerNode::cast_scalar_value(const std::string& value_input) const {
+  val::BaseValue::PointerType IntegerNode::cast_scalar_value(const std::string& value_input) const {
     // TODO: variable precision x should be implemented
     switch (value_dtype) {
-    case ValueDtype::Integer16_U:
-      return std::make_unique<ScalarValue<unsigned short>>((unsigned short)std::stoi(value_input), ValueDtype::Integer16_U);
+    case val::DataType::Integer16_U:
+      return std::make_unique<val::ArrayValue<uint16_t>>((unsigned short)std::stoi(value_input));
       break;
-    case ValueDtype::Integer16:
-      return std::make_unique<ScalarValue<short>>((short)std::stoi(value_input), ValueDtype::Integer16);
+    case val::DataType::Integer16:
+      return std::make_unique<val::ArrayValue<int16_t>>((short)std::stoi(value_input));
       break;
-    case ValueDtype::Integer32_U:
-      return std::make_unique<ScalarValue<unsigned int>>(std::stoi(value_input), ValueDtype::Integer32_U);
+    case val::DataType::Integer32_U:
+      return std::make_unique<val::ArrayValue<uint32_t>>(std::stoi(value_input));
       break;
-    case ValueDtype::Integer32:
-      return std::make_unique<ScalarValue<int>>(std::stoi(value_input), ValueDtype::Integer32);
+    case val::DataType::Integer32:
+      return std::make_unique<val::ArrayValue<int32_t>>(std::stoi(value_input));
       break;
-    case ValueDtype::Integer64_U:
-      return std::make_unique<ScalarValue<unsigned long long>>(std::stoull(value_input), ValueDtype::Integer64_U);
+    case val::DataType::Integer64_U:
+      return std::make_unique<val::ArrayValue<uint64_t>>(std::stoull(value_input));
       break;
-    case ValueDtype::Integer64:
-      return std::make_unique<ScalarValue<long long>>(std::stoll(value_input), ValueDtype::Integer64);
+    case val::DataType::Integer64:
+      return std::make_unique<val::ArrayValue<int64_t>>(std::stoll(value_input));
       break;
     default:
       if (dtype_raw[0]=="u")
@@ -85,44 +85,44 @@ namespace dip {
     }
   }
 
-  BaseValue::PointerType IntegerNode::cast_array_value(const Array::StringType& value_inputs, const Array::ShapeType& shape) const {
+  val::BaseValue::PointerType IntegerNode::cast_array_value(const Array::StringType& value_inputs, const Array::ShapeType& shape) const {
     // TODO: variable precision x should be implemented
     switch (value_dtype) {
-    case ValueDtype::Integer16_U: {
+    case val::DataType::Integer16_U: {
       std::vector<unsigned short> arr;
       arr.reserve(value_inputs.size());
       for (auto s: value_inputs) arr.push_back((unsigned short)std::stoul(s));
-      return std::make_unique<ArrayValue<unsigned short>>(arr, shape, ValueDtype::Integer16_U);
+      return std::make_unique<val::ArrayValue<uint16_t>>(arr, shape);
     }
-    case ValueDtype::Integer16: {
+    case val::DataType::Integer16: {
       std::vector<short> arr;
       arr.reserve(value_inputs.size());
       for (auto s: value_inputs) arr.push_back((short)std::stoi(s));
-      return std::make_unique<ArrayValue<short>>(arr, shape, ValueDtype::Integer16);
+      return std::make_unique<val::ArrayValue<int16_t>>(arr, shape);
     }
-    case ValueDtype::Integer32_U: {
+    case val::DataType::Integer32_U: {
       std::vector<unsigned int> arr;
       arr.reserve(value_inputs.size());
       for (auto s: value_inputs) arr.push_back(std::stoul(s));
-      return std::make_unique<ArrayValue<unsigned int>>(arr, shape, ValueDtype::Integer32_U);
+      return std::make_unique<val::ArrayValue<uint32_t>>(arr, shape);
     }
-    case ValueDtype::Integer32: {
+    case val::DataType::Integer32: {
       std::vector<int> arr;
       arr.reserve(value_inputs.size());
       for (auto s: value_inputs) arr.push_back(std::stoi(s));
-      return std::make_unique<ArrayValue<int>>(arr, shape, ValueDtype::Integer32);
+      return std::make_unique<val::ArrayValue<int32_t>>(arr, shape);
     }
-    case ValueDtype::Integer64_U: {
+    case val::DataType::Integer64_U: {
       std::vector<unsigned long long> arr;
       arr.reserve(value_inputs.size());
       for (auto s: value_inputs) arr.push_back(std::stoull(s));
-      return std::make_unique<ArrayValue<unsigned long long>>(arr, shape, ValueDtype::Integer64_U);
+      return std::make_unique<val::ArrayValue<uint64_t>>(arr, shape);
     }
-    case ValueDtype::Integer64: {
+    case val::DataType::Integer64: {
       std::vector<long long> arr;
       arr.reserve(value_inputs.size());
       for (auto s: value_inputs) arr.push_back(std::stoll(s));
-      return std::make_unique<ArrayValue<long long>>(arr, shape, ValueDtype::Integer64);
+      return std::make_unique<val::ArrayValue<int64_t>>(arr, shape);
     }
     default:
       std::ostringstream oss;
@@ -138,9 +138,9 @@ namespace dip {
 
   BaseNode::PointerType IntegerNode::clone(const std::string& nm) const {
     if (value==nullptr) 
-      return std::make_shared<IntegerNode>(nm, nullptr, value->dtype);
+      return std::make_shared<IntegerNode>(nm, nullptr, value->get_dtype());
     else
-      return std::make_shared<IntegerNode>(nm, std::move(value->clone()), value->dtype);
+      return std::make_shared<IntegerNode>(nm, std::move(value->clone()), value->get_dtype());
   }
   
 }

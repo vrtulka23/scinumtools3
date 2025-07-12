@@ -4,7 +4,7 @@
 
 namespace dip {
 
-  ValueNode::ValueNode(const std::string& nm, BaseValue::PointerType val, const ValueDtype vdt): constant(false), value_dtype(vdt) {
+  ValueNode::ValueNode(const std::string& nm, val::BaseValue::PointerType val, const val::DataType vdt): constant(false), value_dtype(vdt) {
     name=nm;
     Array::ShapeType dims = val->get_shape();
     if (val->get_size()>1) {
@@ -15,11 +15,11 @@ namespace dip {
     set_value(std::move(val));
   };
 
-  BaseValue::PointerType ValueNode::cast_value() {
+  val::BaseValue::PointerType ValueNode::cast_value() {
     return cast_value(value_raw, value_shape);
   }
 
-  BaseValue::PointerType ValueNode::cast_value(Array::StringType& value_input, const Array::ShapeType& shape) {
+  val::BaseValue::PointerType ValueNode::cast_value(Array::StringType& value_input, const Array::ShapeType& shape) {
     if (!dimension.empty()) {
       return cast_array_value(value_input, shape);
     } else if (value_input.size()>1) {
@@ -29,15 +29,15 @@ namespace dip {
     }
   }
 
-  void ValueNode::set_value(BaseValue::PointerType value_input) {
+  void ValueNode::set_value(val::BaseValue::PointerType value_input) {
     value = nullptr;
     if (value_input==nullptr and !value_raw.empty() and !value_raw.at(0).empty()) {
       value = cast_value();
     } else if (value_input!=nullptr) {
       value = std::move(value_input);
-      if (value->dtype!=value_dtype) {
-	std::string d1 = std::string(ValueDtypeNames[value_dtype]);
-	std::string d2 = std::string(ValueDtypeNames[value->dtype]);
+      if (value->get_dtype()!=value_dtype) {
+	std::string d1 = std::string(val::DataTypeNames[value_dtype]);
+	std::string d2 = std::string(val::DataTypeNames[value->get_dtype()]);
 	throw std::runtime_error("Assigning '"+d2+"' value to the '"+d1+"' node: "+line.code);
       }
     }
@@ -56,7 +56,7 @@ namespace dip {
   void ValueNode::modify_value(BaseNode::PointerType node, Environment& env) {
     if (node->dtype!=NodeDtype::Modification and node->dtype!=dtype)
       throw std::runtime_error("Node '"+name+"' with type '"+dtype_raw.at(1)+"' cannot modify node '"+node->name+"' with type '"+node->dtype_raw.at(1)+"'");
-    BaseValue::PointerType value = cast_value(node->value_raw, node->value_shape);
+    val::BaseValue::PointerType value = cast_value(node->value_raw, node->value_shape);
     QuantityNode* qnode = dynamic_cast<QuantityNode*>(this);
     if (qnode and !node->units_raw.empty()) {
       if (qnode->units==nullptr)
@@ -75,7 +75,7 @@ namespace dip {
 	if (dtype==NodeDtype::Boolean)
 	      throw std::runtime_error("Option property is not implemented for boolean nodes: "+line.code);
 	// TODO: account for multidimensional arrays as individual options
-	BaseValue::PointerType ovalue = cast_scalar_value(value_option);
+	val::BaseValue::PointerType ovalue = cast_scalar_value(value_option);
 	options.push_back({std::move(ovalue), value_option, units});
       }
       return true;
@@ -124,7 +124,7 @@ namespace dip {
     if (options.size()>0) {
       bool match = false;
       for (int i=0; i<options.size(); i++) {
-	if (options[i].value and *value==options[i].value.get())
+	if (options[i].value and value->compare_equal(options[i].value.get(), val::EvalMode::All))
 	  match = true;
       }
       if (!match) {
@@ -133,7 +133,7 @@ namespace dip {
 	  if (i>0) oss << ", ";
 	  oss << options[i].value->to_string();
 	}
-	throw std::runtime_error("Value '"+value->to_string()+"' of node '"+name+"' doesn't match with any option: "+oss.str());
+	throw std::runtime_error("Value "+value->to_string()+" of node '"+name+"' doesn't match with any option: "+oss.str());
       }
     }
   }

@@ -3,7 +3,7 @@
 
 #include "../../exs/exs.h"
 #include "../environment.h"
-#include "../values/values.h"
+#include "../../val/values.h"
 
 namespace dip {
 
@@ -11,10 +11,10 @@ namespace dip {
     Environment* env;
   };
   
-  class LogicalAtom: public exs::AtomBase<BaseValue::PointerType> {
+  class LogicalAtom: public exs::AtomBase<val::BaseValue::PointerType> {
   public:
     // Constructor from unique_ptr
-    LogicalAtom(BaseValue::PointerType b): AtomBase(std::move(b)) {};
+    LogicalAtom(val::BaseValue::PointerType b): AtomBase(std::move(b)) {};
     // Deep copy constructor
     LogicalAtom(const LogicalAtom& a);
     LogicalAtom& operator=(const LogicalAtom& a);
@@ -22,7 +22,7 @@ namespace dip {
     LogicalAtom(LogicalAtom&& a) noexcept = default;
     LogicalAtom& operator=(LogicalAtom&& a) noexcept = default;
     
-    static BaseValue::PointerType from_string(std::string s, LogicalSettings* settings);
+    static val::BaseValue::PointerType from_string(std::string s, LogicalSettings* settings);
     std::string to_string();
     void comparison_equal(LogicalAtom *other);
     void comparison_not_equal(LogicalAtom *other);

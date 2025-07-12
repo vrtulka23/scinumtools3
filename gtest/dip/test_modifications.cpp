@@ -19,7 +19,7 @@ TEST(Modifications, DataTypeNode) {
 
   dip::ValueNode::PointerType vnode = std::dynamic_pointer_cast<dip::ValueNode>(env.nodes.at(0));
   EXPECT_EQ(vnode->value->to_string(), "3");
-  EXPECT_EQ(vnode->value->dtype, dip::ValueDtype::Integer32);
+  EXPECT_EQ(vnode->value->get_dtype(), val::DataType::Integer32);
   
 }
   
@@ -38,7 +38,7 @@ TEST(Modifications, ModificationNode) {
 
   dip::ValueNode::PointerType vnode = std::dynamic_pointer_cast<dip::ValueNode>(env.nodes.at(0));
   EXPECT_EQ(vnode->value->to_string(), "3");
-  EXPECT_EQ(vnode->value->dtype, dip::ValueDtype::Integer32);
+  EXPECT_EQ(vnode->value->get_dtype(), val::DataType::Integer32);
 
   // in case modified node was not defined throw an exception
   d = dip::DIP();
@@ -69,7 +69,7 @@ TEST(Modifications, Declarations) {
 
   dip::ValueNode::PointerType vnode = std::dynamic_pointer_cast<dip::ValueNode>(env.nodes.at(0));
   EXPECT_EQ(vnode->value->to_string(), "3");
-  EXPECT_EQ(vnode->value->dtype, dip::ValueDtype::Integer32);
+  EXPECT_EQ(vnode->value->get_dtype(), val::DataType::Integer32);
 
   // if node is declared but has no value throw an exception
   d = dip::DIP();

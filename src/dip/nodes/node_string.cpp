@@ -47,12 +47,12 @@ namespace dip {
     return {};
   }
 
-  BaseValue::PointerType StringNode::cast_scalar_value(const std::string& value_input) const {
-    return std::make_unique<ScalarValue<std::string>>(value_input, value_dtype);
+  val::BaseValue::PointerType StringNode::cast_scalar_value(const std::string& value_input) const {
+    return std::make_unique<val::ArrayValue<std::string>>(value_input);
   }
 
-  BaseValue::PointerType StringNode::cast_array_value(const Array::StringType& value_inputs, const Array::ShapeType& shape) const {      
-    return std::make_unique<ArrayValue<std::string>>(value_inputs, shape, value_dtype);
+  val::BaseValue::PointerType StringNode::cast_array_value(const Array::StringType& value_inputs, const Array::ShapeType& shape) const {      
+    return std::make_unique<val::ArrayValue<std::string>>(value_inputs, shape);
   }
   
   BaseNode::PointerType StringNode::clone(const std::string& nm) const {
@@ -76,8 +76,11 @@ namespace dip {
   void StringNode::validate_format() const {
     if (format.size()>0) {
       std::regex pattern(format);
-      if (!std::regex_match(value->to_string(), pattern)) {
-	throw std::runtime_error("Node value '"+value->to_string()+"' does not match with expected format '"+format+"'");
+      const val::ArrayValue<std::string> valueT(value.get());
+      for (int i=0; i<valueT.get_size(); i++) {
+	if (!std::regex_match(valueT.get_value(i), pattern)) {
+	  throw std::runtime_error("Node value "+value->to_string()+" does not match with expected format '"+format+"'");
+	}
       }
     }
   }

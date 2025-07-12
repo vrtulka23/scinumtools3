@@ -5,31 +5,31 @@
 #include "../../src/dip/nodes/nodes.h"
 
 // scalar values
-dip::BaseValue::PointerType get_scalar_boolean(const dip::Environment& env) {
-  return dip::create_scalar_value<bool>(false);
+val::BaseValue::PointerType get_scalar_boolean(const dip::Environment& env) {
+  return std::make_unique<val::ArrayValue<bool>>(false);
 }
-dip::BaseValue::PointerType get_scalar_integer(const dip::Environment& env) {
-  return dip::create_scalar_value<int>(2);
+val::BaseValue::PointerType get_scalar_integer(const dip::Environment& env) {
+  return std::make_unique<val::ArrayValue<int32_t>>(2);
 }
-dip::BaseValue::PointerType get_scalar_double(const dip::Environment& env) {
-  return dip::create_scalar_value<double>(2.34e5);
+val::BaseValue::PointerType get_scalar_double(const dip::Environment& env) {
+  return std::make_unique<val::ArrayValue<double>>(2.34e5);
 }
-dip::BaseValue::PointerType get_scalar_string(const dip::Environment& env) {
-  return dip::create_scalar_value<std::string>("string");
+val::BaseValue::PointerType get_scalar_string(const dip::Environment& env) {
+  return std::make_unique<val::ArrayValue<std::string>>("string");
 }
 
 // array values
-dip::BaseValue::PointerType get_array_boolean(const dip::Environment& env) {
-  return dip::create_array_value<bool>({false,true,false});
+val::BaseValue::PointerType get_array_boolean(const dip::Environment& env) {
+  return val::create_array_value<bool>({false,true,false});
 }
-dip::BaseValue::PointerType get_array_integer(const dip::Environment& env) {
-  return dip::create_array_value<int>({2,3,4,5},{2,2});
+val::BaseValue::PointerType get_array_integer(const dip::Environment& env) {
+  return val::create_array_value<int>({2,3,4,5},{2,2});
 }
-dip::BaseValue::PointerType get_array_double(const dip::Environment& env) {
-  return dip::create_array_value<double>({2.34e5,3.45e6,4.56e7});
+val::BaseValue::PointerType get_array_double(const dip::Environment& env) {
+  return val::create_array_value<double>({2.34e5,3.45e6,4.56e7});
 }
-dip::BaseValue::PointerType get_array_string(const dip::Environment& env) {
-  return dip::create_array_value<std::string>({"foo","bar","baz"});
+val::BaseValue::PointerType get_array_string(const dip::Environment& env) {
+  return val::create_array_value<std::string>({"foo","bar","baz"});
 }
 
 TEST(Functions, BooleanValues) {
@@ -122,7 +122,7 @@ TEST(Functions, StringValues) {
   EXPECT_EQ(node->name, "foo");
   dip::ValueNode::PointerType vnode = std::dynamic_pointer_cast<dip::ValueNode>(node);
   EXPECT_TRUE(vnode);
-  EXPECT_EQ(vnode->value->to_string(), "string");
+  EXPECT_EQ(vnode->value->to_string(), "'string'");
 
   node = env.nodes.at(1);
   EXPECT_EQ(node->name, "bar");
@@ -216,7 +216,7 @@ TEST(Functions, TableNodes) {
   EXPECT_EQ(node->name, "foo.scalar_str");
   vnode = std::dynamic_pointer_cast<dip::ValueNode>(node);
   EXPECT_TRUE(vnode);
-  EXPECT_EQ(vnode->value->to_string(), "baz_value");
+  EXPECT_EQ(vnode->value->to_string(), "'baz_value'");
 
   node = env.nodes.at(4);
   EXPECT_EQ(node->name, "bar.array_bool");
@@ -277,7 +277,7 @@ TEST(Functions, ImportNodes) {
   EXPECT_EQ(node->name, "foo.scalar_str");
   vnode = std::dynamic_pointer_cast<dip::ValueNode>(node);
   EXPECT_TRUE(vnode);
-  EXPECT_EQ(vnode->value->to_string(), "baz_value");
+  EXPECT_EQ(vnode->value->to_string(), "'baz_value'");
 
   node = env.nodes.at(4);
   EXPECT_EQ(node->name, "bar.array_bool");

@@ -66,23 +66,23 @@ namespace val {
     if constexpr (std::is_same_v<T, bool>)
       return std::make_unique<ArrayValue<bool>>(ArrayValue<bool>(arr, sh));
     else if constexpr (std::is_same_v<T, int16_t>)
-      return std::make_unique<ArrayValue<int16_t>>(ArrayValue<int16_t>(arr, sh, DataType::Integer16));
+      return std::make_unique<ArrayValue<int16_t>>(ArrayValue<int16_t>(arr, sh));
     else if constexpr (std::is_same_v<T, uint16_t>)
-      return std::make_unique<ArrayValue<uint16_t>>(ArrayValue<uint16_t>(arr, sh, DataType::Integer16_U));
+      return std::make_unique<ArrayValue<uint16_t>>(ArrayValue<uint16_t>(arr, sh));
     else if constexpr (std::is_same_v<T, int32_t>)
-      return std::make_unique<ArrayValue<int32_t>>(ArrayValue<int32_t>(arr, sh, DataType::Integer32));
+      return std::make_unique<ArrayValue<int32_t>>(ArrayValue<int32_t>(arr, sh));
     else if constexpr (std::is_same_v<T, uint32_t>)
-      return std::make_unique<ArrayValue<uint32_t>>(ArrayValue<uint32_t>(arr, sh, DataType::Integer32_U));
+      return std::make_unique<ArrayValue<uint32_t>>(ArrayValue<uint32_t>(arr, sh));
     else if constexpr (std::is_same_v<T, int64_t>)
-      return std::make_unique<ArrayValue<int64_t>>(ArrayValue<int64_t>(arr, sh, DataType::Integer64));
+      return std::make_unique<ArrayValue<int64_t>>(ArrayValue<int64_t>(arr, sh));
     else if constexpr (std::is_same_v<T, uint64_t>)
-      return std::make_unique<ArrayValue<uint64_t>>(ArrayValue<uint64_t>(arr, sh, DataType::Integer64_U));
+      return std::make_unique<ArrayValue<uint64_t>>(ArrayValue<uint64_t>(arr, sh));
     else if constexpr (std::is_same_v<T, float>)
-      return std::make_unique<ArrayValue<float>>(ArrayValue<float>(arr, sh, DataType::Float32));
+      return std::make_unique<ArrayValue<float>>(ArrayValue<float>(arr, sh));
     else if constexpr (std::is_same_v<T, double>)
-      return std::make_unique<ArrayValue<double>>(ArrayValue<double>(arr, sh, DataType::Float64));
+      return std::make_unique<ArrayValue<double>>(ArrayValue<double>(arr, sh));
     else if constexpr (std::is_same_v<T, long double>)
-      return std::make_unique<ArrayValue<long double>>(ArrayValue<long double>(arr, sh, DataType::Float128));
+      return std::make_unique<ArrayValue<long double>>(ArrayValue<long double>(arr, sh));
     else if constexpr (std::is_same_v<T, std::string>)
       return std::make_unique<ArrayValue<std::string>>(ArrayValue<std::string>(arr, sh));
     else 

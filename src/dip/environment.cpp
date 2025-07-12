@@ -18,8 +18,8 @@ namespace dip {
     return sources.at(source_name).code;
   }
   
-  BaseValue::PointerType Environment::request_value(const std::string& request, const RequestType rtype, const std::string& to_unit) const {
-    BaseValue::PointerType new_value = nullptr; 
+  val::BaseValue::PointerType Environment::request_value(const std::string& request, const RequestType rtype, const std::string& to_unit) const {
+    val::BaseValue::PointerType new_value = nullptr; 
     switch (rtype) {
     case RequestType::Function: {
       FunctionList::ValueFunctionType func = functions.get_value(request);

@@ -231,7 +231,7 @@ TEST(Properties, OptionsInteger) {
     d.parse();
     FAIL() << "Expected std::runtime_error";
   } catch (const std::runtime_error& e) {
-    EXPECT_STREQ(e.what(), "Value '1' of node 'foo' doesn't match with any option: 16, 32, 64");
+    EXPECT_STREQ(e.what(), "Value 1 of node 'foo' doesn't match with any option: 16, 32, 64");
   } catch (...) {
     FAIL() << "Expected std::runtime_error";
   }
@@ -263,7 +263,7 @@ TEST(Properties, OptionsFloat) {
     d.parse();
     FAIL() << "Expected std::runtime_error";
   } catch (const std::runtime_error& e) {
-    EXPECT_STREQ(e.what(), "Value '2.0000' of node 'foo' doesn't match with any option: 1.0000, 2.3400, 5.6000e+07");
+    EXPECT_STREQ(e.what(), "Value 2.0000 of node 'foo' doesn't match with any option: 1.0000, 2.3400, 5.6000e+07");
   } catch (...) {
     FAIL() << "Expected std::runtime_error";
   }
@@ -280,9 +280,9 @@ TEST(Properties, OptionsString) {
   dip::ValueNode::PointerType vnode = std::dynamic_pointer_cast<dip::ValueNode>(env.nodes.at(0));
   EXPECT_TRUE(vnode);
   EXPECT_EQ(vnode->options.size(), 3);
-  EXPECT_EQ(vnode->options[0].value->to_string(), "bar");
-  EXPECT_EQ(vnode->options[1].value->to_string(), "snap");
-  EXPECT_EQ(vnode->options[2].value->to_string(), "pow");
+  EXPECT_EQ(vnode->options[0].value->to_string(), "'bar'");
+  EXPECT_EQ(vnode->options[1].value->to_string(), "'snap'");
+  EXPECT_EQ(vnode->options[2].value->to_string(), "'pow'");
   
   // validate if node value is in options
   d = dip::DIP();
@@ -292,7 +292,7 @@ TEST(Properties, OptionsString) {
     d.parse();
     FAIL() << "Expected std::runtime_error";
   } catch (const std::runtime_error& e) {
-    EXPECT_STREQ(e.what(), "Value 'baz' of node 'foo' doesn't match with any option: bar, snap, pow");
+    EXPECT_STREQ(e.what(), "Value 'baz' of node 'foo' doesn't match with any option: 'bar', 'snap', 'pow'");
   } catch (...) {
     FAIL() << "Expected std::runtime_error";
   }
@@ -330,7 +330,7 @@ TEST(Properties, TableDelimiter) {
   EXPECT_EQ(node->value_shape, dip::Array::ShapeType({2}));
   dip::ValueNode::PointerType vnode = std::dynamic_pointer_cast<dip::ValueNode>(node);
   EXPECT_EQ(vnode->value->to_string(), "[1, 2]");
-  EXPECT_EQ(vnode->value->dtype, dip::ValueDtype::Integer32);
+  EXPECT_EQ(vnode->value->get_dtype(), val::DataType::Integer32);
 
   node = env.nodes.at(1);
   EXPECT_EQ(node->name, "foo.baz");
@@ -338,7 +338,7 @@ TEST(Properties, TableDelimiter) {
   EXPECT_EQ(node->value_shape, dip::Array::ShapeType({2}));
   vnode = std::dynamic_pointer_cast<dip::ValueNode>(node);
   EXPECT_EQ(vnode->value->to_string(), "[true, false]");
-  EXPECT_EQ(vnode->value->dtype, dip::ValueDtype::Boolean);
+  EXPECT_EQ(vnode->value->get_dtype(), val::DataType::Boolean);
   
 }
 

@@ -126,7 +126,7 @@ namespace dip {
 
   class FunctionList {
   public:
-    typedef BaseValue::PointerType (*ValueFunctionType)(const Environment& env);
+    typedef val::BaseValue::PointerType (*ValueFunctionType)(const Environment& env);
     typedef BaseNode::NodeListType (*TableFunctionType)(const Environment& env);
   private:
     std::map<std::string, ValueFunctionType> value_functions;

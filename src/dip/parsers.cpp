@@ -172,7 +172,7 @@ namespace dip {
     return nodes;
   }  
 
-  std::string parse_array(const std::string& value_string, Array::StringType& value_raw, Array::ShapeType& value_shape) {
+  std::string parse_array(const std::string& value_string, val::Array::StringType& value_raw, val::Array::ShapeType& value_shape) {
     std::stringstream ss(value_string), rm;
     char ch;
 
@@ -245,7 +245,7 @@ namespace dip {
     return rm.str();
   }
 
-  void parse_value(std::string value_string, Array::StringType& value_raw, Array::ShapeType& value_shape) {
+  void parse_value(std::string value_string, val::Array::StringType& value_raw, val::Array::ShapeType& value_shape) {
     trim(value_string);
     value_string.erase(std::remove(value_string.begin(), value_string.end(), '\n'), value_string.end());
     if (value_string.empty())
@@ -256,26 +256,26 @@ namespace dip {
       value_raw.push_back(value_string);
   }
 
-  void parse_slices(std::string& value_string, Array::RangeType& dimension) {
+  void parse_slices(std::string& value_string, val::Array::RangeType& dimension) {
     std::istringstream ss_dims(value_string);
     std::string dim;
     while (getline(ss_dims, dim, SEPARATOR_DIMENSION)) {
-      Array::RangeStruct range;
+      val::Array::RangeStruct range;
       std::size_t pos = dim.find_first_of(SEPARATOR_SLICE);
       if (pos==std::string::npos) {
 	range = {std::stoi(dim), std::stoi(dim)};
       } else {
 	std::string dmin=dim.substr(0,pos), dmax=dim.substr(pos+1);
 	if (dmin=="" and dmax=="")
-	  range = {0, Array::max_range};
+	  range = {0, val::Array::max_range};
 	else if (dmin=="")
 	  range = {0, std::stoi(dmax)};
 	else if (dmax=="")
-	  range = {std::stoi(dmin), Array::max_range};
+	  range = {std::stoi(dmin), val::Array::max_range};
 	else
 	  range = {std::stoi(dmin), std::stoi(dmax)};
       }
-      if (range.dmax!=Array::max_range and range.dmax<range.dmin)
+      if (range.dmax!=val::Array::max_range and range.dmax<range.dmin)
 	throw std::runtime_error("Maximum range must be higher or equal than minimum range: "+dim);	
       dimension.push_back(range);
     }

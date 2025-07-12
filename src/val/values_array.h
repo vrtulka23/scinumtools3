@@ -136,12 +136,16 @@ namespace val {
 	return std::make_unique<ArrayValue<V>>(arr, this->shape);
       }
       case EvalMode::Any: {
-	V any = std::any_of(arr.begin(), arr.end(), [](V b) { return b; });
-	return std::make_unique<ArrayValue<V>>(any);
+	if (std::any_of(arr.begin(), arr.end(), [](V b) { return b; }))
+	  return std::make_unique<ArrayValue<V>>(true);
+	else
+	  return nullptr;
       }
       case EvalMode::All: {
-	V all = std::all_of(arr.begin(), arr.end(), [](V b) { return b; });
-	return std::make_unique<ArrayValue<V>>(all);
+	if (std::all_of(arr.begin(), arr.end(), [](V b) { return b; }))
+	  return std::make_unique<ArrayValue<V>>(true);
+	else
+	  return nullptr;
       }
       }
     };

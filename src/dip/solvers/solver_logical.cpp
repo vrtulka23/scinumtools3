@@ -12,10 +12,10 @@ namespace dip {
     return *this;
   }
   
-  BaseValue::PointerType LogicalAtom::from_string(std::string s, LogicalSettings* settings) {
+  val::BaseValue::PointerType LogicalAtom::from_string(std::string s, LogicalSettings* settings) {
     Parser parser({s, {"LOGICAL_ATOM",0}});
     if (parser.part_reference()) {
-      BaseValue::PointerType value = settings->env->request_value(parser.value_raw.at(0), RequestType::Reference);
+      val::BaseValue::PointerType value = settings->env->request_value(parser.value_raw.at(0), RequestType::Reference);
       return std::move(value);
     } else if (parser.part_literal()) {
       BaseNode::PointerType node = nullptr;
@@ -39,33 +39,33 @@ namespace dip {
 
   // Comparison operations
   void LogicalAtom::comparison_equal(LogicalAtom *other) {
-    value = create_scalar_value<bool>(*value==other->value.get());
+    value = value->compare_equal(other->value.get());
   }
   void LogicalAtom::comparison_not_equal(LogicalAtom *other) {
-    value = create_scalar_value<bool>(!(*value==other->value.get()));
+    value = value->compare_not_equal(other->value.get());
   }
   void LogicalAtom::comparison_lower_equal(LogicalAtom *other) {
-    value = create_scalar_value<bool>(!(*other->value<value.get()));
+    value = value->compare_less_equal(other->value.get()); 
   }
   void LogicalAtom::comparison_greater_equal(LogicalAtom *other) {
-    value = create_scalar_value<bool>(!(*value<other->value.get()));
+    value = value->compare_greater_equal(other->value.get());
   }
   void LogicalAtom::comparison_lower(LogicalAtom *other) {
-    value = create_scalar_value<bool>(*value<other->value.get());
+    value = value->compare_less_than(other->value.get());
   }
   void LogicalAtom::comparison_greater(LogicalAtom *other) {
-    value = create_scalar_value<bool>(*other->value<value.get());
+    value = value->compare_greater_than(other->value.get());
   }
 
     // Logical operations
   void LogicalAtom::logical_not() {
-    value = create_scalar_value<bool>(!*value);
+    value = value->logical_not();
   }
   void LogicalAtom::logical_and(LogicalAtom* other) {
-    value = create_scalar_value<bool>(*value && *(other->value));
+    value = value->logical_and(other->value.get());
   }
   void LogicalAtom::logical_or(LogicalAtom* other) {
-    value = create_scalar_value<bool>(*value || *(other->value));
+    value = value->logical_or(other->value.get());
   }
   
   LogicalSolver::LogicalSolver(Environment& env) {
