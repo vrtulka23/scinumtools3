@@ -126,10 +126,10 @@ namespace val {
     BaseValue::PointerType compare_not_equal(const BaseValue* other) const override {
       return operate_binary<bool>(other,[](T a, T b) {return a != b;});
     };
-    BaseValue::PointerType compare_less_than(const BaseValue* other) const override {
+    BaseValue::PointerType compare_less(const BaseValue* other) const override {
       return operate_binary<bool>(other,[](T a, T b) {return a < b;});
     };
-    BaseValue::PointerType compare_greater_than(const BaseValue* other) const override {
+    BaseValue::PointerType compare_greater(const BaseValue* other) const override {
       return operate_binary<bool>(other,[](T a, T b) {return a > b;});
     };
     BaseValue::PointerType compare_less_equal(const BaseValue* other) const override {

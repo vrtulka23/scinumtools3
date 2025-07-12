@@ -11,7 +11,7 @@ std::string CustomAtom::to_string() {
   }
 }
 
-void CustomAtom::comparison_lower(CustomAtom *other) {
+void CustomAtom::comparison_less(CustomAtom *other) {
   size_t value_this;
   size_t value_other;
   if (std::holds_alternative<std::string>(value)) {

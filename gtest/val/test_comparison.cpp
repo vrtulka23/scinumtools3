@@ -34,7 +34,7 @@ TEST(Values, CompareNotEqual) { // !=
   
 }
 
-TEST(Values, CompareGreaterThan) { // >
+TEST(Values, CompareGreater) { // >
   
   std::vector<int> arr1 = {1,2,3};
   std::vector<int> arr2 = {3,1,2};
@@ -42,15 +42,15 @@ TEST(Values, CompareGreaterThan) { // >
   val::BaseValue::PointerType val2 = std::make_unique<val::ArrayValue<int>>(arr2); 
   val::BaseValue::PointerType val3;
   
-  val3 = val1->compare_greater_than(val1.get());
+  val3 = val1->compare_greater(val1.get());
   EXPECT_EQ(val3->to_string(), "[false, false, false]");
   
-  val3 = val1->compare_greater_than(val2.get());
+  val3 = val1->compare_greater(val2.get());
   EXPECT_EQ(val3->to_string(), "[false, true, true]");
 
 }
 
-TEST(Values, CompareLessThan) { // <
+TEST(Values, CompareLess) { // <
   
   std::vector<int> arr1 = {1,2,3};
   std::vector<int> arr2 = {3,1,2};
@@ -58,10 +58,10 @@ TEST(Values, CompareLessThan) { // <
   val::BaseValue::PointerType val2 = std::make_unique<val::ArrayValue<int>>(arr2); 
   val::BaseValue::PointerType val3;
   
-  val3 = val1->compare_less_than(val1.get());
+  val3 = val1->compare_less(val1.get());
   EXPECT_EQ(val3->to_string(), "[false, false, false]");
   
-  val3 = val1->compare_less_than(val2.get());
+  val3 = val1->compare_less(val2.get());
   EXPECT_EQ(val3->to_string(), "[true, false, false]");
 
 }

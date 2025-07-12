@@ -44,17 +44,17 @@ namespace dip {
   void LogicalAtom::comparison_not_equal(LogicalAtom *other) {
     value = value->compare_not_equal(other->value.get());
   }
-  void LogicalAtom::comparison_lower_equal(LogicalAtom *other) {
+  void LogicalAtom::comparison_less_equal(LogicalAtom *other) {
     value = value->compare_less_equal(other->value.get()); 
   }
   void LogicalAtom::comparison_greater_equal(LogicalAtom *other) {
     value = value->compare_greater_equal(other->value.get());
   }
-  void LogicalAtom::comparison_lower(LogicalAtom *other) {
-    value = value->compare_less_than(other->value.get());
+  void LogicalAtom::comparison_less(LogicalAtom *other) {
+    value = value->compare_less(other->value.get());
   }
   void LogicalAtom::comparison_greater(LogicalAtom *other) {
-    value = value->compare_greater_than(other->value.get());
+    value = value->compare_greater(other->value.get());
   }
 
     // Logical operations
@@ -77,9 +77,9 @@ namespace dip {
     operators.append(exs::EQUAL_OPERATOR,          std::make_shared<exs::OperatorEqual<LogicalAtom, LogicalSettings>>(" == "));
     operators.append(exs::NOT_EQUAL_OPERATOR,      std::make_shared<exs::OperatorNotEqual<LogicalAtom, LogicalSettings>>(" != "));
     operators.append(exs::NOT_OPERATOR,            std::make_shared<exs::OperatorNot<LogicalAtom, LogicalSettings>>()); // needs to be after NOT_EQUAL
-    operators.append(exs::LOWER_EQUAL_OPERATOR,    std::make_shared<exs::OperatorLowerEqual<LogicalAtom, LogicalSettings>>(" <= "));
+    operators.append(exs::LESS_EQUAL_OPERATOR,     std::make_shared<exs::OperatorLessEqual<LogicalAtom, LogicalSettings>>(" <= "));
     operators.append(exs::GREATER_EQUAL_OPERATOR,  std::make_shared<exs::OperatorGreaterEqual<LogicalAtom, LogicalSettings>>(" >= "));
-    operators.append(exs::LOWER_OPERATOR,          std::make_shared<exs::OperatorLower<LogicalAtom, LogicalSettings>>(" < "));
+    operators.append(exs::LESS_OPERATOR,           std::make_shared<exs::OperatorLess<LogicalAtom, LogicalSettings>>(" < "));
     operators.append(exs::GREATER_OPERATOR,        std::make_shared<exs::OperatorGreater<LogicalAtom, LogicalSettings>>(" > "));
     operators.append(exs::AND_OPERATOR,            std::make_shared<exs::OperatorAnd<LogicalAtom, LogicalSettings>>(" && "));
     operators.append(exs::OR_OPERATOR,             std::make_shared<exs::OperatorOr<LogicalAtom, LogicalSettings>>(" || "));
@@ -87,8 +87,8 @@ namespace dip {
     exs::StepList steps;
     steps.append(exs::GROUP_OPERATION,  {exs::PARENTHESES_OPERATOR});
     steps.append(exs::BINARY_OPERATION,    {
-	exs::LOWER_EQUAL_OPERATOR,exs::GREATER_EQUAL_OPERATOR,
-	exs::LOWER_OPERATOR,exs::GREATER_OPERATOR
+	exs::LESS_EQUAL_OPERATOR,exs::GREATER_EQUAL_OPERATOR,
+	exs::LESS_OPERATOR,exs::GREATER_OPERATOR
       });
     steps.append(exs::BINARY_OPERATION, {exs::EQUAL_OPERATOR,exs::NOT_EQUAL_OPERATOR});
     steps.append(exs::UNARY_OPERATION,  {exs::NOT_OPERATOR});

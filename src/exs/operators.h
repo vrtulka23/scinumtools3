@@ -128,9 +128,9 @@ public:
 
 #include "comparison/equal.h"
 #include "comparison/not_equal.h"
-#include "comparison/lower_equal.h"
+#include "comparison/less_equal.h"
 #include "comparison/greater_equal.h"
-#include "comparison/lower.h"
+#include "comparison/less.h"
 #include "comparison/greater.h"
 
 #include "logical/not.h"

@@ -156,7 +156,7 @@ namespace dip {
       return;
     size_t case_id = get_case_id();
     Case& cs = cases.at(case_id);
-    // ending case at lower indent
+    // ending case at less indent
     if (!(node->name.rfind(cs.path, 0) == 0)) {
       close_branch();
     }

@@ -26,9 +26,9 @@ namespace dip {
     std::string to_string();
     void comparison_equal(LogicalAtom *other);
     void comparison_not_equal(LogicalAtom *other);
-    void comparison_lower_equal(LogicalAtom *other);
+    void comparison_less_equal(LogicalAtom *other);
     void comparison_greater_equal(LogicalAtom *other);
-    void comparison_lower(LogicalAtom *other);
+    void comparison_less(LogicalAtom *other);
     void comparison_greater(LogicalAtom *other);
     void logical_not();
     void logical_and(LogicalAtom* other);

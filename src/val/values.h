@@ -43,8 +43,8 @@ namespace val {
     virtual void convert_units(const puq::Quantity::PointerType& from_quantity, const std::string& to_units) = 0;
     virtual BaseValue::PointerType compare_equal(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType compare_not_equal(const BaseValue* other) const = 0;
-    virtual BaseValue::PointerType compare_less_than(const BaseValue* other) const = 0;
-    virtual BaseValue::PointerType compare_greater_than(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_less(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_greater(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType compare_less_equal(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType compare_greater_equal(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType logical_and(const BaseValue* other) const = 0;

@@ -14,7 +14,7 @@ class CustomAtom: public exs::AtomBase<AtomValueType> {
     return s;
   }
   std::string to_string();
-  void comparison_lower(CustomAtom *other);
+  void comparison_less(CustomAtom *other);
   void custom_length();
 };
 

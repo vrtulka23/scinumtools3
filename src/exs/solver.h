@@ -99,8 +99,8 @@ namespace exs {
       steps.append(BINARY_OPERATION,    {MULTIPLY_OPERATOR, DIVIDE_OPERATOR, MODULO_OPERATOR});
       steps.append(BINARY_OPERATION,    {ADD_OPERATOR, SUBTRACT_OPERATOR});
       steps.append(BINARY_OPERATION,    {
-	  LOWER_EQUAL_OPERATOR,GREATER_EQUAL_OPERATOR,
-	  LOWER_OPERATOR,GREATER_OPERATOR
+	  LESS_EQUAL_OPERATOR,GREATER_EQUAL_OPERATOR,
+	  LESS_OPERATOR,GREATER_OPERATOR
         });
       steps.append(BINARY_OPERATION,    {EQUAL_OPERATOR,NOT_EQUAL_OPERATOR});
       steps.append(UNARY_OPERATION,     {NOT_OPERATOR});
@@ -134,9 +134,9 @@ namespace exs {
         
       operators.append(NOT_OPERATOR,            std::make_shared<OperatorNot<A,S>>()); // needs to be after NOT_EQUAL
         
-      operators.append(LOWER_EQUAL_OPERATOR,    std::make_shared<OperatorLowerEqual<A,S>>());
+      operators.append(LESS_EQUAL_OPERATOR,     std::make_shared<OperatorLessEqual<A,S>>());
       operators.append(GREATER_EQUAL_OPERATOR,  std::make_shared<OperatorGreaterEqual<A,S>>());
-      operators.append(LOWER_OPERATOR,          std::make_shared<OperatorLower<A,S>>());
+      operators.append(LESS_OPERATOR,           std::make_shared<OperatorLess<A,S>>());
       operators.append(GREATER_OPERATOR,        std::make_shared<OperatorGreater<A,S>>());
         
       operators.append(AND_OPERATOR,            std::make_shared<OperatorAnd<A,S>>());

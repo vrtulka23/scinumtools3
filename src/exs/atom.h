@@ -148,13 +148,13 @@ public:
   void comparison_not_equal(Atom *other) {
       value = std::get<float>(value) != std::get<float>(other->value);
   }
-  void comparison_lower_equal(Atom *other) {
+  void comparison_less_equal(Atom *other) {
       value = std::get<float>(value) <= std::get<float>(other->value);
   }
   void comparison_greater_equal(Atom *other) {
       value = std::get<float>(value) >= std::get<float>(other->value);
   }
-  void comparison_lower(Atom *other) {
+  void comparison_less(Atom *other) {
       value = std::get<float>(value) < std::get<float>(other->value);
   }
   void comparison_greater(Atom *other) {
