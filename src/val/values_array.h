@@ -99,28 +99,15 @@ namespace val {
      */
   protected:
     template <typename V, typename Func>
-    std::unique_ptr<ArrayValue<V>> operate_unary(const EvalMode ctype, Func f) const {
+    std::unique_ptr<ArrayValue<V>> operate_unary(Func f) const {
       // apply operation
       std::vector<V> arr(value.size());
       for (int i=0; i<value.size();i++)
 	arr[i] = f(value[i]);
-      // apply reduction
-      switch (ctype) {
-      case EvalMode::Piecewise: {
-	return std::make_unique<ArrayValue<V>>(arr, this->shape);
-      }
-      case EvalMode::Any: {
-	V any = std::any_of(arr.begin(), arr.end(), [](V b) { return b; });
-	return std::make_unique<ArrayValue<V>>(any);
-      }
-      case EvalMode::All: {
-	V all = std::all_of(arr.begin(), arr.end(), [](V b) { return b; });
-	return std::make_unique<ArrayValue<V>>(all);
-      }
-      }
+      return std::make_unique<ArrayValue<V>>(arr, this->shape);
     };
     template <typename V, typename Func>
-    std::unique_ptr<ArrayValue<V>> operate_binary(const BaseValue* other, const EvalMode ctype, Func f) const {
+    std::unique_ptr<ArrayValue<V>> operate_binary(const BaseValue* other, Func f) const {
       // test if shape match
       for (int i=0; i<shape.size();i++)
 	if (shape[i]!=other->get_shape()[i])
@@ -130,43 +117,26 @@ namespace val {
       std::vector<V> arr(value.size());
       for (int i=0; i<value.size();i++)
 	arr[i] = f(value[i], otherT.value[i]);
-      // apply reduction
-      switch (ctype) {
-      case EvalMode::Piecewise: {
-	return std::make_unique<ArrayValue<V>>(arr, this->shape);
-      }
-      case EvalMode::Any: {
-	if (std::any_of(arr.begin(), arr.end(), [](V b) { return b; }))
-	  return std::make_unique<ArrayValue<V>>(true);
-	else
-	  return nullptr;
-      }
-      case EvalMode::All: {
-	if (std::all_of(arr.begin(), arr.end(), [](V b) { return b; }))
-	  return std::make_unique<ArrayValue<V>>(true);
-	else
-	  return nullptr;
-      }
-      }
+      return std::make_unique<ArrayValue<V>>(arr, this->shape);
     };
   public:
-    BaseValue::PointerType compare_equal(const BaseValue* other, const EvalMode ctype) const override {
-      return operate_binary<bool>(other,ctype,[](T a, T b) {return a == b;});
+    BaseValue::PointerType compare_equal(const BaseValue* other) const override {
+      return operate_binary<bool>(other,[](T a, T b) {return a == b;});
     };
-    BaseValue::PointerType compare_not_equal(const BaseValue* other, const EvalMode ctype) const override {
-      return operate_binary<bool>(other,ctype,[](T a, T b) {return a != b;});
+    BaseValue::PointerType compare_not_equal(const BaseValue* other) const override {
+      return operate_binary<bool>(other,[](T a, T b) {return a != b;});
     };
-    BaseValue::PointerType compare_less_than(const BaseValue* other, const EvalMode ctype) const override {
-      return operate_binary<bool>(other,ctype,[](T a, T b) {return a < b;});
+    BaseValue::PointerType compare_less_than(const BaseValue* other) const override {
+      return operate_binary<bool>(other,[](T a, T b) {return a < b;});
     };
-    BaseValue::PointerType compare_greater_than(const BaseValue* other, const EvalMode ctype) const override {
-      return operate_binary<bool>(other,ctype,[](T a, T b) {return a > b;});
+    BaseValue::PointerType compare_greater_than(const BaseValue* other) const override {
+      return operate_binary<bool>(other,[](T a, T b) {return a > b;});
     };
-    BaseValue::PointerType compare_less_equal(const BaseValue* other, const EvalMode ctype) const override {
-      return operate_binary<bool>(other,ctype,[](T a, T b) {return a <= b;});
+    BaseValue::PointerType compare_less_equal(const BaseValue* other) const override {
+      return operate_binary<bool>(other,[](T a, T b) {return a <= b;});
     };
-    BaseValue::PointerType compare_greater_equal(const BaseValue* other, const EvalMode ctype) const override {
-      return operate_binary<bool>(other,ctype,[](T a, T b) {return a >= b;});
+    BaseValue::PointerType compare_greater_equal(const BaseValue* other) const override {
+      return operate_binary<bool>(other,[](T a, T b) {return a >= b;});
     };
     /*
      * Array slicing
@@ -343,14 +313,23 @@ namespace val {
       std::vector<double> output = quantity.value.magnitude.value.value;
       std::copy(output.begin(), output.end(), this->value.begin());
     };
-    BaseValue::PointerType logical_and(const BaseValue* other, const EvalMode ctype) const override {
-      return this->template operate_binary<bool>(other,ctype,[](T a, T b) {return a && b;});
+    BaseValue::PointerType logical_and(const BaseValue* other) const override {
+      return this->template operate_binary<bool>(other,[](T a, T b) {return a && b;});
     };
-    BaseValue::PointerType logical_or(const BaseValue* other, const EvalMode ctype) const override {
-      return this->template operate_binary<bool>(other,ctype,[](T a, T b) {return a || b;});
+    BaseValue::PointerType logical_or(const BaseValue* other) const override {
+      return this->template operate_binary<bool>(other,[](T a, T b) {return a || b;});
     };
-    BaseValue::PointerType logical_not(const EvalMode ctype) const override {
-      return this->template operate_unary<bool>(ctype,[](T a) {return !a;});
+    BaseValue::PointerType logical_not() const override {
+      return this->template operate_unary<bool>([](T a) {return !a;});
+    };
+    bool any_of() const override {
+      return std::any_of(this->value.begin(), this->value.end(), [](T b) { return b; });
+    };
+    bool all_of() const override {
+      return std::all_of(this->value.begin(), this->value.end(), [](T b) { return b; });
+    };
+    bool none_of() const override {
+      return std::none_of(this->value.begin(), this->value.end(), [](T b) { return b; });
     };
   };
   
@@ -381,9 +360,18 @@ namespace val {
       return this->slice_value(slice);
     };
     BaseValue::PointerType cast_as(DataType dt) const override;
-    BaseValue::PointerType logical_and(const BaseValue* other, const EvalMode ctype) const override;
-    BaseValue::PointerType logical_or(const BaseValue* other, const EvalMode ctype) const override;
-    BaseValue::PointerType logical_not(const EvalMode ctype) const override;
+    BaseValue::PointerType logical_and(const BaseValue* other) const override;
+    BaseValue::PointerType logical_or(const BaseValue* other) const override;
+    BaseValue::PointerType logical_not() const override;
+    bool any_of() const override {
+      return std::any_of(this->value.begin(), this->value.end(), [](std::string b) { return !b.empty(); });
+    };
+    bool all_of() const override {
+      return std::all_of(this->value.begin(), this->value.end(), [](std::string b) { return !b.empty(); });
+    };
+    bool none_of() const override {
+      return std::none_of(this->value.begin(), this->value.end(), [](std::string b) { return !b.empty(); });
+    };
   };
 
   template <>
@@ -416,9 +404,18 @@ namespace val {
       return this->slice_value(slice);
     };
     BaseValue::PointerType cast_as(DataType dt) const override;
-    BaseValue::PointerType logical_and(const BaseValue* other, const EvalMode ctype) const override;
-    BaseValue::PointerType logical_or(const BaseValue* other, const EvalMode ctype) const override;
-    BaseValue::PointerType logical_not(const EvalMode ctype) const override;
+    BaseValue::PointerType logical_and(const BaseValue* other) const override;
+    BaseValue::PointerType logical_or(const BaseValue* other) const override;
+    BaseValue::PointerType logical_not() const override;
+    bool any_of() const override {
+      return std::any_of(this->value.begin(), this->value.end(), [](bool b) { return b; });
+    };
+    bool all_of() const override {
+      return std::all_of(this->value.begin(), this->value.end(), [](bool b) { return b; });
+    };
+    bool none_of() const override {
+      return std::none_of(this->value.begin(), this->value.end(), [](bool b) { return b; });
+    };
   };
 
 }

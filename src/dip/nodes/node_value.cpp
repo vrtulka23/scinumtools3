@@ -124,7 +124,7 @@ namespace dip {
     if (options.size()>0) {
       bool match = false;
       for (int i=0; i<options.size(); i++) {
-	if (options[i].value and value->compare_equal(options[i].value.get(), val::EvalMode::All))
+	if (options[i].value and value->compare_equal(options[i].value.get())->all_of())
 	  match = true;
       }
       if (!match) {

@@ -41,15 +41,18 @@ namespace val {
     virtual BaseValue::PointerType slice(const Array::RangeType& slice) = 0;
     virtual void convert_units(const std::string& from_units, const puq::Quantity::PointerType& to_quantity) = 0;
     virtual void convert_units(const puq::Quantity::PointerType& from_quantity, const std::string& to_units) = 0;
-    virtual BaseValue::PointerType compare_equal(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
-    virtual BaseValue::PointerType compare_not_equal(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
-    virtual BaseValue::PointerType compare_less_than(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
-    virtual BaseValue::PointerType compare_greater_than(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
-    virtual BaseValue::PointerType compare_less_equal(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
-    virtual BaseValue::PointerType compare_greater_equal(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
-    virtual BaseValue::PointerType logical_and(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
-    virtual BaseValue::PointerType logical_or(const BaseValue* other, const EvalMode ctype = EvalMode::Piecewise) const = 0;
-    virtual BaseValue::PointerType logical_not(const EvalMode ctype = EvalMode::Piecewise) const = 0;
+    virtual BaseValue::PointerType compare_equal(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_not_equal(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_less_than(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_greater_than(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_less_equal(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType compare_greater_equal(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType logical_and(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType logical_or(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType logical_not() const = 0;
+    virtual bool any_of() const = 0;
+    virtual bool all_of() const = 0;
+    virtual bool none_of() const = 0;
   };
 
 }
