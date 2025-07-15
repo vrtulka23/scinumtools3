@@ -7,7 +7,7 @@ namespace puq {
       return std::pow(m, e);
     }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     Array pow(const Array &a, const EXPONENT_REAL_PRECISION& e) {
       ArrayValue av(a.size());
       for (int i=0; i<a.size(); i++) {
@@ -21,6 +21,10 @@ namespace puq {
       };
       return Array::const_operation(a, e, fn);
     }
+#elif defined(MAGNITUDE_VALUES)
+    val::BaseValue::PointerType pow(val::BaseValue::PointerType a, val::BaseValue::PointerType e)
+      return a->math_pow(e.get());
+    }        
 #endif
 
 #ifdef MAGNITUDE_ERRORS

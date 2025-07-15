@@ -33,19 +33,28 @@ namespace puq {
     Quantity(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e, std::string s, const SystemType system = SystemType::NONE);
     Quantity(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e, const SystemType system = UnitSystem::System);
     Quantity(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e, const BaseUnitsList& bu, const SystemType system = UnitSystem::System);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     Quantity(const Array& m, std::string s, const SystemType system = SystemType::NONE);
     Quantity(const Array& m, const SystemType system = UnitSystem::System);
     Quantity(const Array& m, const BaseUnitsList& bu, const SystemType system = UnitSystem::System);
     Quantity(const Array& m, const Array& e, std::string s, const SystemType system = SystemType::NONE);
     Quantity(const Array& m, const Array& e, const SystemType system = UnitSystem::System);
     Quantity(const Array& m, const Array& e, const BaseUnitsList& bu, const SystemType system = UnitSystem::System);
+#elif defined(MAGNITUDE_VALUES)
+    Quantity(val::BaseValue::PointerType m, std::string s, const SystemType system = SystemType::NONE);
+    Quantity(val::BaseValue::PointerType m, const SystemType system = UnitSystem::System);
+    Quantity(val::BaseValue::PointerType m, const BaseUnitsList& bu, const SystemType system = UnitSystem::System);
+    Quantity(val::BaseValue::PointerType m, val::BaseValue::PointerType e, std::string s, const SystemType system = SystemType::NONE);
+    Quantity(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const SystemType system = UnitSystem::System);
+    Quantity(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const BaseUnitsList& bu, const SystemType system = UnitSystem::System);
 #endif
 #endif
     std::string unit_system() const;
     std::size_t size() const;
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     ArrayShape shape() const;
+#elif defined(MAGNITUDE_VALUES)
+    val::Array::ShapeType shape() const;
 #endif
     std::string to_string(const UnitFormat& format = UnitFormat()) const;
     // quantity operations
@@ -62,7 +71,7 @@ namespace puq {
     friend Quantity operator-(const Quantity& q, const MAGNITUDE_PRECISION& m);
     friend Quantity operator*(const Quantity& q, const MAGNITUDE_PRECISION& m);
     friend Quantity operator/(const Quantity& q, const MAGNITUDE_PRECISION& m);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     // array operations
     friend Quantity operator+(const Array& a, const Quantity& q);
     friend Quantity operator-(const Array& a, const Quantity& q);
@@ -72,6 +81,16 @@ namespace puq {
     friend Quantity operator-(const Quantity& q, const Array& a);
     friend Quantity operator*(const Quantity& q, const Array& a);
     friend Quantity operator/(const Quantity& q, const Array& a);
+#elif defined(MAGNITUDE_VALUES)
+    // array operations
+    friend Quantity operator+(val::BaseValue::PointerType a, const Quantity& q);
+    friend Quantity operator-(val::BaseValue::PointerType a, const Quantity& q);
+    friend Quantity operator*(val::BaseValue::PointerType a, const Quantity& q);
+    friend Quantity operator/(val::BaseValue::PointerType a, const Quantity& q);
+    friend Quantity operator+(const Quantity& q, val::BaseValue::PointerType a);
+    friend Quantity operator-(const Quantity& q, val::BaseValue::PointerType a);
+    friend Quantity operator*(const Quantity& q, val::BaseValue::PointerType a);
+    friend Quantity operator/(const Quantity& q, val::BaseValue::PointerType a);
 #endif
     friend Quantity operator+(const Quantity& q);
     friend Quantity operator-(const Quantity& q);

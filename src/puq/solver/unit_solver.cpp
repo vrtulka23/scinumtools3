@@ -9,14 +9,14 @@ namespace puq {
     
     exs::OperatorList<UnitAtom> operators;
     operators.append(exs::PARENTHESES_OPERATOR,    std::make_shared<OperatorParentheses>());
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS) || defined(MAGNITUDE_VALUES)
     operators.append(ARRAY_OPERATOR,               std::make_shared<OperatorArray>());
 #endif
     operators.append(exs::MULTIPLY_OPERATOR,       std::make_shared<exs::OperatorMultiply<UnitAtom>>(SYMBOL_MULTIPLY));
     operators.append(exs::DIVIDE_OPERATOR,         std::make_shared<exs::OperatorDivide<UnitAtom>>(SYMBOL_DIVIDE));
     
     exs::StepList steps;
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS) || defined(MAGNITUDE_VALUES)
     steps.append(exs::GROUP_OPERATION,  {exs::PARENTHESES_OPERATOR, ARRAY_OPERATOR});
 #else
     steps.append(exs::GROUP_OPERATION,  {exs::PARENTHESES_OPERATOR});

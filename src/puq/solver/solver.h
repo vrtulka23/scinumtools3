@@ -42,7 +42,7 @@ public:
   void operate_group(exs::TokenListBase<UnitAtom> *tokens);
 };
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS) || defined(MAGNITUDE_VALUES)
 
 enum CustomOperatorType {
   ARRAY_OPERATOR = exs::NUM_OPERATOR_TYPES

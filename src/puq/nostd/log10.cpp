@@ -7,13 +7,17 @@ namespace puq {
       return std::log10(m);
     }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     Array log10(const Array& a) {
       ArrayValue av(a.size());
       for (int i=0; i<a.size(); i++)
 	av[i] = std::log10(a[i]);
       return Array(av,a.shape());
     }
+#elif defined(MAGNITUDE_VALUES)
+    val::BaseValue::PointerType log10(val::BaseValue::PointerType a)
+      return a->math_log10();
+    }        
 #endif
   
 #ifdef MAGNITUDE_ERRORS

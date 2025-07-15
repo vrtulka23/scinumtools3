@@ -7,7 +7,7 @@ namespace puq {
       return std::sqrt(m);
     }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     Array sqrt(const Array& a) {
       ArrayValue av;
       av.resize(a.size());
@@ -15,6 +15,10 @@ namespace puq {
 	av[i] = std::sqrt(a[i]);
       return Array(av,a.shape());
     }
+#elif defined(MAGNITUDE_VALUES)
+    val::BaseValue::PointerType sqrt(val::BaseValue::PointerType a)
+      return a->math_sqrt();
+    }    
 #endif
   
 #ifdef MAGNITUDE_ERRORS

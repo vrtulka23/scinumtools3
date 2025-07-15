@@ -7,13 +7,17 @@ namespace puq {
       return std::max(m1, m2);
     }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array max(const Array& a1, const Array& a2) {
       auto fn = [](const MAGNITUDE_PRECISION& v1, const MAGNITUDE_PRECISION& v2) {
 	return std::max(v1, v2);
       };
       return Array::const_operation(a1, a2, fn);
     }
+#elif defined(MAGNITUDE_VALUES)
+    val::BaseValue::PointerType max(val::BaseValue::PointerType a1, val::BaseValue::PointerType a2)
+      return a1->math_max(a2.get());
+    }            
 #endif
   
 #ifdef MAGNITUDE_ERRORS

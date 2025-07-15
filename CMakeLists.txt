@@ -26,6 +26,11 @@ configure_file(
     ${CMAKE_BINARY_DIR}/settings.h
 )
 
+option(COMPILE_EXS "Compile EXS module" ON)
+option(COMPILE_VAL "Compile VAL module" ON)
+option(COMPILE_PUQ "Compile PUQ module" ON)
+option(COMPILE_DIP "Compile DIP module" ON)
+
 # compile libraries and executables
 ###################################
 

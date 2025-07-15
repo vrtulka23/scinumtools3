@@ -90,31 +90,42 @@ namespace puq {
     UnitValue(const MAGNITUDE_TYPE& m): magnitude(m) {}
     UnitValue(const MAGNITUDE_TYPE& m, const std::string& s);
     UnitValue(const MAGNITUDE_TYPE& m, const Dimensions& dim);
-    UnitValue(const MAGNITUDE_TYPE& m, const BaseUnits& bu): magnitude(m), baseunits(bu) {}
-    UnitValue(const MAGNITUDE_TYPE& m, const BaseUnitsList& bul): magnitude(m), baseunits(bul) {}
+    UnitValue(const MAGNITUDE_TYPE& m, const BaseUnits& bu): magnitude(m), baseunits(bu) {};
+    UnitValue(const MAGNITUDE_TYPE& m, const BaseUnitsList& bul): magnitude(m), baseunits(bul) {};
 #ifdef MAGNITUDE_ERRORS
     UnitValue(const MAGNITUDE_PRECISION& m, const std::string& s);
     UnitValue(const MAGNITUDE_PRECISION& m): magnitude(m) {};
-    UnitValue(const MAGNITUDE_PRECISION& m, const BaseUnits& bu): magnitude(m), baseunits(bu) {}
-    UnitValue(const MAGNITUDE_PRECISION& m, const BaseUnitsList& bul): magnitude(m), baseunits(bul) {}
+    UnitValue(const MAGNITUDE_PRECISION& m, const BaseUnits& bu): magnitude(m), baseunits(bu) {};
+    UnitValue(const MAGNITUDE_PRECISION& m, const BaseUnitsList& bul): magnitude(m), baseunits(bul) {};
     UnitValue(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e, const std::string& s);
-    UnitValue(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e): magnitude(m,e) {}
-    UnitValue(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e, const BaseUnits& bu): magnitude(m,e), baseunits(bu) {}
-    UnitValue(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e, const BaseUnitsList& bul): magnitude(m,e), baseunits(bul) {}
-#ifdef MAGNITUDE_ARRAYS
+    UnitValue(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e): magnitude(m,e) {};
+    UnitValue(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e, const BaseUnits& bu): magnitude(m,e), baseunits(bu) {};
+    UnitValue(const MAGNITUDE_PRECISION& m, const MAGNITUDE_PRECISION& e, const BaseUnitsList& bul): magnitude(m,e), baseunits(bul) {};
+#if defined(MAGNITUDE_ARRAYS)
     UnitValue(const Array& m, const std::string& s);
     UnitValue(const Array& m): magnitude(m) {};
-    UnitValue(const Array& m, const BaseUnits& bu): magnitude(m), baseunits(bu) {}
-    UnitValue(const Array& m, const BaseUnitsList& bul): magnitude(m), baseunits(bul) {}
+    UnitValue(const Array& m, const BaseUnits& bu): magnitude(m), baseunits(bu) {};
+    UnitValue(const Array& m, const BaseUnitsList& bul): magnitude(m), baseunits(bul) {};
     UnitValue(const Array& m, const Array& e, const std::string& s);
-    UnitValue(const Array& m, const Array& e): magnitude(m,e) {}
-    UnitValue(const Array& m, const Array& e, const BaseUnits& bu): magnitude(m,e), baseunits(bu) {}
-    UnitValue(const Array& m, const Array& e, const BaseUnitsList& bul): magnitude(m,e), baseunits(bul) {}    
+    UnitValue(const Array& m, const Array& e): magnitude(m,e) {};
+    UnitValue(const Array& m, const Array& e, const BaseUnits& bu): magnitude(m,e), baseunits(bu) {};
+    UnitValue(const Array& m, const Array& e, const BaseUnitsList& bul): magnitude(m,e), baseunits(bul) {};
+#elif defined(MAGNITUDE_VALUES)
+    UnitValue(val::BaseValue::PointerType m, const std::string& s);
+    UnitValue(val::BaseValue::PointerType m): magnitude(m) {};
+    UnitValue(val::BaseValue::PointerType m, const BaseUnits& bu): magnitude(m), baseunits(bu) {};
+    UnitValue(val::BaseValue::PointerType m, const BaseUnitsList& bul): magnitude(m), baseunits(bul) {};
+    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const std::string& s);
+    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e): magnitude(m,e) {};
+    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const BaseUnits& bu): magnitude(m,e), baseunits(bu) {};
+    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const BaseUnitsList& bul): magnitude(m,e), baseunits(bul) {};
 #endif
 #endif
     std::size_t size() const;
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     ArrayShape shape() const;
+#elif defined(MAGNITUDE_VALUES)
+    val::Array::ShapeType shape() const;
 #endif
     std::string to_string(const UnitFormat& format = UnitFormat()) const;
     friend UnitValue operator+(const UnitValue& v1, const UnitValue& v2);

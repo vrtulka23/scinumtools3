@@ -1,4 +1,10 @@
 # add submodule directories
-add_subdirectory(exs)
-add_subdirectory(puq)
-add_subdirectory(dip) 
+if (COMPILE_EXS)
+   add_subdirectory(exs)
+endif()
+if (COMPILE_PUQ)
+   add_subdirectory(puq)
+endif()
+if (COMPILE_DIP) 
+   add_subdirectory(dip) 
+endif()

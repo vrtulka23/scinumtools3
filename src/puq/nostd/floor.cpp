@@ -7,13 +7,17 @@ namespace puq {
       return std::floor(m);
     }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     Array floor(const Array& a) {
       ArrayValue av(a.size());
       for (int i=0; i<a.size(); i++)
 	av[i] = std::floor(a[i]);
       return Array(av,a.shape());
     }
+#elif defined(MAGNITUDE_VALUES)
+    val::BaseValue::PointerType floor(val::BaseValue::PointerType a)
+      return a->math_floor();
+    }        
 #endif
   
 #ifdef MAGNITUDE_ERRORS

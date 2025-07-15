@@ -19,7 +19,7 @@ function build_code {
     if [[ ! -d $DIR_BUILD ]]; then
 	    mkdir $DIR_BUILD
     fi
-    cmake -B $DIR_BUILD  #-DCODE_VERSION="${CODE_VERSION}" 
+    cmake -B $DIR_BUILD -DCOMPILE_DIP=OFF
     cd $DIR_BUILD
     make -j 1
     cd $DIR_ROOT

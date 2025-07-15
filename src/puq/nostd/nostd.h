@@ -38,8 +38,10 @@ namespace puq {
 #ifdef EXPONENT_FRACTIONS
     extern std::string to_string(const Exponent& value, const UnitFormat& format = UnitFormat());
 #endif
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern std::string to_string(const Array& value, int precision=std::cout.precision());
+#elif defined(MAGNITUDE_VALUES)
+    extern std::string to_string(val::BaseValue::PointerType value, int precision=std::cout.precision());
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern std::string to_string(const Magnitude& value, int precision=std::cout.precision());
@@ -54,8 +56,10 @@ namespace puq {
      */
   
     extern MAGNITUDE_PRECISION exp(const MAGNITUDE_PRECISION& e);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array exp(const Array& e);
+#elif defined(MAGNITUDE_VALUES)
+    extern val::BaseValue::PointerType exp(val::BaseValue::PointerType e);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude exp(const Magnitude& e);
@@ -67,8 +71,10 @@ namespace puq {
      */
 
     extern MAGNITUDE_PRECISION log(const MAGNITUDE_PRECISION& m);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array log(const Array& a);
+#elif defined(MAGNITUDE_VALUESS)
+    extern val::BaseValue::PointerType log(val::BaseValue::PointerType a);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude log(const Magnitude& m);
@@ -79,8 +85,10 @@ namespace puq {
      */
   
     extern MAGNITUDE_PRECISION log10(const MAGNITUDE_PRECISION& m);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array log10(const Array& a);
+#elif defined(MAGNITUDE_VALUES)
+    extern val::BaseValue::PointerType log10(val::BaseValue::PointerType a);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude log10(const Magnitude& m);
@@ -91,8 +99,10 @@ namespace puq {
      */
   
     extern MAGNITUDE_PRECISION sqrt(const MAGNITUDE_PRECISION& m);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array sqrt(const Array& a);
+#elif defined(MAGNITUDE_VALUES)
+    extern val::BaseValue::PointerType sqrt(val::BaseValue::PointerType a);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude sqrt(const Magnitude& m);
@@ -103,8 +113,10 @@ namespace puq {
      */
   
     extern MAGNITUDE_PRECISION cbrt(const MAGNITUDE_PRECISION& m);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array cbrt(const Array& a);
+#elif defined(MAGNITUDE_VALUES)
+    extern val::BaseValue::PointerType cbrt(val::BaseValue::PointerType a);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude cbrt(const Magnitude& m);
@@ -115,9 +127,12 @@ namespace puq {
      */
 
     extern MAGNITUDE_PRECISION pow(const MAGNITUDE_PRECISION& m, const EXPONENT_REAL_PRECISION& e);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array pow(const Array &a, const EXPONENT_REAL_PRECISION& e);
     extern Array pow(const Array &a, const Array& e);
+#elif defined(MAGNITUDE_VALUES)
+    extern val::BaseValue::PointerType pow(val::BaseValue::PointerType a, const EXPONENT_REAL_PRECISION& e);
+    extern val::BaseValue::PointerType pow(val::BaseValue::PointerType a, val::BaseValue::PointerType e);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude pow(const Magnitude& m, const EXPONENT_REAL_PRECISION& e);
@@ -129,8 +144,10 @@ namespace puq {
      */
   
     extern MAGNITUDE_PRECISION floor(const MAGNITUDE_PRECISION& m);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array floor(const Array& a);
+#elif defined(MAGNITUDE_VALUES)
+    extern val::BaseValue::PointerType floor(val::BaseValue::PointerType a);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude floor(const Magnitude& m);
@@ -141,8 +158,10 @@ namespace puq {
      */
   
     extern MAGNITUDE_PRECISION abs(const MAGNITUDE_PRECISION& m);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array abs(const Array& a);
+#elif defined(MAGNITUDE_VALUES)
+    extern val::BaseValue::PointerType abs(val::BaseValue::PointerType a);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude abs(const Magnitude& m);
@@ -153,8 +172,10 @@ namespace puq {
      */
   
     extern MAGNITUDE_PRECISION max(const MAGNITUDE_PRECISION& m1, const MAGNITUDE_PRECISION& m2);
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     extern Array max(const Array& a1, const Array& a2);
+#elif defined(MAGNITUDE_VALUES)
+    extern val::BaseValue::PointerType max(val::BaseValue::PointerType a1, val::BaseValue::PointerType a2);
 #endif
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude max(const Magnitude& m1, const Magnitude& m2);

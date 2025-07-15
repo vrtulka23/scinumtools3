@@ -35,7 +35,7 @@
 /*
  *  Module specific settings
  */
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS) || defined(MAGNITUDE_VALUES)
   #define SYMBOL_ARRAY_START     "{"
   #define SYMBOL_ARRAY_END       "}"
   #define SYMBOL_ARRAY_SEPARATOR ","
@@ -54,13 +54,17 @@
  */
 #if defined(MAGNITUDE_ERRORS)
   #define MAGNITUDE_TYPE Magnitude
-  #ifdef MAGNITUDE_ARRAYS
+  #if defined(MAGNITUDE_ARRAYS)
     #define MAGNITUDE_VALUE Array
+  #elif defined(MAGNITUDE_VALUES)
+    #define MAGNITUDE_VALUE val::BaseValue::PointerType
   #else
     #define MAGNITUDE_VALUE MAGNITUDE_PRECISION
   #endif
 #elif defined(MAGNITUDE_ARRAYS)
   #define MAGNITUDE_TYPE Array
+#elif defined(MAGNITUDE_VALUES)
+  #define MAGNITUDE_TYPE val::BaseValue::PointerType
 #else
   #define MAGNITUDE_TYPE MAGNITUDE_PRECISION
 #endif

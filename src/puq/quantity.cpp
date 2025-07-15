@@ -90,7 +90,7 @@ namespace puq {
     value = UnitValue(mag, s);
   }
   
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
 
   Quantity::Quantity(const Array& m, const SystemType system): stype(system) {
     UnitSystem us(stype);
@@ -126,6 +126,42 @@ namespace puq {
     value = UnitValue(mag, s);
   }
   
+#elif defined(MAGNITUDE_VALUES)
+
+  Quantity::Quantity(val::BaseValue::PointerType m, const SystemType system): stype(system) {
+    UnitSystem us(stype);
+    value = UnitValue(std::move(m));
+  }
+  
+  Quantity::Quantity(val::BaseValue::PointerType m, const BaseUnitsList& bu, const SystemType system): stype(system) {
+    UnitSystem us(stype);
+    value = UnitValue(std::move(m), bu);
+  }
+  
+  Quantity::Quantity(val::BaseValue::PointerType m, std::string s, const SystemType system): stype(system) {
+    preprocess(s, stype);
+    UnitSystem us(stype);
+    Magnitude mag(std::move(m));
+    value = UnitValue(mag, s);
+  }
+
+  Quantity::Quantity(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const SystemType system): stype(system) {
+    UnitSystem us(stype);
+    value = UnitValue(std::move(m), std::move(e));
+  }
+  
+  Quantity::Quantity(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const BaseUnitsList& bu, const SystemType system): stype(system) {
+    UnitSystem us(stype);
+    value = UnitValue(std::move(m), std::move(e), bu);
+  }
+ 
+  Quantity::Quantity(val::BaseValue::PointerType m, val::BaseValue::PointerType e, std::string s, const SystemType system): stype(system) {
+    preprocess(s, stype);
+    UnitSystem us(stype);
+    Magnitude mag(std::move(m),std::move(e));
+    value = UnitValue(mag, s);
+  }
+  
 #endif
   
 #endif
@@ -142,9 +178,13 @@ namespace puq {
     return value.size();
   }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
   ArrayShape Quantity::shape() const {
     return value.shape();
+  }
+#elif defined(MAGNITUDE_VALUES)
+  val::Array::ShapeType Quantity::shape() const {
+    return value->get_shape();
   }
 #endif
   

@@ -192,6 +192,17 @@ namespace val {
     void convert_units(const puq::Quantity::PointerType& from_quantity, const std::string& to_units) override {
       throw std::runtime_error("Array value of type '"+std::string(DataTypeNames[dtype])+"' does not support unit conversion.");
     };
+    BaseValue::PointerType math_log() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_log10() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_sqrt() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_cbrt() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_exp() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_floor() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_ceil() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_abs() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_pow(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_max(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_min(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
   };
   
   template <typename T>
@@ -313,6 +324,34 @@ namespace val {
       std::vector<double> output = quantity.value.magnitude.value.value;
       std::copy(output.begin(), output.end(), this->value.begin());
     };
+    BaseValue::PointerType math_log() const override {
+      return this->template operate_unary<T>([](T a) {return std::log(a);});
+    };
+    BaseValue::PointerType math_log10() const override {
+      return this->template operate_unary<T>([](T a) {return std::log10(a);});
+    };
+    BaseValue::PointerType math_sqrt() const override {
+      return this->template operate_unary<T>([](T a) {return std::sqrt(a);});
+    };
+    BaseValue::PointerType math_cbrt() const override {
+      return this->template operate_unary<T>([](T a) {return std::cbrt(a);});
+    };
+    BaseValue::PointerType math_exp() const override {
+      return this->template operate_unary<T>([](T a) {return std::exp(a);});
+    };
+    BaseValue::PointerType math_floor() const override {
+      return this->template operate_unary<T>([](T a) {return std::floor(a);});
+    };
+    BaseValue::PointerType math_ceil() const override {
+      return this->template operate_unary<T>([](T a) {return std::ceil(a);});
+    };
+    BaseValue::PointerType math_abs() const override {
+      return nullptr;
+      //return this->template operate_unary<T>([](T a) {return std::abs(a);});
+    };
+    BaseValue::PointerType math_pow(const BaseValue* other) const override {return nullptr;};
+    BaseValue::PointerType math_max(const BaseValue* other) const override {return nullptr;};
+    BaseValue::PointerType math_min(const BaseValue* other) const override {return nullptr;};
     BaseValue::PointerType logical_and(const BaseValue* other) const override {
       return this->template operate_binary<bool>(other,[](T a, T b) {return a && b;});
     };

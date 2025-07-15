@@ -43,7 +43,7 @@ namespace puq {
     magnitude = Magnitude(m,e) * atom.value.magnitude;
     baseunits = atom.value.baseunits;
   }
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
   UnitValue::UnitValue(const Array& m, const std::string& s) {
     UnitSolver solver;  
     UnitAtom atom = solver.solve(s);
@@ -56,6 +56,19 @@ namespace puq {
     magnitude = Magnitude(m,e) * atom.value.magnitude;
     baseunits = atom.value.baseunits;
   }
+#elif defined(MAGNITUDE_VALUES)
+  UnitValue::UnitValue(val::BaseValue::PointerType m, const std::string& s) {
+    UnitSolver solver;  
+    UnitAtom atom = solver.solve(s);
+    magnitude = Magnitude(std::move(m)) * atom.value.magnitude;
+    baseunits = atom.value.baseunits;
+  }
+  UnitValue::UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const std::string& s) {
+    UnitSolver solver;  
+    UnitAtom atom = solver.solve(s);
+    magnitude = Magnitude(std::move(m),std::move(e)) * atom.value.magnitude;
+    baseunits = atom.value.baseunits;
+  }  
 #endif
 #endif
   
@@ -63,8 +76,12 @@ namespace puq {
     return magnitude.size();
   }
   
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
   ArrayShape UnitValue::shape() const {
+    return magnitude.shape();
+  }
+#elif defined(MAGNITUDE_VALUES)
+  val::Array::ShapeType UnitValue::shape() const {
     return magnitude.shape();
   }
 #endif
@@ -76,7 +93,7 @@ namespace puq {
 #if defined(MAGNITUDE_ERRORS)
       if (magnitude.value!=1 || baseunits.size()==0)
 	ss << magnitude.to_string(format) << multiply;
-#elif defined(MAGNITUDE_ARRAYS)
+#elif defined(MAGNITUDE_ARRAYS) || defined(MAGNITUDE_VALUES)
       if (magnitude!=1 || baseunits.size()==0)
 	ss << magnitude.to_string(format) << multiply;
 #else
@@ -192,7 +209,7 @@ namespace puq {
   }
   
   void UnitValue::pow(const EXPONENT_TYPE& e) {
-#if defined(MAGNITUDE_ERRORS) || defined(MAGNITUDE_ARRAYS)
+#if defined(MAGNITUDE_ERRORS) || defined(MAGNITUDE_ARRAYS) || defined(MAGNITUDE_VALUES)
     magnitude.pow(e);
 #else
     magnitude = std::pow(magnitude, (EXPONENT_REAL_PRECISION)e);

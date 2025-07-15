@@ -12,7 +12,7 @@
 
 namespace puq {
   
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
 
   Magnitude::Magnitude(const Array& m): value(m), error(0) {
     ArrayValue av;
@@ -24,6 +24,20 @@ namespace puq {
   Magnitude::Magnitude(const Array& m, const Array& e): value(m), error(e) {
     if (m.size()!=e.size()) 
       throw std::invalid_argument("Value and error arrays have different size: "+std::to_string(m.size())+" != "+std::to_string(e.size()));
+  }
+
+#elif defined(MAGNITUDE_VALUES)
+
+  Magnitude::Magnitude(val::BaseValue::PointerType m): value(m), error(0) {
+    ArrayValue av;
+    for (int i=0; i<m->size(); i++)
+      av.push_back(0);
+    error = Array(av,m->shape());
+  }
+
+  Magnitude::Magnitude(val::BaseValue::PointerType m, val::BaseValue::PointerType e): value(m), error(e) {
+    if (m->size()!=e->size()) 
+      throw std::invalid_argument("Value and error arrays have different size: "+std::to_string(m->size())+" != "+std::to_string(e->size()));
   }
 
 #endif
@@ -39,13 +53,23 @@ namespace puq {
     return v*e/100;
   };
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
 
   Array Magnitude::abs_to_rel(const Array& v, const Array& e) {
     return Array::filled(100, v.size())*e/v;
   };
 
   Array Magnitude::rel_to_abs(const Array& v, const Array& e) {
+    return v*e/Array::filled(100, v.size());
+  };
+
+#elif defined(MAGNITUDE_VALUESS)
+  // DEBUG: need to implement properly
+  Array Magnitude::abs_to_rel(val::BaseValue::PointerType v, val::BaseValue::PointerType e) {
+    return Array::filled(100, v.size())*e/v;
+  };
+
+  Array Magnitude::rel_to_abs(val::BaseValue::PointerType v, val::BaseValue::PointerType e) {
     return v*e/Array::filled(100, v.size());
   };
 
@@ -75,15 +99,18 @@ namespace puq {
   std::string Magnitude::to_string(const UnitFormat& format) const {
     std::stringstream ss;
     if (error==0 || !format.display_error()) {
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
       ss << value.to_string(format);
+#elif defined(MAGNITUDE_VALUES)
+      // TODO: implement format
+      ss << value->to_string(format);
 #else
       ss << std::setprecision(format.precision);
       ss << value << std::scientific;
 #endif
     }
     else {
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
       if (value.size()==1)
 	ss << _to_string(value[0], error[0], format);
       else if (value.size()==2) {
@@ -93,6 +120,18 @@ namespace puq {
       } else {
 	ss << SYMBOL_ARRAY_START << _to_string(value[0], error[0], format); 
 	ss << SYMBOL_ARRAY_SEPARATOR << " " << _to_string(value[1], error[1], format);
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << SYMBOL_ARRAY_MORE << SYMBOL_ARRAY_END;
+      }
+#elif defined(MAGNITUDE_VALUES)
+      if (value->size()==1)
+	ss << _to_string(value->get_value(0), error->get_value(0), format);
+      else if (value->size()==2) {
+	ss << SYMBOL_ARRAY_START << _to_string(value->get_value(0), error->get_value(0), format);
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << _to_string(value->get_value(1), error->get_value(1), format);
+	ss << SYMBOL_ARRAY_END;
+      } else {
+	ss << SYMBOL_ARRAY_START << _to_string(value->get_value(0), error->get_value(0), format); 
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << _to_string(value->get_value(1), error->get_value(1), format);
 	ss << SYMBOL_ARRAY_SEPARATOR << " " << SYMBOL_ARRAY_MORE << SYMBOL_ARRAY_END;
       }
 #else
@@ -106,9 +145,13 @@ namespace puq {
     return value.size();
   }  
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
   ArrayShape Magnitude::shape() const {
     return value.shape();
+  }
+#elif defined(MAGNITUDE_VALUES)
+  val::Array::ShapeType Magnitude::shape() const {
+    return value->get_shape();
   }
 #endif
   

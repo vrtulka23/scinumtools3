@@ -10,9 +10,13 @@ namespace puq {
       return ss.str();
     }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
     std::string to_string(const Array& value, int precision) {
       return value.to_string(precision);
+    }
+#elif defined(MAGNITUDE_VALUES)
+    std::string to_string(val::BaseValue::PointerType value, int precision) {
+      return value->to_string(precision);
     }
 #endif
   
