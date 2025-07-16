@@ -49,6 +49,10 @@ namespace val {
     virtual BaseValue::PointerType math_floor() const = 0;
     virtual BaseValue::PointerType math_ceil() const = 0;
     virtual BaseValue::PointerType math_abs() const = 0;
+    virtual BaseValue::PointerType math_add(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType math_sub(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType math_mul(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType math_div(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType math_pow(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType math_max(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType math_min(const BaseValue* other) const = 0;

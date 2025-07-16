@@ -200,6 +200,10 @@ namespace val {
     BaseValue::PointerType math_floor() const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_ceil() const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_abs() const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_add(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_sub(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_mul(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_div(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_pow(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_max(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_min(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
@@ -348,6 +352,18 @@ namespace val {
     BaseValue::PointerType math_abs() const override {
       return nullptr;
       //return this->template operate_unary<T>([](T a) {return std::abs(a);});
+    };
+    BaseValue::PointerType math_add(const BaseValue* other) const override {
+      return this->template operate_binary<T>(other,[](T a, T b) {return a + b;});
+    };
+    BaseValue::PointerType math_sub(const BaseValue* other) const override {
+      return this->template operate_binary<T>(other,[](T a, T b) {return a - b;});
+    };
+    BaseValue::PointerType math_mul(const BaseValue* other) const override {
+      return this->template operate_binary<T>(other,[](T a, T b) {return a * b;});
+    };
+    BaseValue::PointerType math_div(const BaseValue* other) const override {
+      return this->template operate_binary<T>(other,[](T a, T b) {return a / b;});
     };
     BaseValue::PointerType math_pow(const BaseValue* other) const override {return nullptr;};
     BaseValue::PointerType math_max(const BaseValue* other) const override {return nullptr;};

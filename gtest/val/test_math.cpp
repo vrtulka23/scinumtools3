@@ -79,4 +79,55 @@ TEST(Values, MathCeil) {
   
 }
 
+TEST(Values, MathAdd) {
+
+  std::vector<double> arr1 = {12.3, 2.3, 1.0345};
+  std::vector<double> arr2 = {34e2, 0.004, 3};
+  val::BaseValue::PointerType val1 = std::make_unique<val::ArrayValue<double>>(arr1); 
+  val::BaseValue::PointerType val2 = std::make_unique<val::ArrayValue<double>>(arr2); 
+  val::BaseValue::PointerType val3;
+  
+  val3 = val1->math_add(val2.get());
+  EXPECT_EQ(val3->to_string(), "[3412.3, 2.3040, 4.0345]");
+  
+}
+
+TEST(Values, MathSub) {
+
+  std::vector<double> arr1 = {12.3, 2.3, 1.0345};
+  std::vector<double> arr2 = {34e2, 0.004, 3};
+  val::BaseValue::PointerType val1 = std::make_unique<val::ArrayValue<double>>(arr1); 
+  val::BaseValue::PointerType val2 = std::make_unique<val::ArrayValue<double>>(arr2); 
+  val::BaseValue::PointerType val3;
+  
+  val3 = val1->math_sub(val2.get());
+  EXPECT_EQ(val3->to_string(), "[-3387.7, 2.2960, -1.9655]");
+  
+}
+
+TEST(Values, MathMul) {
+
+  std::vector<double> arr1 = {12.3, 2.3, 1.0345};
+  std::vector<double> arr2 = {34e2, 0.004, 3};
+  val::BaseValue::PointerType val1 = std::make_unique<val::ArrayValue<double>>(arr1); 
+  val::BaseValue::PointerType val2 = std::make_unique<val::ArrayValue<double>>(arr2); 
+  val::BaseValue::PointerType val3;
+  
+  val3 = val1->math_mul(val2.get());
+  EXPECT_EQ(val3->to_string(), "[4.1820e+04, 0.009200, 3.1035]");
+  
+}
+
+TEST(Values, MathDiv) {
+
+  std::vector<double> arr1 = {12.3, 2.3, 1.0345};
+  std::vector<double> arr2 = {34e2, 0.004, 3};
+  val::BaseValue::PointerType val1 = std::make_unique<val::ArrayValue<double>>(arr1); 
+  val::BaseValue::PointerType val2 = std::make_unique<val::ArrayValue<double>>(arr2); 
+  val::BaseValue::PointerType val3;
+  
+  val3 = val1->math_div(val2.get());
+  EXPECT_EQ(val3->to_string(), "[0.003618, 575.00, 0.3448]");
+  
+}
 
