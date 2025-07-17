@@ -3,8 +3,11 @@
 
 #include <typeinfo>
 #include <cstdint>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 
-#include "settings.h"
+#include "../settings.h"
 
 namespace val {
 
@@ -21,8 +24,25 @@ namespace val {
   
   extern std::unordered_map<DataType, std::string> DataTypeNames;
 
+  // Define common array types
+  namespace Array {
+    struct RangeStruct {
+      int dmin;
+      int dmax;
+      bool operator==(const RangeStruct& other) const {
+	return (dmin == other.dmin) && (dmax == other.dmax);
+      };
+    };
+    typedef std::vector<std::string> StringType; // holds raw string values
+    typedef std::vector<RangeStruct> RangeType;  // array dimension ranges
+    typedef std::vector<int> ShapeType;          // array shape
+    constexpr int max_range = -1;                // maximum range value
+  }
+
+  // Forward declaration
   template <typename T> class ArrayValue;
-  
+
+  // Define base value class
   class BaseValue {
   protected:
     Array::ShapeType shape;
@@ -39,8 +59,6 @@ namespace val {
     virtual BaseValue::PointerType clone() const = 0;
     virtual BaseValue::PointerType cast_as(DataType dt) const = 0;
     virtual BaseValue::PointerType slice(const Array::RangeType& slice) = 0;
-    virtual void convert_units(const std::string& from_units, const puq::Quantity::PointerType& to_quantity) = 0;
-    virtual void convert_units(const puq::Quantity::PointerType& from_quantity, const std::string& to_units) = 0;
     virtual BaseValue::PointerType math_log() const = 0;
     virtual BaseValue::PointerType math_log10() const = 0;
     virtual BaseValue::PointerType math_sqrt() const = 0;
@@ -73,6 +91,9 @@ namespace val {
 }
 
 #include "values_array.h"
+#include "values_boolean.h"
+#include "values_number.h"
+#include "values_string.h"
 
 namespace val {  
 

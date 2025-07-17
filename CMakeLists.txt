@@ -31,6 +31,15 @@ option(COMPILE_VAL "Compile VAL module" ON)
 option(COMPILE_PUQ "Compile PUQ module" ON)
 option(COMPILE_DIP "Compile DIP module" ON)
 
+set(COMPILE_PUQ_MAGNITUDE "array" CACHE STRING "Set the type of magnitude in PUQ module (array, value)")
+if(COMPILE_PUQ_MAGNITUDE STREQUAL "array")
+    add_compile_definitions(COMPILE_PUQ_MAGNITUDE_ARRAY)
+elseif(COMPILE_PUQ_MAGNITUDE STREQUAL "value")
+    add_compile_definitions(COMPILE_PUQ_MAGNITUDE_VALUE)
+else()
+    message(FATAL_ERROR "Invalid COMPILE_PUQ_MAGNITUDE: ${COMPILE_PUQ_MAGNITUDE}. Must be 'array' or 'value'.")
+endif()
+
 # compile libraries and executables
 ###################################
 

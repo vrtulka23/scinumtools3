@@ -3,6 +3,7 @@
 
 #include "settings.h"
 #include "array.h"
+#include "../val/values.h"
 
 namespace puq {
 
@@ -12,7 +13,7 @@ public:
 #if defined(MAGNITUDE_ARRAYS)
   Array value;
   Array error;
-#elif defined(MAGNITUDE_VALUE)
+#elif defined(MAGNITUDE_VALUES)
   val::BaseValue::PointerType value;
   val::BaseValue::PointerType error;
 #else
@@ -29,7 +30,7 @@ public:
   Magnitude(const Array& m, const Array& e);
   static Array abs_to_rel(const Array& v, const Array& a);
   static Array rel_to_abs(const Array& v, const Array& r);
-#elif defined(MAGNITUDE_VALUE)
+#elif defined(MAGNITUDE_VALUES)
   Magnitude(val::BaseValue::PointerType m);
   Magnitude(val::BaseValue::PointerType m, val::BaseValue::PointerType e);
   static val::BaseValue::PointerType abs_to_rel(val::BaseValue::PointerType v, val::BaseValue::PointerType a);
@@ -38,7 +39,7 @@ public:
   std::size_t size() const;
 #if defined(MAGNITUDE_ARRAYS)
   ArrayShape shape() const;
-#elif defined(MAGNITUDE_VALUE)
+#elif defined(MAGNITUDE_VALUES)
   val::Array::ShapeType shape() const;
 #endif
   std::string to_string(const UnitFormat& format = UnitFormat()) const;
