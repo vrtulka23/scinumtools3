@@ -138,6 +138,9 @@ namespace val {
 	return this->template operate_unary<T>([](T a) {return std::abs(a);});
       }
     };
+    BaseValue::PointerType math_neg() const override {
+      return this->template operate_unary<T>([](T a) {return -a;});
+    };
     BaseValue::PointerType math_add(const BaseValue* other) const override {
       return this->template operate_binary<T>(other,[](T a, T b) {return a + b;});
     };
@@ -147,10 +150,28 @@ namespace val {
     BaseValue::PointerType math_mul(const BaseValue* other) const override {
       return this->template operate_binary<T>(other,[](T a, T b) {return a * b;});
     };
+    BaseValue::PointerType math_mul(const double num) const override {
+      return this->template operate_unary<T>([&num](T a) {return a * num;});
+    };
     BaseValue::PointerType math_div(const BaseValue* other) const override {
       return this->template operate_binary<T>(other,[](T a, T b) {return a / b;});
     };
+    void math_add_equal(const BaseValue* other) override {
+      this->template operate_binary_equal<T>(other,[](T a, T b) {return a + b;});
+    };
+    void math_sub_equal(const BaseValue* other) override {
+      this->template operate_binary_equal<T>(other,[](T a, T b) {return a - b;});
+    };
+    void math_mul_equal(const BaseValue* other) override {
+      this->template operate_binary_equal<T>(other,[](T a, T b) {return a * b;});
+    };
+    void math_div_equal(const BaseValue* other) override {
+      this->template operate_binary_equal<T>(other,[](T a, T b) {return a / b;});
+    };
     BaseValue::PointerType math_pow(const BaseValue* other) const override {return nullptr;};
+    BaseValue::PointerType math_pow(const double exp) const override {
+      return this->template operate_unary<T>([&exp](T a) {return std::pow(a, exp);});      
+    };
     BaseValue::PointerType math_max(const BaseValue* other) const override {return nullptr;};
     BaseValue::PointerType math_min(const BaseValue* other) const override {return nullptr;};
     BaseValue::PointerType logical_and(const BaseValue* other) const override {

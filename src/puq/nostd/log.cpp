@@ -15,15 +15,20 @@ namespace puq {
       return Array(av,a.shape());
     }
 #elif defined(MAGNITUDE_VALUES)
-    val::BaseValue::PointerType log(val::BaseValue::PointerType a)
+    val::BaseValue::PointerType log(val::BaseValue::PointerType a) {
       return a->math_log();
     }
 #endif
     
 #ifdef MAGNITUDE_ERRORS
     Magnitude log(const Magnitude& m) {
+#ifdef MAGNITUDE_VALUES
       // y ± Dy = log10(x ± Dx) -> Dy = Dx / x
-      return Magnitude(log(m.value), m.error/m.value);  
+      return Magnitude(m.value->math_log(), m.error->math_div(m.value.get()));
+#else
+      // y ± Dy = log10(x ± Dx) -> Dy = Dx / x
+      return Magnitude(log(m.value), m.error/m.value);
+#endif
     }
 #endif
     

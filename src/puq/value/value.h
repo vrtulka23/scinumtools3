@@ -112,13 +112,13 @@ namespace puq {
     UnitValue(const Array& m, const Array& e, const BaseUnitsList& bul): magnitude(m,e), baseunits(bul) {};
 #elif defined(MAGNITUDE_VALUES)
     UnitValue(val::BaseValue::PointerType m, const std::string& s);
-    UnitValue(val::BaseValue::PointerType m): magnitude(m) {};
-    UnitValue(val::BaseValue::PointerType m, const BaseUnits& bu): magnitude(m), baseunits(bu) {};
-    UnitValue(val::BaseValue::PointerType m, const BaseUnitsList& bul): magnitude(m), baseunits(bul) {};
+    UnitValue(val::BaseValue::PointerType m): magnitude(std::move(m)) {};
+    UnitValue(val::BaseValue::PointerType m, const BaseUnits& bu): magnitude(std::move(m)), baseunits(bu) {};
+    UnitValue(val::BaseValue::PointerType m, const BaseUnitsList& bul): magnitude(std::move(m)), baseunits(bul) {};
     UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const std::string& s);
-    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e): magnitude(m,e) {};
-    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const BaseUnits& bu): magnitude(m,e), baseunits(bu) {};
-    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const BaseUnitsList& bul): magnitude(m,e), baseunits(bul) {};
+    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e): magnitude(std::move(m),std::move(e)) {};
+    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const BaseUnits& bu): magnitude(std::move(m),std::move(e)), baseunits(bu) {};
+    UnitValue(val::BaseValue::PointerType m, val::BaseValue::PointerType e, const BaseUnitsList& bul): magnitude(std::move(m),std::move(e)), baseunits(bul) {};
 #endif
 #endif
     std::size_t size() const;

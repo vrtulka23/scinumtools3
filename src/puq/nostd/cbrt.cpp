@@ -15,16 +15,22 @@ namespace puq {
       return Array(av,a.shape());
     }
 #elif defined(MAGNITUDE_VALUES)
-    val::BaseValue::PointerType cbrt(val::BaseValue::PointerType a)
+    val::BaseValue::PointerType cbrt(val::BaseValue::PointerType a) {
       return a->math_cbrt();
     }        
 #endif
   
 #ifdef MAGNITUDE_ERRORS
     Magnitude cbrt(const Magnitude& m) {
+#ifdef MAGNITUDE_VALUES
       // y ± Dz = pow(x ± Dx, 1/3) -> Dy = 1/3 * pow(x, -2/3) * Dx
       constexpr MAGNITUDE_PRECISION third = 1./3.;
-      return Magnitude(cbrt(m.value), third*pow(m.value, -2*third)*m.error);  
+      return Magnitude(m.value->math_cbrt(), m.value->math_pow(-2*third)->math_mul(third)->math_mul(m.error.get()));
+#else
+      // y ± Dz = pow(x ± Dx, 1/3) -> Dy = 1/3 * pow(x, -2/3) * Dx
+      constexpr MAGNITUDE_PRECISION third = 1./3.;
+      return Magnitude(cbrt(m.value), third*pow(m.value, -2*third)*m.error);
+#endif
     }
 #endif
     

@@ -19,7 +19,7 @@ function build_code {
     if [[ ! -d $DIR_BUILD ]]; then
 	    mkdir $DIR_BUILD
     fi
-    cmake -B $DIR_BUILD -DCOMPILE_DIP=OFF -DCOMPILE_PUQ_MAGNITUDE=array
+    cmake -B $DIR_BUILD -DCOMPILE_DIP=OFF -DCOMPILE_PUQ_MAGNITUDE=value
     cd $DIR_BUILD
     make -j 1
     cd $DIR_ROOT

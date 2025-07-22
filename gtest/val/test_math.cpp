@@ -89,6 +89,9 @@ TEST(Values, MathAdd) {
   
   val3 = val1->math_add(val2.get());
   EXPECT_EQ(val3->to_string(), "[3412.3, 2.3040, 4.0345]");
+
+  val1->math_add_equal(val2.get());
+  EXPECT_EQ(val1->to_string(), "[3412.3, 2.3040, 4.0345]");
   
 }
 
@@ -103,6 +106,9 @@ TEST(Values, MathSub) {
   val3 = val1->math_sub(val2.get());
   EXPECT_EQ(val3->to_string(), "[-3387.7, 2.2960, -1.9655]");
   
+  val1->math_sub_equal(val2.get());
+  EXPECT_EQ(val1->to_string(), "[-3387.7, 2.2960, -1.9655]");
+  
 }
 
 TEST(Values, MathMul) {
@@ -116,6 +122,9 @@ TEST(Values, MathMul) {
   val3 = val1->math_mul(val2.get());
   EXPECT_EQ(val3->to_string(), "[4.1820e+04, 0.009200, 3.1035]");
   
+  val1->math_mul_equal(val2.get());
+  EXPECT_EQ(val1->to_string(), "[4.1820e+04, 0.009200, 3.1035]");
+  
 }
 
 TEST(Values, MathDiv) {
@@ -128,6 +137,9 @@ TEST(Values, MathDiv) {
   
   val3 = val1->math_div(val2.get());
   EXPECT_EQ(val3->to_string(), "[0.003618, 575.00, 0.3448]");
+  
+  val1->math_div_equal(val2.get());
+  EXPECT_EQ(val1->to_string(), "[0.003618, 575.00, 0.3448]");
   
 }
 

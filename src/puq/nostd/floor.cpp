@@ -15,14 +15,18 @@ namespace puq {
       return Array(av,a.shape());
     }
 #elif defined(MAGNITUDE_VALUES)
-    val::BaseValue::PointerType floor(val::BaseValue::PointerType a)
+    val::BaseValue::PointerType floor(val::BaseValue::PointerType a) {
       return a->math_floor();
     }        
 #endif
   
 #ifdef MAGNITUDE_ERRORS
     Magnitude floor(const Magnitude& m) {
+#ifdef MAGNITUDE_VALUES
+      return Magnitude(m.value->math_floor());
+#else
       return Magnitude(floor(m.value));
+#endif
     }
 #endif
 

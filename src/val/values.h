@@ -67,11 +67,18 @@ namespace val {
     virtual BaseValue::PointerType math_floor() const = 0;
     virtual BaseValue::PointerType math_ceil() const = 0;
     virtual BaseValue::PointerType math_abs() const = 0;
+    virtual BaseValue::PointerType math_neg() const = 0;
     virtual BaseValue::PointerType math_add(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType math_sub(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType math_mul(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType math_mul(const double num) const = 0;
     virtual BaseValue::PointerType math_div(const BaseValue* other) const = 0;
+    virtual void math_add_equal(const BaseValue* other) = 0;
+    virtual void math_sub_equal(const BaseValue* other) = 0;
+    virtual void math_mul_equal(const BaseValue* other) = 0;
+    virtual void math_div_equal(const BaseValue* other) = 0;
     virtual BaseValue::PointerType math_pow(const BaseValue* other) const = 0;
+    virtual BaseValue::PointerType math_pow(const double exp) const = 0;
     virtual BaseValue::PointerType math_max(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType math_min(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType compare_equal(const BaseValue* other) const = 0;
@@ -83,6 +90,7 @@ namespace val {
     virtual BaseValue::PointerType logical_and(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType logical_or(const BaseValue* other) const = 0;
     virtual BaseValue::PointerType logical_not() const = 0;
+    virtual BaseValue::PointerType where(const BaseValue* other_true, const BaseValue* other_false) const = 0;
     virtual bool any_of() const = 0;
     virtual bool all_of() const = 0;
     virtual bool none_of() const = 0;
