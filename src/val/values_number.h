@@ -144,8 +144,14 @@ namespace val {
     BaseValue::PointerType math_add(const BaseValue* other) const override {
       return this->template operate_binary<T>(other,[](T a, T b) {return a + b;});
     };
+    BaseValue::PointerType math_add(const double num) const override {
+      return this->template operate_unary<T>([&num](T a) {return a + num;});
+    };
     BaseValue::PointerType math_sub(const BaseValue* other) const override {
       return this->template operate_binary<T>(other,[](T a, T b) {return a - b;});
+    };
+    BaseValue::PointerType math_sub(const double num) const override {
+      return this->template operate_unary<T>([&num](T a) {return a - num;});
     };
     BaseValue::PointerType math_mul(const BaseValue* other) const override {
       return this->template operate_binary<T>(other,[](T a, T b) {return a * b;});
@@ -155,6 +161,9 @@ namespace val {
     };
     BaseValue::PointerType math_div(const BaseValue* other) const override {
       return this->template operate_binary<T>(other,[](T a, T b) {return a / b;});
+    };
+    BaseValue::PointerType math_div(const double num) const override {
+      return this->template operate_unary<T>([&num](T a) {return a / num;});
     };
     void math_add_equal(const BaseValue* other) override {
       this->template operate_binary_equal<T>(other,[](T a, T b) {return a + b;});
@@ -191,6 +200,9 @@ namespace val {
     };
     bool none_of() const override {
       return std::none_of(this->value.begin(), this->value.end(), [](T b) { return b; });
+    };
+    bool is_unity() const override {
+      return std::all_of(this->value.begin(), this->value.end(), [](T b) { return b==1; });
     };
   };
   

@@ -9,6 +9,8 @@ set +a
 
 DIR_ROOT=$(pwd)
 
+DEBUG=0
+
 function clean_code {
     if [[ -d $DIR_BUILD ]]; then
 	    rm -r $DIR_BUILD
@@ -19,7 +21,11 @@ function build_code {
     if [[ ! -d $DIR_BUILD ]]; then
 	    mkdir $DIR_BUILD
     fi
-    cmake -B $DIR_BUILD -DCOMPILE_DIP=OFF -DCOMPILE_PUQ_MAGNITUDE=value
+    if [[ $DEBUG == 1 ]]; then
+	cmake -B $DIR_BUILD -DCOMPILE_DIP=OFF -DCOMPILE_PUQ_MAGNITUDE=value -DCMAKE_BUILD_TYPE=Debug
+    else
+	cmake -B $DIR_BUILD -DCOMPILE_DIP=OFF -DCOMPILE_PUQ_MAGNITUDE=value
+    fi
     cd $DIR_BUILD
     make -j 1
     cd $DIR_ROOT
@@ -32,10 +38,18 @@ function install_code {
 }
 
 function test_code {
-    if [[ "${2}" == "" ]]; then
-	    ./$DIR_BUILD/gtest/$1/GTestModule-$1
+    if [[ $DEBUG == 1 ]]; then
+	if [[ "${2}" == "" ]]; then
+	    lldb ./$DIR_BUILD/gtest/$1/GTestModule-$1
+	else
+            lldb ./$DIR_BUILD/gtest/$1/GTestModule-$1 --gtest_filter="${2}"
+	fi
     else
-        ./$DIR_BUILD/gtest/$1/GTestModule-$1 --gtest_filter="${2}"
+	if [[ "${2}" == "" ]]; then
+	    ./$DIR_BUILD/gtest/$1/GTestModule-$1
+	else
+            ./$DIR_BUILD/gtest/$1/GTestModule-$1 --gtest_filter="${2}"
+	fi
     fi
 }
 

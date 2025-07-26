@@ -96,28 +96,28 @@ namespace val {
      * Operations
      */
   protected:
-    template <typename V, typename Func>
-    std::unique_ptr<ArrayValue<V>> operate_unary(Func f) const {
+    template <typename R, typename Func>
+    std::unique_ptr<ArrayValue<R>> operate_unary(Func f) const {
       // apply operation
-      std::vector<V> arr(value.size());
+      std::vector<R> arr(value.size());
       for (int i=0; i<value.size();i++)
 	arr[i] = f(value[i]);
-      return std::make_unique<ArrayValue<V>>(arr, this->shape);
+      return std::make_unique<ArrayValue<R>>(arr, this->shape);
     };
-    template <typename V, typename Func>
-    std::unique_ptr<ArrayValue<V>> operate_binary(const BaseValue* other, Func f) const {
+    template <typename R, typename Func>
+    std::unique_ptr<ArrayValue<R>> operate_binary(const BaseValue* other, Func f) const {
       // test if shape match
       for (int i=0; i<shape.size();i++)
 	if (shape[i]!=other->get_shape()[i])
 	  throw std::runtime_error("Arrays have incompatible shape");
       // apply operation
       const ArrayValue<T> otherT(other);
-      std::vector<V> arr(value.size());
+      std::vector<R> arr(value.size());
       for (int i=0; i<value.size();i++)
 	arr[i] = f(value[i], otherT.value[i]);
-      return std::make_unique<ArrayValue<V>>(arr, this->shape);
+      return std::make_unique<ArrayValue<R>>(arr, this->shape);
     };
-    template <typename V, typename Func>
+    template <typename R, typename Func>
     void operate_binary_equal(const BaseValue* other, Func f) {
       // test if shape match
       for (int i=0; i<shape.size();i++)
@@ -127,6 +127,23 @@ namespace val {
       const ArrayValue<T> otherT(other);
       for (int i=0; i<value.size();i++)
 	value[i] = f(value[i], otherT.value[i]);
+    };
+    template <typename U, typename R, typename Func>
+    std::unique_ptr<ArrayValue<R>> operate_ternary(const BaseValue* other1, const BaseValue* other2, Func f) const {
+      // test if shape match
+      for (int i=0; i<shape.size();i++) {
+	if (shape[i]!=other1->get_shape()[i])
+	  throw std::runtime_error("First other has incompatible shape");
+	if (shape[i]!=other2->get_shape()[i])
+	  throw std::runtime_error("Second other has incompatible shape");
+      }
+      // apply operation
+      const ArrayValue<U> other1T(other1);
+      const ArrayValue<R> other2T(other2);
+      std::vector<R> arr(value.size());
+      for (int i=0; i<value.size();i++)
+	arr[i] = f(other1T.get_value(i), value[i], other2T.value[i]);
+      return std::make_unique<ArrayValue<R>>(arr, this->shape);
     };
   public:
     BaseValue::PointerType compare_equal(const BaseValue* other) const override {
@@ -202,10 +219,13 @@ namespace val {
     BaseValue::PointerType math_abs() const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_neg() const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_add(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_add(const double num) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_sub(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_sub(const double num) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_mul(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_mul(const double num) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_div(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType math_div(const double num) const override {throw std::runtime_error("Function is not implemented for this type.");};
     void math_add_equal(const BaseValue* other) override {throw std::runtime_error("Function is not implemented for this type.");};
     void math_sub_equal(const BaseValue* other) override {throw std::runtime_error("Function is not implemented for this type.");};
     void math_mul_equal(const BaseValue* other) override {throw std::runtime_error("Function is not implemented for this type.");};
@@ -214,7 +234,9 @@ namespace val {
     BaseValue::PointerType math_pow(const double exp) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_max(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
     BaseValue::PointerType math_min(const BaseValue* other) const override {throw std::runtime_error("Function is not implemented for this type.");};
-    BaseValue::PointerType where(const BaseValue* other_true, const BaseValue* other_false) const override {throw std::runtime_error("Function is not implemented for this type.");};
+    BaseValue::PointerType where(const BaseValue* condition, const BaseValue* other) const override {
+      return operate_ternary<bool,T>(condition, other, [](bool c, T a, T b) {return c ? a : b;});      
+    };
   };  
 
 }

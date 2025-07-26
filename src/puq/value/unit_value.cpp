@@ -91,11 +91,19 @@ namespace puq {
     std::stringstream ss;
     if (format.display_magnitude()) {
 #if defined(MAGNITUDE_ERRORS)
+  #if defined(MAGNITUDE_VALUES)
+      if (!magnitude.value->is_unity() || baseunits.size()==0)
+	ss << magnitude.to_string(format) << multiply;
+  #else
       if (magnitude.value!=1 || baseunits.size()==0)
 	ss << magnitude.to_string(format) << multiply;
-#elif defined(MAGNITUDE_ARRAYS) || defined(MAGNITUDE_VALUES)
+  #endif
+#elif defined(MAGNITUDE_ARRAYS)
       if (magnitude!=1 || baseunits.size()==0)
 	ss << magnitude.to_string(format) << multiply;
+#elif defined(MAGNITUDE_VALUES)
+      if (!magnitude->is_unity() || baseunits.size()==0)
+	ss << magnitude->to_string(format) << multiply;
 #else
       if (magnitude!=1 || baseunits.size()==0) {
 	ss << std::setprecision(format.precision);

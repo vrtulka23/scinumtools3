@@ -22,14 +22,12 @@ namespace puq {
   
 #ifdef MAGNITUDE_ERRORS
     extern Magnitude max(const Magnitude& m1, const Magnitude& m2) {
+      // x ± Dx = max(x ± Dx, y ± Dy)  <- if x > y
+      // y ± Dy = max(x ± Dx, y ± Dy)  <- if y > x
 #ifdef MAGNITUDE_VALUES
-      // x ± Dx = max(x ± Dx, y ± Dy)  <- if x > y
-      // y ± Dy = max(x ± Dx, y ± Dy)  <- if y > x
       MAGNITUDE_VALUE value = m1.value->math_max(m2.value.get());
-      return Magnitude(std::move(value), (value->compare_equal(m1.value.get()) ? m1.error->clone() : m2.error->clone() );
+      return Magnitude(std::move(value), m1.error->where(value->compare_equal(m1.value.get()).get(), m2.error.get()));
 #else
-      // x ± Dx = max(x ± Dx, y ± Dy)  <- if x > y
-      // y ± Dy = max(x ± Dx, y ± Dy)  <- if y > x
       MAGNITUDE_VALUE value = max(m1.value, m2.value);
       return Magnitude(value, (value==m1.value) ? m1.error : m2.error );
 #endif

@@ -49,6 +49,9 @@ namespace val {
     bool none_of() const override {
       return std::none_of(this->value.begin(), this->value.end(), [](bool b) { return b; });
     };
+    bool is_unity() const override {
+      return all_of();
+    };
   };
 
 }

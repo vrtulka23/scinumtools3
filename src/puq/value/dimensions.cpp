@@ -41,15 +41,21 @@ namespace puq {
       numerical = numerical * (MAGNITUDE_TYPE)(std::pow(1e2,(EXPONENT_REAL_PRECISION)physical[0]));
     }
 #if defined(MAGNITUDE_ERRORS)
+  #if defined(MAGNITUDE_VALUES)
+    if (!numerical.value->is_unity() && format.display_magnitude()) {
+      ss << numerical.to_string(format) << multiply;
+    }
+  #else
     if (numerical.value!=1 && format.display_magnitude()) {
       ss << numerical.to_string(format) << multiply;
     }
+  #endif
 #elif defined(MAGNITUDE_ARRAYS)
     if (numerical!=1 && format.display_magnitude()) {
       ss << numerical.to_string(format) << multiply;
     }
 #elif defined(MAGNITUDE_VALUES)
-    if (numerical!=1 && format.display_magnitude()) {
+    if (!numerical->is_unity() && format.display_magnitude()) {
       ss << numerical->to_string(format) << multiply;
     }
 #else

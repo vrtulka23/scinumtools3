@@ -46,12 +46,14 @@ TEST(UnitValue, Initialization) {
   
 }
 
+#ifdef MAGNITUDE_ARRAYS
 TEST(UnitValue, Size) {
   
   puq::UnitValue uv(puq::Array({2,3,4,5}));
   EXPECT_EQ(uv.size(), 4);
   
 }
+#endif
 
 TEST(UnitValue, RebasePrefixes) {
 

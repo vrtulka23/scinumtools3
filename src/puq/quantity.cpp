@@ -184,7 +184,7 @@ namespace puq {
   }
 #elif defined(MAGNITUDE_VALUES)
   val::Array::ShapeType Quantity::shape() const {
-    return value->get_shape();
+    return value.shape();
   }
 #endif
   
@@ -268,6 +268,7 @@ namespace puq {
     return Quantity(q.value/UnitValue(m));
   }
 
+#if defined(MAGNITUDE_ARRAYS)
   // overloading array/quantity
   Quantity operator+(const Array& a, const Quantity& q) {
     UnitSystem us(q.stype);
@@ -304,6 +305,44 @@ namespace puq {
     UnitSystem us(q.stype);
     return Quantity(q.value/UnitValue(a));
   }
+#elif defined(MAGNITUDE_VALUES)
+  // overloading array/quantity
+  Quantity operator+(val::BaseValue::PointerType a, const Quantity& q) {
+    UnitSystem us(q.stype);
+    return Quantity(UnitValue(std::move(a))+q.value);
+  }  
+  Quantity operator-(val::BaseValue::PointerType a, const Quantity& q) {
+    UnitSystem us(q.stype);
+    return Quantity(UnitValue(std::move(a))-q.value);
+  }
+  Quantity operator*(val::BaseValue::PointerType a, const Quantity& q) {
+    UnitSystem us(q.stype);
+    return Quantity(UnitValue(std::move(a))*q.value);
+  }
+  Quantity operator/(val::BaseValue::PointerType a, const Quantity& q) {
+    UnitSystem us(q.stype);
+    return Quantity(UnitValue(std::move(a))/q.value);
+  }
+
+  // overloading quantity/array
+  Quantity operator+(const Quantity& q, val::BaseValue::PointerType a) {
+    UnitSystem us(q.stype);
+    q.value+UnitValue(std::move(a));
+    return Quantity(q.value+UnitValue(std::move(a)));
+  }  
+  Quantity operator-(const Quantity& q, val::BaseValue::PointerType a) {
+    UnitSystem us(q.stype);
+    return Quantity(q.value-UnitValue(std::move(a)));
+  }
+  Quantity operator*(const Quantity& q, val::BaseValue::PointerType a) {
+    UnitSystem us(q.stype);
+    return Quantity(q.value*UnitValue(std::move(a)));
+  }
+  Quantity operator/(const Quantity& q, val::BaseValue::PointerType a) {
+    UnitSystem us(q.stype);
+    return Quantity(q.value/UnitValue(std::move(a)));
+  }
+#endif
   
   // overloading unary operations
   Quantity operator+(const Quantity& q) {

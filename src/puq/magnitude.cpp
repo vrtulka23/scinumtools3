@@ -29,6 +29,9 @@ namespace puq {
 #elif defined(MAGNITUDE_VALUES)
 
   Magnitude::Magnitude(val::BaseValue::PointerType m): value(std::move(m)), error(nullptr) {
+    if (!m)
+      throw std::invalid_argument("Magnitude value cannot be a null pointer.");
+    
     std::vector<double> v(m->get_size(), 0.0);
     error = std::make_unique<val::ArrayValue<double>>(v,m->get_shape());
     /*
@@ -40,8 +43,12 @@ namespace puq {
   }
 
   Magnitude::Magnitude(val::BaseValue::PointerType m, val::BaseValue::PointerType e): value(std::move(m)), error(std::move(e)) {
-    if (m->get_size()!=e->get_size()) 
-      throw std::invalid_argument("Value and error arrays have different size: "+std::to_string(m->get_size())+" != "+std::to_string(e->get_size()));
+    if (!value)
+      throw std::invalid_argument("Magnitude value cannot be a null pointer.");
+    if (!error)
+      throw std::invalid_argument("Magnitude error cannot be a null pointer.");
+    if (value->get_size()!=error->get_size()) 
+      throw std::invalid_argument("Value and error arrays have different size: "+std::to_string(value->get_size())+" != "+std::to_string(error->get_size()));
   }
 
 #endif
@@ -67,15 +74,15 @@ namespace puq {
     return v*e/Array::filled(100, v.size());
   };
 
-#elif defined(MAGNITUDE_VALUESS)
+#elif defined(MAGNITUDE_VALUES)
   
   // DEBUG: need to implement properly
   val::BaseValue::PointerType Magnitude::abs_to_rel(val::BaseValue::PointerType v, val::BaseValue::PointerType e) {
-    return Array::filled(100, v.size())*e/v;
+    return e->math_div(v.get())->math_mul(100);
   };
 
   val::BaseValue::PointerType Magnitude::rel_to_abs(val::BaseValue::PointerType v, val::BaseValue::PointerType e) {
-    return v*e/Array::filled(100, v.size());
+    return v->math_mul(e.get())->math_div(100);
   };
 
 #endif
@@ -107,8 +114,22 @@ namespace puq {
 #if defined(MAGNITUDE_ARRAYS)
       ss << value.to_string(format);
 #elif defined(MAGNITUDE_VALUES)
-      // TODO: implement format
-      ss << value->to_string(); //format);
+      val::ArrayValue<double> dvalue(value.get());
+      if (dvalue.get_size()==1) {
+	ss << std::setprecision(format.precision);
+	ss << dvalue.get_value(0) << std::scientific;
+      } else if (dvalue.get_size()==2) {
+	ss << std::setprecision(format.precision);
+	ss << SYMBOL_ARRAY_START << dvalue.get_value(0);
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << dvalue.get_value(1);
+      ss << std::scientific << SYMBOL_ARRAY_END;
+      } else if (dvalue.get_size()>2) {
+	ss << std::setprecision(format.precision);
+	ss << SYMBOL_ARRAY_START << dvalue.get_value(0);
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << dvalue.get_value(1);
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << SYMBOL_ARRAY_MORE;
+	ss << std::scientific << SYMBOL_ARRAY_END;
+      }
 #else
       ss << std::setprecision(format.precision);
       ss << value << std::scientific;
@@ -128,8 +149,19 @@ namespace puq {
 	ss << SYMBOL_ARRAY_SEPARATOR << " " << SYMBOL_ARRAY_MORE << SYMBOL_ARRAY_END;
       }
 #elif defined(MAGNITUDE_VALUES)
-      // TODO: implement formatting
-      ss << value->to_string();
+      val::ArrayValue<double> dvalue(value.get());
+      val::ArrayValue<double> derror(error.get());
+      if (dvalue.get_size()==1)
+	ss << _to_string(dvalue.get_value(0), derror.get_value(0), format);
+      else if (dvalue.get_size()==2) {
+	ss << SYMBOL_ARRAY_START << _to_string(dvalue.get_value(0), derror.get_value(0), format);
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << _to_string(dvalue.get_value(1), derror.get_value(1), format);
+	ss << SYMBOL_ARRAY_END;
+      } else {
+	ss << SYMBOL_ARRAY_START << _to_string(dvalue.get_value(0), derror.get_value(0), format); 
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << _to_string(dvalue.get_value(1), derror.get_value(1), format);
+	ss << SYMBOL_ARRAY_SEPARATOR << " " << SYMBOL_ARRAY_MORE << SYMBOL_ARRAY_END;
+      }
 #else
       ss << _to_string(value, error, format);
 #endif

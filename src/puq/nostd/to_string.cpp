@@ -54,6 +54,7 @@ namespace puq {
       return ss.str();
     }
 
+#if defined(MAGNITUDE_ARRAYS)
     std::string to_string(const ArrayShape& shape) {
       std::stringstream ss;
       ss << "[";
@@ -64,6 +65,18 @@ namespace puq {
       ss << "]";
       return ss.str();
     }
-        
+#elif defined(MAGNITUDE_VALUES)
+    std::string to_string(const val::Array::ShapeType& shape) {
+      std::stringstream ss;
+      ss << "[";
+      for (int i=0; i<shape.size(); i++) {
+	if (i>0) ss << ",";
+	ss << std::to_string(shape[i]);
+      }
+      ss << "]";
+      return ss.str();
+    }
+#endif
+    
   }
 }

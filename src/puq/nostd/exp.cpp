@@ -22,11 +22,10 @@ namespace puq {
   
 #ifdef MAGNITUDE_ERRORS
     Magnitude exp(const Magnitude& e) {
-#ifdef MAGNITUDE_VALUES
       // z ± Dz = pow(e, y ± Dy) -> Dz = pow(e, y) * log(e) * Dy
+#ifdef MAGNITUDE_VALUES
       return Magnitude(e.value->math_exp(), e.value->math_exp()->math_mul(e.error.get()));
 #else
-      // z ± Dz = pow(e, y ± Dy) -> Dz = pow(e, y) * log(e) * Dy
       return Magnitude(exp(e.value), exp(e.value)*e.error);
 #endif
     }

@@ -22,11 +22,10 @@ namespace puq {
   
 #ifdef MAGNITUDE_ERRORS
     Magnitude abs(const Magnitude& m) {
-#ifdef MAGNITUDE_VALUES
       // abs(y ± Dy) = abs(y) ± Dy
+#ifdef MAGNITUDE_VALUES
       return Magnitude(m.value->math_abs(), m.error->clone());
 #else
-      // abs(y ± Dy) = abs(y) ± Dy
       return Magnitude(abs(m.value), m.error);
 #endif
     }

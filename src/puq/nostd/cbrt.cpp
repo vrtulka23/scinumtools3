@@ -22,12 +22,11 @@ namespace puq {
   
 #ifdef MAGNITUDE_ERRORS
     Magnitude cbrt(const Magnitude& m) {
-#ifdef MAGNITUDE_VALUES
       // y ± Dz = pow(x ± Dx, 1/3) -> Dy = 1/3 * pow(x, -2/3) * Dx
+#ifdef MAGNITUDE_VALUES
       constexpr MAGNITUDE_PRECISION third = 1./3.;
       return Magnitude(m.value->math_cbrt(), m.value->math_pow(-2*third)->math_mul(third)->math_mul(m.error.get()));
 #else
-      // y ± Dz = pow(x ± Dx, 1/3) -> Dy = 1/3 * pow(x, -2/3) * Dx
       constexpr MAGNITUDE_PRECISION third = 1./3.;
       return Magnitude(cbrt(m.value), third*pow(m.value, -2*third)*m.error);
 #endif

@@ -17,10 +17,19 @@ void add_line(std::stringstream& ss, const std::string& symbol, puq::Dimensions&
   ss << "\""+symbol+"\",";
   ss << "{";
   int precision = std::numeric_limits<MAGNITUDE_PRECISION>::digits10;
+#if defined(MAGNITUDE_VALUES)
+  ss << std::setfill(' ') << std::setw(25)  << std::left;
+  val::ArrayValue<double> value(dim.numerical.value.get());
+  ss << puq::nostd::to_string(value.get_value(0), precision)+",";
+  ss << std::setfill(' ') << std::setw(25)  << std::left;
+  val::ArrayValue<double> error(dim.numerical.error.get());
+  ss << puq::nostd::to_string(error.get_value(0), precision)+",";
+#else
   ss << std::setfill(' ') << std::setw(25)  << std::left;
   ss << puq::nostd::to_string(dim.numerical.value[0], precision)+",";
   ss << std::setfill(' ') << std::setw(25)  << std::left;
   ss << puq::nostd::to_string(dim.numerical.error[0], precision)+",";
+#endif
   ss << "{";
   for (int i=0; i<NUM_BASEDIM; i++) {
     if (i>0)
@@ -80,7 +89,13 @@ inline void solve_units(std::stringstream& ss, puq::DimensionMapType& dmap, puq:
       dim.numerical = 1; // for logarithmic units this has to be 1
     if (missing=="") {
       add_line(ss, unit.first, dim, unit.second.name);
+#if defined(MAGNITUDE_VALUES)
+      val::ArrayValue<double> value(dim.numerical.value.get());
+      val::ArrayValue<double> error(dim.numerical.error.get());
+      dmap.insert({unit.first, {value.get_value(0), error.get_value(0), dim.physical}});
+#else
       dmap.insert({unit.first, {dim.numerical.value[0], dim.numerical.error[0], dim.physical}});
+#endif
     }
   }
 }
@@ -101,7 +116,13 @@ inline void solve_quantities(std::stringstream& ss, puq::DimensionMapType& dmap,
     }
     std::string symbol = SYMBOL_QUANTITY_START+quant.first+SYMBOL_QUANTITY_END;
     add_line(ss, symbol, dim, puq::QuantityNames.at(quant.first));
+#if defined(MAGNITUDE_VALUES)
+    val::ArrayValue<double> value(dim.numerical.value.get());
+    val::ArrayValue<double> error(dim.numerical.error.get());
+    dmap.insert({symbol, {value.get_value(0), error.get_value(0), dim.physical}});
+#else
     dmap.insert({symbol, {dim.numerical.value[0], dim.numerical.error[0], dim.physical}});
+#endif
     
     // solve a quantity IS conversion factor, if exists
     if (quant.second.sifactor!="") {
@@ -123,7 +144,13 @@ inline void solve_quantities(std::stringstream& ss, puq::DimensionMapType& dmap,
       // register the conversion factor
       symbol = SYMBOL_SIFACTOR_START+quant.first+SYMBOL_SIFACTOR_END;
       add_line(ss, symbol, dim, puq::QuantityNames.at(quant.first)+" SI factor");
+#if defined(MAGNITUDE_VALUES)
+      val::ArrayValue<double> value(dim.numerical.value.get());
+      val::ArrayValue<double> error(dim.numerical.error.get());
+      dmap.insert({symbol, {value.get_value(0), error.get_value(0), dim.physical}});
+#else
       dmap.insert({symbol, {dim.numerical.value[0], dim.numerical.error[0], dim.physical}});
+#endif
     }
   }
 }
