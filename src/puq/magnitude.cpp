@@ -29,25 +29,14 @@ namespace puq {
 #elif defined(MAGNITUDE_VALUES)
 
   Magnitude::Magnitude(val::BaseValue::PointerType m): value(std::move(m)), error(nullptr) {
-    if (!m)
+    if (!value)
       throw std::invalid_argument("Magnitude value cannot be a null pointer.");
-    
-    std::vector<double> v(m->get_size(), 0.0);
-    error = std::make_unique<val::ArrayValue<double>>(v,m->get_shape());
-    /*
-    ArrayValue av;
-    for (int i=0; i<m->size(); i++)
-      av.push_back(0);
-    error = Array(av,m->shape());
-    */
   }
 
   Magnitude::Magnitude(val::BaseValue::PointerType m, val::BaseValue::PointerType e): value(std::move(m)), error(std::move(e)) {
     if (!value)
       throw std::invalid_argument("Magnitude value cannot be a null pointer.");
-    if (!error)
-      throw std::invalid_argument("Magnitude error cannot be a null pointer.");
-    if (value->get_size()!=error->get_size()) 
+    if (error && value->get_size()!=error->get_size()) 
       throw std::invalid_argument("Value and error arrays have different size: "+std::to_string(value->get_size())+" != "+std::to_string(error->get_size()));
   }
 
@@ -193,7 +182,13 @@ namespace puq {
   Magnitude operator+(const Magnitude& m1, const Magnitude& m2) {
 #ifdef MAGNITUDE_VALUES
     // z ± Dz = (x ± Dx) + (y ± Dy) -> Dz = Dx + Dy     (average errors)
-    val::BaseValue::PointerType Dz = m1.error->math_add(m2.error.get());
+    val::BaseValue::PointerType Dz = nullptr;
+    if (m1.error && m2.error)
+      Dz = m1.error->math_add(m2.error.get());
+    else if (m1.error)
+      Dz = m1.error->clone();
+    else if (m2.error)
+      Dz = m2.error->clone();
     //Array Dz = nostd::sqrt(nostd::pow(m1.error,2)+nostd::pow(m2.error,2)); // Gaussian error propagation
     return Magnitude(m1.value->math_add(m2.value.get()), std::move(Dz));
 #else
@@ -207,7 +202,10 @@ namespace puq {
   void Magnitude::operator+=(const Magnitude& m) {
 #ifdef MAGNITUDE_VALUES
     value->math_add_equal(m.value.get());
-    error->math_add_equal(m.error.get());
+    if (error && m.error)
+      error->math_add_equal(m.error.get());
+    else if (m.error)
+      error = m.error->clone();
 #else
     value += m.value;
     error += m.error;
@@ -220,29 +218,37 @@ namespace puq {
    */
   Magnitude operator-(const Magnitude& m1) {
 #ifdef MAGNITUDE_VALUES
-    return Magnitude(m1.value->math_neg(), m1.error->clone());
+    if (m1.error)
+      return Magnitude(m1.value->math_neg(), m1.error->clone());
+    else
+      return Magnitude(m1.value->math_neg());
 #else
     return Magnitude(-m1.value, m1.error);
 #endif
   }
   Magnitude operator-(const Magnitude& m1, const Magnitude& m2) {
-#ifdef MAGNITUDE_VALUES
-    return Magnitude(m1.value->math_sub(m2.value.get()), m1.error->math_add(m2.error.get()));
-#else
     // z ± Dz = (x ± Dx) - (y ± Dy) -> Dz = Dx + Dy     (average errors)
+#ifdef MAGNITUDE_VALUES
+    val::BaseValue::PointerType Dz = nullptr;
+    if (m1.error && m2.error)
+      Dz = m1.error->math_add(m2.error.get());
+    else if (m1.error)
+      Dz = m1.error->clone();
+    else if (m2.error)
+      Dz = m2.error->clone();
+    return Magnitude(m1.value->math_sub(m2.value.get()), std::move(Dz));
+#else
     return Magnitude(m1.value-m2.value, m1.error+m2.error);
 #endif
-  }
-
-  std::ostream& operator<<(std::ostream& os, const Magnitude& m) {
-    os << m.to_string();
-    return os;
   }
   
   void Magnitude::operator-=(const Magnitude& m) {
 #ifdef MAGNITUDE_VALUES
     value->math_sub_equal(m.value.get());
-    value->math_add_equal(m.error.get());
+    if (error && m.error)
+      error->math_add_equal(m.error.get());
+    else if (m.error)
+      error = m.error->clone();
 #else
     value -= m.value;
     error += m.error;
@@ -255,16 +261,14 @@ namespace puq {
   const Magnitude multiply(const Magnitude* m, const Magnitude* n) {
 #ifdef MAGNITUDE_VALUES
     Magnitude nm(m->value->math_mul(n->value.get()));
-    if (m->error->none_of() && n->error->none_of()) {
-      nm.error = (m->error->get_size()>n->error->get_size()) ? m->error->clone() : n->error->clone();
-    } else if (m->error->none_of() && n->error->any_of()) {
-      nm.error = n->error->math_mul(m->value.get());
-    } else if (m->error->any_of() && n->error->none_of()) {
-      nm.error = m->error->math_mul(n->value.get());    
-    } else {
+    if ((m->error && n->error) && (m->error->any_of() && n->error->any_of())) {
       MAGNITUDE_VALUE maxerror = ((m->value->math_add(m->error.get()))->math_mul((n->value->math_add(n->error.get())).get())->math_sub(nm.value.get()))->math_abs();
       MAGNITUDE_VALUE minerror = ((m->value->math_sub(m->error.get()))->math_mul((n->value->math_sub(n->error.get())).get())->math_sub(nm.value.get()))->math_abs();
       nm.error = maxerror->math_max(minerror.get());
+    } else if ((!m->error || m->error->none_of()) && (n->error && n->error->any_of())) {
+      nm.error = n->error->math_mul(m->value.get());
+    } else if ((m->error && m->error->any_of()) && (!n->error || n->error->none_of())) {
+      nm.error = m->error->math_mul(n->value.get());    
     }
 #else
     Magnitude nm(m->value * n->value);
@@ -291,7 +295,8 @@ namespace puq {
     Magnitude nm = multiply(this, &m);
 #ifdef MAGNITUDE_VALUES
     value = nm.value->clone();
-    error = nm.error->clone();
+    if (nm.error)
+      error = nm.error->clone();
 #else
     value = nm.value;
     error = nm.error;
@@ -304,18 +309,16 @@ namespace puq {
   const Magnitude divide(const Magnitude* m, const Magnitude* n) {
 #ifdef MAGNITUDE_VALUES
     Magnitude nm(m->value->math_div(n->value.get()));
-    if (m->error->none_of() && n->error->none_of()) {
-      nm.error = (m->error->get_size()>n->error->get_size()) ? m->error->clone() : n->error->clone();
-    } else if (m->error->none_of() && n->error->any_of()) {
-      MAGNITUDE_VALUE maxerror = (m->value->math_div((n->value->math_add(n->error.get())).get())->math_sub(nm.value.get()))->math_abs();
-      MAGNITUDE_VALUE minerror = (m->value->math_div((n->value->math_sub(n->error.get())).get())->math_sub(nm.value.get()))->math_abs();
-      nm.error = maxerror->math_max(minerror.get());
-    } else if (m->error->any_of() && n->error->none_of()) {
-      nm.error = m->error->math_div(n->value.get());    
-    } else {
+    if ((m->error && n->error) && (m->error->any_of() && n->error->any_of())) {
       MAGNITUDE_VALUE maxerror = (((m->value->math_add(m->error.get()))->math_div((n->value->math_sub(n->error.get())).get()))->math_sub(nm.value.get()))->math_abs();
       MAGNITUDE_VALUE minerror = (((m->value->math_sub(m->error.get()))->math_div((n->value->math_add(n->error.get())).get()))->math_sub(nm.value.get()))->math_abs();
       nm.error = maxerror->math_max(minerror.get());
+    } else if ((!m->error || m->error->none_of()) && (n->error && n->error->any_of())) {
+      MAGNITUDE_VALUE maxerror = (m->value->math_div((n->value->math_add(n->error.get())).get())->math_sub(nm.value.get()))->math_abs();
+      MAGNITUDE_VALUE minerror = (m->value->math_div((n->value->math_sub(n->error.get())).get())->math_sub(nm.value.get()))->math_abs();
+      nm.error = maxerror->math_max(minerror.get());
+    } else if ((m->error && m->error->any_of()) && (!n->error || n->error->none_of())) {
+      nm.error = m->error->math_div(n->value.get());    
     }
 #else
     Magnitude nm(m->value / n->value);
@@ -344,7 +347,8 @@ namespace puq {
     Magnitude nm = divide(this, &m);
 #ifdef MAGNITUDE_VALUES
     value = nm.value->clone();
-    error = nm.error->clone();
+    if (nm.error)
+      error = nm.error->clone();
 #else
     value = nm.value;
     error = nm.error;
@@ -366,6 +370,11 @@ namespace puq {
   bool Magnitude::operator!=(const Magnitude& a) const {
     return (value!=a.value) || (error!=a.error);
   };
+
+  std::ostream& operator<<(std::ostream& os, const Magnitude& m) {
+    os << m.to_string();
+    return os;
+  }
 
 }
  

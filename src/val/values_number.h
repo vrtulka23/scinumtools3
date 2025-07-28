@@ -177,12 +177,18 @@ namespace val {
     void math_div_equal(const BaseValue* other) override {
       this->template operate_binary_equal<T>(other,[](T a, T b) {return a / b;});
     };
-    BaseValue::PointerType math_pow(const BaseValue* other) const override {return nullptr;};
+    BaseValue::PointerType math_pow(const BaseValue* other) const override {
+      return this->template operate_binary<T>(other,[](T a, T b) {return std::pow(a, b);});      
+    };
     BaseValue::PointerType math_pow(const double exp) const override {
       return this->template operate_unary<T>([&exp](T a) {return std::pow(a, exp);});      
     };
-    BaseValue::PointerType math_max(const BaseValue* other) const override {return nullptr;};
-    BaseValue::PointerType math_min(const BaseValue* other) const override {return nullptr;};
+    BaseValue::PointerType math_max(const BaseValue* other) const override {
+      return this->template operate_binary<T>(other,[](T a, T b) {return std::max(a, b);});      
+    };
+    BaseValue::PointerType math_min(const BaseValue* other) const override {
+      return this->template operate_binary<T>(other,[](T a, T b) {return std::min(a, b);});      
+    };
     BaseValue::PointerType logical_and(const BaseValue* other) const override {
       return this->template operate_binary<bool>(other,[](T a, T b) {return a && b;});
     };

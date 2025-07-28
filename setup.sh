@@ -9,7 +9,7 @@ set +a
 
 DIR_ROOT=$(pwd)
 
-DEBUG=0
+DEBUG=1
 
 function clean_code {
     if [[ -d $DIR_BUILD ]]; then
@@ -39,18 +39,13 @@ function install_code {
 
 function test_code {
     if [[ $DEBUG == 1 ]]; then
-	if [[ "${2}" == "" ]]; then
-	    lldb ./$DIR_BUILD/gtest/$1/GTestModule-$1
-	else
-            lldb ./$DIR_BUILD/gtest/$1/GTestModule-$1 --gtest_filter="${2}"
-	fi
-    else
-	if [[ "${2}" == "" ]]; then
-	    ./$DIR_BUILD/gtest/$1/GTestModule-$1
-	else
-            ./$DIR_BUILD/gtest/$1/GTestModule-$1 --gtest_filter="${2}"
-	fi
+	EXEC_PROGRAM="lldb --"
+	EXEC_FLAGS="--gtest_break_on_failure --gtest_catch_exceptions=0"
     fi
+    if [[ "${2}" != "" ]]; then
+	EXEC_FLAGS="--gtest_filter="${2}" ${EXEC_FLAGS}"
+    fi
+    $EXEC_PROGRAM ./$DIR_BUILD/gtest/$1/GTestModule-$1 $EXEC_FLAGS
 }
 
 function run_code {

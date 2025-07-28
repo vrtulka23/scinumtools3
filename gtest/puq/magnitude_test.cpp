@@ -81,17 +81,11 @@ TEST(Magnitude, ArithmeticsAdd) {
   EXPECT_EQ(m1.to_string(), "5.000(15)");
 
   m1 = puq::Magnitude(4, 0.01);
-  std::cout << "hullo2" << std::endl;
   m2 = puq::Magnitude(3);
-  std::cout << "hullo3" << std::endl;
   m3 = m1 + m2;
-  std::cout << "hullo4" << std::endl;
   EXPECT_EQ(m3.to_string(), "7.000(10)");
-  std::cout << "hullo5" << std::endl;
   m1 += m2;
-  std::cout << "hullo6" << std::endl;
   EXPECT_EQ(m1.to_string(), "7.000(10)");
-  std::cout << "hullo7" << std::endl;
   
 }
 
