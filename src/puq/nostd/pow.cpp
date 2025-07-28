@@ -30,8 +30,11 @@ namespace puq {
 #ifdef MAGNITUDE_ERRORS
     Magnitude pow(const Magnitude& m, const EXPONENT_REAL_PRECISION& e) {
 #ifdef MAGNITUDE_VALUES
-      // z ± Dz = pow(x ± Dx, y) -> Dz = y * pow(x, y-1) * Dx 
-      return Magnitude(m.value->math_pow(e), m.value->math_pow(e-1)->math_mul(e)->math_abs()->math_mul(m.error.get()));
+      // z ± Dz = pow(x ± Dx, y) -> Dz = y * pow(x, y-1) * Dx
+      if (m.error)
+	return Magnitude(m.value->math_pow(e), m.value->math_pow(e-1)->math_mul(e)->math_abs()->math_mul(m.error.get()));
+      else
+	return Magnitude(m.value->math_pow(e));
 #else
       // z ± Dz = pow(x ± Dx, y) -> Dz = y * pow(x, y-1) * Dx 
       return Magnitude(pow(m.value, e), abs(e*pow(m.value, e-1))*m.error);
