@@ -1,5 +1,7 @@
 # Custom
 build/*
+CMakeFiles/*
+CMakeCache.txt
 
 # Prerequisites
 *.d
