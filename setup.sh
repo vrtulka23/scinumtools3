@@ -9,7 +9,11 @@ set +a
 
 DIR_ROOT=$(pwd)
 
-DEBUG=1
+NUM_MAKE_CORES=10
+#CMAKE_BUILD_TYPE=Debug
+CMAKE_BUILD_TYPE=Release
+MODULE_FLAGS="-DCOMPILE_DIP=ON"
+MODULE_FLAGS+=" -DCOMPILE_PUQ=ON -DCOMPILE_PUQ_MAGNITUDE=value"
 
 function clean_code {
     if [[ -d $DIR_BUILD ]]; then
@@ -21,13 +25,13 @@ function build_code {
     if [[ ! -d $DIR_BUILD ]]; then
 	    mkdir $DIR_BUILD
     fi
-    if [[ $DEBUG == 1 ]]; then
-	cmake -B $DIR_BUILD -DCOMPILE_DIP=OFF -DCOMPILE_PUQ_MAGNITUDE=value -DCMAKE_BUILD_TYPE=Debug
+    if [[ $CMAKE_BUILD_TYPE == Debug ]]; then
+	cmake -B $DIR_BUILD $MODULE_FLAGS -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
     else
-	cmake -B $DIR_BUILD -DCOMPILE_DIP=OFF -DCOMPILE_PUQ_MAGNITUDE=value
+	cmake -B $DIR_BUILD $MODULE_FLAGS 
     fi
     cd $DIR_BUILD
-    make -j 1
+    make -j $NUM_MAKE_CORES
     cd $DIR_ROOT
 }
 
@@ -38,14 +42,27 @@ function install_code {
 }
 
 function test_code {
-    if [[ $DEBUG == 1 ]]; then
-	EXEC_PROGRAM="lldb --"
-	EXEC_FLAGS="--gtest_break_on_failure --gtest_catch_exceptions=0"
+    EXEC_FLAGS=""
+    if [[ $CMAKE_BUILD_TYPE == Debug ]]; then
+	EXEC_PROGRAM="lldb -o run --"
+	EXEC_FLAGS="${EXEC_FLAGS} --gtest_break_on_failure --gtest_catch_exceptions=0"
     fi
-    if [[ "${2}" != "" ]]; then
-	EXEC_FLAGS="--gtest_filter="${2}" ${EXEC_FLAGS}"
+    if [[ -n "${1}" ]]; then
+	if [[ "${2}" != "" ]]; then
+	    EXEC_FLAGS="--gtest_filter="${2}" ${EXEC_FLAGS}"
+	fi
+	$EXEC_PROGRAM ./$DIR_BUILD/GTestModule-$1 $EXEC_FLAGS
+    else
+	EXEC_FLAGS="${EXEC_FLAGS} --gtest_brief=1"
+	echo "Testing EXS"
+	$EXEC_PROGRAM ./$DIR_BUILD/GTestModule-exs $EXEC_FLAGS
+	echo "Testing VAL"
+	$EXEC_PROGRAM ./$DIR_BUILD/GTestModule-val $EXEC_FLAGS
+	echo "Testing PUQ"
+	$EXEC_PROGRAM ./$DIR_BUILD/GTestModule-puq $EXEC_FLAGS
+	echo "Testing DIP"
+	$EXEC_PROGRAM ./$DIR_BUILD/GTestModule-dip $EXEC_FLAGS	
     fi
-    $EXEC_PROGRAM ./$DIR_BUILD/gtest/$1/GTestModule-$1 $EXEC_FLAGS
 }
 
 function run_code {
@@ -63,7 +80,7 @@ function grep_code {
 }
 
 function show_help {
-    echo "Open Scientific Numerical Tools (OpenSNT)"
+    echo "Scientific Numerical Tools (SNT, scinumtools)"
     echo ""
     echo "Options:"
     echo " -c|--clean          clean the build directory"

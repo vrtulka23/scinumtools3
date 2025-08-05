@@ -42,8 +42,9 @@ namespace dip {
       }
     }
     if (value!=nullptr) {
-      if (!value_slice.empty())
+      if (!value_slice.empty()) {
 	value = value->slice(value_slice);
+      }
       if (dimension.empty()) {
 	if (value->get_size()>1)
 	  throw std::runtime_error("Assigning array value to the scalar node: "+line.code);
@@ -61,8 +62,11 @@ namespace dip {
     if (qnode and !node->units_raw.empty()) {
       if (qnode->units==nullptr)
 	throw std::runtime_error("Trying to convert '"+node->units_raw+"' into a nondimensional quantity: "+line.code);
-      else
-	value->convert_units(node->units_raw, qnode->units);
+      else {
+	puq::Quantity quantity(std::move(value), node->units_raw);
+	quantity = quantity.convert(*qnode->units);
+	value = std::move(quantity.value.magnitude.value);
+      }
     }
     value_raw = node->value_raw;
     set_value(std::move(value));

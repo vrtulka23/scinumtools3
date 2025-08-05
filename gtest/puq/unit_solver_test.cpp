@@ -59,7 +59,7 @@ TEST(UnitSolver, SolveFractions) {
 
 #endif
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS) || defined(MAGNITUDE_VALUES)
 
 TEST(UnitSolver, SolveArrays) {
 

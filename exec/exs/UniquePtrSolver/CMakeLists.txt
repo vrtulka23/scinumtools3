@@ -1,5 +1,10 @@
 # create executable
+file(GLOB EXEC_FILES "./*.cpp" "./**/*.cpp")
+set(EXEC_NAME SolverUniquePtr)
 
-file(GLOB exec_files "./*.cpp" "./**/*.cpp")
-add_executable(UniquePtrSolver ${exec_files} )
-target_include_directories(UniquePtrSolver PRIVATE ${CMAKE_SOURCE_DIR}/src)
+add_executable(${EXEC_NAME} ${EXEC_FILES} )
+target_include_directories(${EXEC_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
+
+set_target_properties(${EXEC_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)

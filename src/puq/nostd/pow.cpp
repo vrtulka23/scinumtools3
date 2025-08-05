@@ -44,9 +44,19 @@ namespace puq {
       // Dz = sqrt(pow(Dzx,2)+pow(Dzy,2))
       // z ± Dz = pow(x ± Dx, y ± Dy)
 #ifdef MAGNITUDE_VALUES
-      MAGNITUDE_VALUE Dzx = e.value->math_mul(m.value->math_pow(e.value->math_add(-1).get()).get())->math_mul(m.error.get());    // Dzx = y * pow(x, y-1) * Dx 
-      MAGNITUDE_VALUE Dzy = m.value->math_pow(e.value.get())->math_mul(m.value->math_log().get())->math_mul(e.error.get());      // Dzy = pow(x, y) * log(x) * Dy
-      return Magnitude(m.value->math_pow(e.value.get()), Dzx->math_pow(2)->math_add(Dzy->math_pow(2).get())->math_sqrt());
+      if (m.error && e.error) {
+	MAGNITUDE_VALUE Dzx = e.value->math_mul(m.value->math_pow(e.value->math_add(-1).get()).get())->math_mul(m.error.get());    // Dzx = y * pow(x, y-1) * Dx 
+	MAGNITUDE_VALUE Dzy = m.value->math_pow(e.value.get())->math_mul(m.value->math_log().get())->math_mul(e.error.get());      // Dzy = pow(x, y) * log(x) * Dy
+	return Magnitude(m.value->math_pow(e.value.get()), Dzx->math_pow(2)->math_add(Dzy->math_pow(2).get())->math_sqrt());
+      } else if (m.error) {
+	MAGNITUDE_VALUE Dzx = e.value->math_mul(m.value->math_pow(e.value->math_add(-1).get()).get())->math_mul(m.error.get());    // Dzx = y * pow(x, y-1) * Dx 
+	return Magnitude(m.value->math_pow(e.value.get()), Dzx->math_pow(2)->math_sqrt());
+      } else if (e.error) {
+	MAGNITUDE_VALUE Dzy = m.value->math_pow(e.value.get())->math_mul(m.value->math_log().get())->math_mul(e.error.get());      // Dzy = pow(x, y) * log(x) * Dy
+	return Magnitude(m.value->math_pow(e.value.get()), Dzy->math_pow(2)->math_sqrt());
+     } else {
+	return Magnitude(m.value->math_pow(e.value.get()));
+      }
 #else
       MAGNITUDE_VALUE Dzx = e.value*pow(m.value, e.value-1)*m.error;     // Dzx = y * pow(x, y-1) * Dx 
       MAGNITUDE_VALUE Dzy = pow(m.value, e.value)*log(m.value)*e.error;  // Dzy = pow(x, y) * log(x) * Dy

@@ -20,16 +20,21 @@ namespace val {
     BaseArrayValue(const std::vector<T>&  arr, const Array::ShapeType& sh): value(arr), BaseValue(this->deduce_dtype(), sh) {};
     BaseArrayValue(const BaseValue* other): BaseValue(this->deduce_dtype(), other->get_shape()) {
       const BaseArrayValue<T>* otherT;
+      BaseValue::PointerType casted_other;
       if (this->dtype==other->get_dtype()) {
-	otherT = dynamic_cast<const BaseArrayValue<T>*>(other);
+	otherT = dynamic_cast<const ArrayValue<T>*>(other);
       } else {
-	BaseValue::PointerType casted_other = other->cast_as(this->dtype);
-	otherT = dynamic_cast<const BaseArrayValue<T>*>(casted_other.get());
+	casted_other = other->cast_as(this->dtype);
+	otherT = dynamic_cast<const ArrayValue<T>*>(casted_other.get());
       }
-      if (otherT) 
+      if (otherT) {
 	this->value = otherT->value;
+      }
       else
 	throw std::runtime_error("ArrayValue could not be initialized from the given BaseValue.");
+    };
+    static BaseValue::PointerType pointer_from_vector(const std::vector<T>& val) {
+      return std::make_unique<val::ArrayValue<T>>(std::vector<T>(val));
     };
     void print() override {std::cout << to_string() << std::endl;};
     std::vector<T> get_values() const {return value;};
@@ -106,32 +111,73 @@ namespace val {
     };
     template <typename R, typename Func>
     std::unique_ptr<ArrayValue<R>> operate_binary(const BaseValue* other, Func f) const {
-      // test if shape match
-      for (int i=0; i<shape.size();i++)
-	if (shape[i]!=other->get_shape()[i])
-	  throw std::runtime_error("Arrays have incompatible shape");
-      // apply operation
-      const ArrayValue<T> otherT(other);
-      std::vector<R> arr(value.size());
-      for (int i=0; i<value.size();i++)
-	arr[i] = f(value[i], otherT.value[i]);
-      return std::make_unique<ArrayValue<R>>(arr, this->shape);
+      std::vector<R> arr;
+      if (this->get_size()==1 && other->get_size()==1) {    // both are scalars
+	const ArrayValue<T> otherT(other);
+	return std::make_unique<ArrayValue<R>>( f(this->get_value(0), otherT.get_value(0)) );
+      } else if (this->get_size()==1) {                     // left is a scalar
+	const ArrayValue<T> otherT(other);
+	arr.reserve(other->get_size());
+	for (int i=0; i<other->get_size();i++)
+	  arr.push_back( f(this->get_value(0), otherT.get_value(i)) );
+	return std::make_unique<ArrayValue<R>>(arr, otherT.get_shape());
+      } else if (other->get_size()==1) {                    // right is a scalar
+	const ArrayValue<T> otherT(other);
+	arr.reserve(this->get_size());
+	for (int i=0; i<this->get_size();i++)
+	  arr.push_back( f(this->get_value(i), otherT.get_value(0)) );
+	return std::make_unique<ArrayValue<R>>(arr, this->get_shape());
+      } else {                                              // both are arrays
+	// test if shape match
+	if (shape.size()!=other->get_shape().size())  // Compare shape size
+	  throw std::runtime_error("Arrays have incompatible shapes");
+	for (int i=0; i<shape.size();i++)             // Compare shape values
+	  if (shape[i]!=other->get_shape()[i])
+	    throw std::runtime_error("Arrays have incompatible shapes");
+	// apply operation
+	const ArrayValue<T> otherT(other);
+	arr.reserve(this->get_size());
+	for (int i=0; i<this->get_size();i++)
+	  arr.push_back( f(this->get_value(i), otherT.get_value(i)) );
+	return std::make_unique<ArrayValue<R>>(arr, this->get_shape());
+      }
     };
     template <typename R, typename Func>
     void operate_binary_equal(const BaseValue* other, Func f) {
-      // test if shape match
-      for (int i=0; i<shape.size();i++)
-	if (shape[i]!=other->get_shape()[i])
-	  throw std::runtime_error("Arrays have incompatible shape");
-      // apply operation
-      const ArrayValue<T> otherT(other);
-      for (int i=0; i<value.size();i++)
-	value[i] = f(value[i], otherT.value[i]);
+      if (this->get_size()==1 && other->get_size()==1) {    // both are scalars
+	const ArrayValue<T> otherT(other);
+	value[0] = f(this->get_value(0), otherT.get_value(0));
+      } else if (this->get_size()==1) {                     // left is a scalar
+	const ArrayValue<T> otherT(other);
+	T val = this->get_value(0);
+	value.clear();
+	value.reserve(otherT.get_size());
+	shape = otherT.get_shape();
+	for (int i=0; i<otherT.get_size();i++)
+	  value.push_back( f(val, otherT.get_value(i)) );
+      } else if (other->get_size()==1) {                    // right is a scalar
+	const ArrayValue<T> otherT(other);
+	for (int i=0; i<this->get_size();i++)
+	  value[i] = f(this->get_value(i), otherT.get_value(0));
+      } else {                                              // both are arrays
+	// test if shape match
+	if (shape.size()!=other->get_shape().size())  // Compare shape size
+	  throw std::runtime_error("Arrays have incompatible shapes");
+	for (int i=0; i<shape.size();i++)             // Compare shape values
+	  if (shape[i]!=other->get_shape()[i])
+	    throw std::runtime_error("Arrays have incompatible shapes");
+	// apply operation
+	const ArrayValue<T> otherT(other);
+	for (int i=0; i<this->get_size();i++)
+	  value[i] = f(this->get_value(i), otherT.get_value(i));
+      }
     };
     template <typename U, typename R, typename Func>
     std::unique_ptr<ArrayValue<R>> operate_ternary(const BaseValue* other1, const BaseValue* other2, Func f) const {
       // test if shape match
-      for (int i=0; i<shape.size();i++) {
+      if (shape.size()!=other1->get_shape().size() || shape.size()!=other2->get_shape().size())  // Compare shape size
+	  throw std::runtime_error("Arrays have incompatible shapes");
+      for (int i=0; i<shape.size();i++) {                                                        // Compare shape values
 	if (shape[i]!=other1->get_shape()[i])
 	  throw std::runtime_error("First other has incompatible shape");
 	if (shape[i]!=other2->get_shape()[i])

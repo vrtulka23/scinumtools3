@@ -2,7 +2,7 @@
 
 #include "val/values.h"
 
-TEST(Values, CastBoolean) {
+TEST(Casting, Boolean) {
 
   std::vector<bool> arr = {true,false,false,true,true};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<bool>>(arr); 
@@ -26,7 +26,7 @@ TEST(Values, CastBoolean) {
   
 }
 
-TEST(Values, CastCharacter) {
+TEST(Casting, Character) {
 
   std::vector<char> arr = {65, 66, 67, 68, 69};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<char>>(arr); 
@@ -49,7 +49,7 @@ TEST(Values, CastCharacter) {
   
 }
 
-TEST(Values, CastInteger) {
+TEST(Casting, Integer) {
 
   std::vector<int> arr = {0, 2, 33, 45, 100023};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<int>>(arr); 
@@ -73,7 +73,7 @@ TEST(Values, CastInteger) {
   
 }
 
-TEST(Values, CastFloat) {
+TEST(Casting, Float) {
 
   std::vector<double> arr = {0, 2, 33.3, 45e2, -100023e3};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<double>>(arr); 
@@ -98,7 +98,7 @@ TEST(Values, CastFloat) {
 }
 
 
-TEST(Values, CastString) {
+TEST(Casting, String) {
 
   std::vector<std::string> arr;
   val::BaseValue::PointerType val;

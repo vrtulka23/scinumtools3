@@ -2,7 +2,7 @@
 
 #include "val/values.h"
 
-TEST(Values, QuantifierBoolean) { 
+TEST(Quantifiers, Boolean) { 
 
   std::vector<bool> arr = {true,false,false};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<bool>>(arr);
@@ -12,7 +12,7 @@ TEST(Values, QuantifierBoolean) {
   
 }
 
-TEST(Values, QuantifierCharacter) { 
+TEST(Quantifiers, Character) { 
 
   std::vector<char> arr = {0,1,2};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<char>>(arr);
@@ -22,7 +22,7 @@ TEST(Values, QuantifierCharacter) {
    
 }
 
-TEST(Values, QuantifierInteger) { 
+TEST(Quantifiers, Integer) { 
 
   std::vector<int> arr = {0,1,2};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<int>>(arr);
@@ -32,7 +32,7 @@ TEST(Values, QuantifierInteger) {
    
 }
 
-TEST(Values, QuantifierFloat) { 
+TEST(Quantifiers, Float) { 
 
   std::vector<double> arr = {0, 1.2, 2.34e5};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<double>>(arr);
@@ -42,7 +42,7 @@ TEST(Values, QuantifierFloat) {
    
 }
 
-TEST(Values, QuantifierString) { 
+TEST(Quantifiers, String) { 
 
   std::vector<std::string> arr = {"", "a", "b"};
   val::BaseValue::PointerType val = std::make_unique<val::ArrayValue<std::string>>(arr);

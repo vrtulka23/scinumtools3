@@ -2,7 +2,7 @@
 
 #include "val/values.h"
 
-TEST(Values, CompareEqual) { // ==
+TEST(Comparison, Equal) { // ==
 
   std::vector<bool> arr1 = {true,false,false};
   std::vector<bool> arr2 = {false,false,false};
@@ -18,7 +18,7 @@ TEST(Values, CompareEqual) { // ==
   
 }
 
-TEST(Values, CompareNotEqual) { // !=
+TEST(Comparison, NotEqual) { // !=
   
   std::vector<bool> arr1 = {true,false,false};
   std::vector<bool> arr2 = {false,false,false};
@@ -34,7 +34,7 @@ TEST(Values, CompareNotEqual) { // !=
   
 }
 
-TEST(Values, CompareGreater) { // >
+TEST(Comparison, Greater) { // >
   
   std::vector<int> arr1 = {1,2,3};
   std::vector<int> arr2 = {3,1,2};
@@ -50,7 +50,7 @@ TEST(Values, CompareGreater) { // >
 
 }
 
-TEST(Values, CompareLess) { // <
+TEST(Comparison, Less) { // <
   
   std::vector<int> arr1 = {1,2,3};
   std::vector<int> arr2 = {3,1,2};
@@ -66,7 +66,7 @@ TEST(Values, CompareLess) { // <
 
 }
 
-TEST(Values, CompareGreaterEqual) { // >=
+TEST(Comparison, GreaterEqual) { // >=
   
   std::vector<int> arr1 = {1,2,3};
   std::vector<int> arr2 = {3,1,2};
@@ -82,7 +82,7 @@ TEST(Values, CompareGreaterEqual) { // >=
 
 }
 
-TEST(Values, CompareLessEqual) { // <=
+TEST(Comparison, LessEqual) { // <=
   
   std::vector<int> arr1 = {1,2,3};
   std::vector<int> arr2 = {3,1,2};

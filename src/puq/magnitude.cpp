@@ -111,7 +111,7 @@ namespace puq {
 	ss << std::setprecision(format.precision);
 	ss << SYMBOL_ARRAY_START << dvalue.get_value(0);
 	ss << SYMBOL_ARRAY_SEPARATOR << " " << dvalue.get_value(1);
-      ss << std::scientific << SYMBOL_ARRAY_END;
+	ss << std::scientific << SYMBOL_ARRAY_END;
       } else if (dvalue.get_size()>2) {
 	ss << std::setprecision(format.precision);
 	ss << SYMBOL_ARRAY_START << dvalue.get_value(0);
@@ -260,6 +260,7 @@ namespace puq {
    */
   const Magnitude multiply(const Magnitude* m, const Magnitude* n) {
 #ifdef MAGNITUDE_VALUES
+    const val::ArrayValue<double> otherT(n->value.get());
     Magnitude nm(m->value->math_mul(n->value.get()));
     if ((m->error && n->error) && (m->error->any_of() && n->error->any_of())) {
       MAGNITUDE_VALUE maxerror = ((m->value->math_add(m->error.get()))->math_mul((n->value->math_add(n->error.get())).get())->math_sub(nm.value.get()))->math_abs();
@@ -364,11 +365,29 @@ namespace puq {
   } 
  
   bool Magnitude::operator==(const Magnitude& a) const {
+#ifdef MAGNITUDE_VALUES
+    if (error && a.error)
+      return (value->compare_equal(a.value.get())->all_of()) && (error->compare_equal(a.error.get())->all_of());
+    else if (!error && !a.error)
+      return (value->compare_equal(a.value.get())->all_of());
+    else
+      return false;	
+#else
     return (value==a.value) && (error==a.error);
+#endif
   };
  
   bool Magnitude::operator!=(const Magnitude& a) const {
+#ifdef MAGNITUDE_VALUES
+    if (error && a.error)
+      return (value->compare_not_equal(a.value.get())->any_of()) || (error->compare_not_equal(a.error.get())->any_of());
+    else if (!error && !a.error)
+      return (value->compare_not_equal(a.value.get())->any_of());
+    else
+      return false;
+#else
     return (value!=a.value) || (error!=a.error);
+#endif
   };
 
   std::ostream& operator<<(std::ostream& os, const Magnitude& m) {

@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 3.22)
 cmake_policy(SET CMP0074 NEW)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-project(OpenSNT VERSION 1.0 LANGUAGES CXX)
+project(scinumtools VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-deprecated -O3")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(MODULE_NAME opensnt)
+set(MODULE_NAME scinumtools)
 #set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install")
 set(CMAKE_INSTALL_BINDIR bin)
 set(CMAKE_INSTALL_LIBDIR lib)
@@ -43,7 +43,7 @@ endif()
 # compile libraries and executables
 ###################################
 
-message("SCientific Numerical Tools (OpenSNT)")
+message("Scientific Numerical Tools (SNT)")
 message("Code version: ${CODE_VERSION}")
 
 add_subdirectory(src)        # build dip-cpp library
@@ -81,7 +81,7 @@ install(FILES
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${MODULE_NAME}
 )
 
-install(EXPORT TargetsOpenSNT
+install(EXPORT TargetsSNT
         FILE ${MODULE_NAME}-targets.cmake
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${MODULE_NAME}"
 )

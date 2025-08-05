@@ -1,9 +1,15 @@
 # create executable
-file(GLOB exec_files "./*.cpp" "./**/*.cpp")
-add_executable(dip ${exec_files} )
-target_include_directories(dip PRIVATE ${CMAKE_SOURCE_DIR}/src)
-target_link_libraries(dip PRIVATE scinumtools-dip)
+file(GLOB EXEC_FILES "./*.cpp" "./**/*.cpp")
+set(EXEC_NAME dip)
+
+add_executable(${EXEC_NAME} ${EXEC_FILES} )
+target_include_directories(${EXEC_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(${EXEC_NAME} PRIVATE scinumtools-dip)
+
+set_target_properties(${EXEC_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
 
 # install libraries and executables
-install(TARGETS dip EXPORT TargetsOpenSNT
+install(TARGETS ${EXEC_NAME} EXPORT TargetsSNT
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

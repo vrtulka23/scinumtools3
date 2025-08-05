@@ -24,7 +24,10 @@ namespace puq {
     Magnitude exp(const Magnitude& e) {
       // z ± Dz = pow(e, y ± Dy) -> Dz = pow(e, y) * log(e) * Dy
 #ifdef MAGNITUDE_VALUES
-      return Magnitude(e.value->math_exp(), e.value->math_exp()->math_mul(e.error.get()));
+      if (e.error)
+	return Magnitude(e.value->math_exp(), e.value->math_exp()->math_mul(e.error.get()));
+      else
+	return Magnitude(e.value->math_exp());
 #else
       return Magnitude(exp(e.value), exp(e.value)*e.error);
 #endif

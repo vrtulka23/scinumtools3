@@ -1,8 +1,14 @@
 # build test
-file(GLOB test_files "*.cpp")
-add_executable(GTestModule-val ${test_files})
-target_include_directories(GTestModule-val PRIVATE ${CMAKE_SOURCE_DIR}/src)
-target_link_libraries(GTestModule-val PRIVATE GTest::gtest_main scinumtools-val)
+file(GLOB TEST_FILES "*.cpp")
+set(EXEC_NAME GTestModule-val)
+
+add_executable(${EXEC_NAME} ${TEST_FILES})
+target_include_directories(${EXEC_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(${EXEC_NAME} PRIVATE GTest::gtest_main scinumtools-val)
+
+set_target_properties(${EXEC_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
 
 include(GoogleTest)
-gtest_discover_tests(GTestModule-val)
+gtest_discover_tests(${EXEC_NAME})

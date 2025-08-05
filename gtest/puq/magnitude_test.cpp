@@ -48,7 +48,7 @@ TEST(Magnitude, ErrorConversion) {
  
 }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
 
 TEST(Magnitude, Size) {
   
@@ -64,6 +64,29 @@ TEST(Magnitude, ErrorConversionArrays) {
 
   a = puq::Magnitude::rel_to_abs(puq::Array({30,20}), puq::Array({20,10}));
   EXPECT_EQ(a.to_string(), "{6, 2}");
+ 
+}
+
+#elif defined(MAGNITUDE_VALUES)
+
+TEST(Magnitude, Size) {
+  
+  puq::Magnitude m(val::ArrayValue<double>::pointer_from_vector({2,3,4,5}));
+  EXPECT_EQ(m.size(), 4);
+  
+}
+
+TEST(Magnitude, ErrorConversionArrays) {
+
+  val::BaseValue::PointerType a;
+  
+  a = puq::Magnitude::abs_to_rel(val::ArrayValue<double>::pointer_from_vector({30,20}),
+				 val::ArrayValue<double>::pointer_from_vector({0.3,0.4}));
+  EXPECT_EQ(a->to_string(), "[1.0000, 2.0000]");
+
+  a = puq::Magnitude::rel_to_abs(val::ArrayValue<double>::pointer_from_vector({30,20}),
+				 val::ArrayValue<double>::pointer_from_vector({20,10}));
+  EXPECT_EQ(a->to_string(), "[6.0000, 2.0000]");
  
 }
 
@@ -180,7 +203,7 @@ TEST(Magnitude, Comparison) {
 
 }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
 
 TEST(Magnitude, Arrays) {
 
@@ -190,6 +213,22 @@ TEST(Magnitude, Arrays) {
   EXPECT_EQ(m1.to_string(), "{1.210(10)e+01, 2.220(20)e+01}");
 
   m1 = puq::Magnitude(puq::Array({12.1, 22.2, 32.3}), puq::Array({0.1, 0.2, 0.3}));
+  EXPECT_EQ(m1.to_string(), "{1.210(10)e+01, 2.220(20)e+01, ...}");
+
+}
+
+#elif defined(MAGNITUDE_VALUES)
+
+TEST(Magnitude, Arrays) {
+
+  puq::Magnitude m1, m2, m3;
+
+  m1 = puq::Magnitude(val::ArrayValue<double>::pointer_from_vector({12.1, 22.2}),
+		      val::ArrayValue<double>::pointer_from_vector({0.1, 0.2}));
+  EXPECT_EQ(m1.to_string(), "{1.210(10)e+01, 2.220(20)e+01}");
+  
+  m1 = puq::Magnitude(val::ArrayValue<double>::pointer_from_vector({12.1, 22.2, 32.3}),
+		      val::ArrayValue<double>::pointer_from_vector({0.1, 0.2, 0.3}));
   EXPECT_EQ(m1.to_string(), "{1.210(10)e+01, 2.220(20)e+01, ...}");
 
 }

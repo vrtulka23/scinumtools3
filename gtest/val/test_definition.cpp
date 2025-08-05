@@ -2,7 +2,7 @@
 
 #include "val/values.h"
 
-TEST(Values, DefineBoolean) {
+TEST(Definitions, Boolean) {
 
   std::vector<bool> arr = {true,false,false,true,true,false};
   val::Array::ShapeType sh = {2,3};
@@ -25,7 +25,7 @@ TEST(Values, DefineBoolean) {
     
 }
 
-TEST(Values, DefineCharacter) {
+TEST(Definitions, Character) {
 
   std::vector<char> arr = {65, 66, 67, 68, 69, 70};
   val::Array::ShapeType sh = {2,3};
@@ -48,7 +48,7 @@ TEST(Values, DefineCharacter) {
     
 }
 
-TEST(Values, DefineInteger) {
+TEST(Definitions, Integer) {
 
   std::vector<int> arr = {0, 2, 33, 45, 2343, 100023};
   val::Array::ShapeType sh = {2,3};
@@ -71,7 +71,7 @@ TEST(Values, DefineInteger) {
     
 }
 
-TEST(Values, DefineFloat) {
+TEST(Definitions, Float) {
 
   std::vector<double> arr = {0, 2, 33.3, 45e2, 3.4e2, -100023e3};
   val::Array::ShapeType sh = {2,3};
@@ -95,7 +95,7 @@ TEST(Values, DefineFloat) {
 }
 
 
-TEST(Values, DefineString) {
+TEST(Definitions, String) {
 
   std::vector<std::string> arr = {"a", "b", "c", "d", "e", "f"};
   val::Array::ShapeType sh = {2,3};

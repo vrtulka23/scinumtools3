@@ -41,14 +41,20 @@ void OperatorArray::operate_group(exs::TokenListBase<UnitAtom> *tokens) {
   for (size_t i=0; i<num_groups; i++) {
     group = tokens->get_left();
     val::ArrayValue<double> value(group.atom->value.magnitude.value.get());
-    val::ArrayValue<double> error(group.atom->value.magnitude.error.get());
     nv.push_back( value.get_value(0) );
-    ne.push_back( error.get_value(0) );
+    if (group.atom->value.magnitude.error) {
+      val::ArrayValue<double> error(group.atom->value.magnitude.error.get());
+      ne.push_back( error.get_value(0) );
+    }
   }
   std::reverse(nv.begin(), nv.end());
-  std::reverse(ne.begin(), ne.end());
   group.atom->value.magnitude.value = std::make_unique<val::ArrayValue<double>>(nv);
-  group.atom->value.magnitude.error = std::make_unique<val::ArrayValue<double>>(ne);
+  if (group.atom->value.magnitude.error) {
+    std::reverse(ne.begin(), ne.end());
+    group.atom->value.magnitude.error = std::make_unique<val::ArrayValue<double>>(ne);
+  } else {
+    group.atom->value.magnitude.error = nullptr;
+  }
 #else
   std::vector<double> nv;
   for (size_t i=0; i<num_groups; i++) {

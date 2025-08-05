@@ -40,8 +40,12 @@ namespace dip {
 	       throw std::runtime_error("Trying to convert nondimensional quantity into '"+qnode->units_raw+"': "+qnode->line.code);
 	     else if (qnode->units!=nullptr and to_unit.empty())
 	       throw std::runtime_error("Trying to convert '"+qnode->units_raw+"' into a nondimensional quantity: "+qnode->line.code);
-	     else if (qnode->units!=nullptr)
-	       new_value->convert_units(qnode->units, to_unit);
+	     else if (qnode->units!=nullptr) {
+	       puq::Quantity quantity = std::move(new_value) * (*qnode->units);
+	       quantity = quantity.convert(to_unit);
+	       new_value = std::move(quantity.value.magnitude.value);
+	       
+	     }
 	   }
 	 }
        }

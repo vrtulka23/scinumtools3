@@ -89,7 +89,7 @@ namespace dip {
   // Forward declarations
   class Environment;
 
-  // Define a pointer type for OpenSNT-puq Quantity
+  // Define a pointer type for scinumtools-puq Quantity
   // TODO: move this to the puq
   namespace Quantity {
     typedef std::unique_ptr<puq::Quantity> PointerType;

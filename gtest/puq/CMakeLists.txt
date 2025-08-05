@@ -1,7 +1,13 @@
 # build test
-file(GLOB test_files "*.cpp")
-add_executable(GTestModule-puq ${test_files})
-target_link_libraries(GTestModule-puq PRIVATE GTest::gtest_main scinumtools-puq)
+file(GLOB TEST_FILES "*.cpp")
+set(EXEC_NAME GTestModule-puq)
+
+add_executable(${EXEC_NAME} ${TEST_FILES})
+target_link_libraries(${EXEC_NAME} PRIVATE GTest::gtest_main scinumtools-puq)
+
+set_target_properties(${EXEC_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
 
 include(GoogleTest)
-gtest_discover_tests(GTestModule-puq)
+gtest_discover_tests(${EXEC_NAME})

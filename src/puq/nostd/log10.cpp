@@ -24,8 +24,11 @@ namespace puq {
     Magnitude log10(const Magnitude& m) {
       // y ± Dy = log(x ± Dx) -> Dy = 1 / ln(10) * Dx / x 
 #ifdef MAGNITUDE_VALUES
-      return Magnitude(m.value->math_log10(),
-		       m.error->math_div(m.value->math_mul(std::log(10)).get()));
+      if (m.error)
+	return Magnitude(m.value->math_log10(),
+			 m.error->math_div(m.value->math_mul(std::log(10)).get()));
+      else
+	return Magnitude(m.value->math_log10());
 #else
       return Magnitude(log10(m.value), m.error/(m.value*std::log(10)));
 #endif

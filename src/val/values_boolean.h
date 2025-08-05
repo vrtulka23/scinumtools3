@@ -16,7 +16,7 @@ namespace val {
     ArrayValue(const BaseValue* other): BaseArrayValue<bool>(other) {};
   private:
     void value_to_string(std::ostringstream& oss, size_t& offset, int precision=0) const override {
-      if (value[offset])
+      if (this->value[offset])
 	oss << snt::KEYWORD_TRUE;
       else
 	oss << snt::KEYWORD_FALSE;

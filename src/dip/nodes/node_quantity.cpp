@@ -16,8 +16,11 @@ namespace dip {
       if (!option_units.empty()) {
 	if (units==nullptr)
 	  throw std::runtime_error("Trying to convert '"+option_units+"' into a nondimensional quantity: "+line.code);
-	else
-	  options[i].value->convert_units(option_units, units);
+	else {
+	  puq::Quantity quantity(std::move(options[i].value), option_units);
+	  quantity = quantity.convert(*units);
+	  options[i].value = std::move(quantity.value.magnitude.value);
+	}
       }
     }    
   }

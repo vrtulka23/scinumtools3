@@ -1,9 +1,15 @@
 # build library
-file(GLOB source_files "./*.cpp" "./**/*.cpp")
-add_library(scinumtools-val STATIC ${source_files})
-target_compile_definitions(scinumtools-val PRIVATE)
-target_link_libraries(scinumtools-val PRIVATE)
+file(GLOB SOURCE_FILES "./*.cpp" "./**/*.cpp")
+set(EXEC_NAME scinumtools-val)
+
+add_library(${EXEC_NAME} STATIC ${SOURCE_FILES})
+target_compile_definitions(${EXEC_NAME} PRIVATE)
+target_link_libraries(${EXEC_NAME} PRIVATE)
+
+set_target_properties(${EXEC_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
 
 # install libraries and executables
-install(TARGETS scinumtools-val EXPORT TargetsOpenSNT
+install(TARGETS ${EXEC_NAME} EXPORT TargetsSNT
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/${MODULE_NAME})
