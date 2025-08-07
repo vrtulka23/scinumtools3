@@ -26,6 +26,7 @@ TEST(UnitValue, Initialization) {
   EXPECT_EQ(value.to_string(), "46*m*g2*s3*K4");
 
 #if defined(MAGNITUDE_ARRAYS)
+  
   puq::ArrayValue a({2,3,4,5});                   // from Array
   value = puq::UnitValue(a, "km");
   EXPECT_EQ(value.to_string(), "{2, 3, ...}*km");
@@ -39,9 +40,11 @@ TEST(UnitValue, Initialization) {
   EXPECT_EQ(value.to_string(), "{2, 3, ...}*km");
   
 #elif defined(MAGNITUDE_VALUES)
-  val::BaseValue::PointerType a = val::ArrayValue<int>::pointer_from_vector({2,3,4,5});     // from Array
-  value = puq::UnitValue(std::move(a), "km");
-  EXPECT_EQ(value.to_string(), "{2, 3, ...}*km");    
+  
+  val::BaseValue::PointerType val = val::ArrayValue<int>::pointer_from_vector({2,3,4,5});     // from Array
+  value = puq::UnitValue(std::move(val), "km");
+  EXPECT_EQ(value.to_string(), "{2, 3, ...}*km");
+  
 #endif
   
   value = puq::UnitValue("3*km/s");    
@@ -51,13 +54,25 @@ TEST(UnitValue, Initialization) {
   
 }
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
+
 TEST(UnitValue, Size) {
   
   puq::UnitValue uv(puq::Array({2,3,4,5}));
   EXPECT_EQ(uv.size(), 4);
   
 }
+
+#elif defined(MAGNITUDE_VALUES)
+
+TEST(UnitValue, Size) {
+  
+  val::BaseValue::PointerType val = val::ArrayValue<int>::pointer_from_vector({2,3,4,5});  
+  puq::UnitValue uv(std::move(val));
+  EXPECT_EQ(uv.size(), 4);
+  
+}
+
 #endif
 
 TEST(UnitValue, RebasePrefixes) {
@@ -157,7 +172,8 @@ TEST(UnitValue, InitializationErrors) {
   v = puq::UnitValue("3.40(10)*km3");                  // unit expression
   EXPECT_EQ(v.to_string(), "3.40(10)*km3");	      
 
-#ifdef MAGNITUDE_ARRAYS
+#if defined(MAGNITUDE_ARRAYS)
+  
   puq::Array am({2,3,4,5});                           // from Array
   puq::Array ae({0.2,0.3,0.4,0.5});        
   v = puq::UnitValue(am, ae, "km");		      
@@ -172,6 +188,14 @@ TEST(UnitValue, InitializationErrors) {
   std::vector<double> ve = {0.2,0.3,0.4,0.5};
   v = puq::UnitValue(vm, ve, "km");
   EXPECT_EQ(v.to_string(), "{2.00(20), 3.00(30), ...}*km");
+  
+#elif defined(MAGNITUDE_VALUES)
+  
+  val::BaseValue::PointerType am = val::ArrayValue<double>::pointer_from_vector({2,3,4,5});  
+  val::BaseValue::PointerType ae = val::ArrayValue<double>::pointer_from_vector({0.2,0.3,0.4,0.5});  
+  v = puq::UnitValue(std::move(am), std::move(ae), "km");		      
+  EXPECT_EQ(v.to_string(), "{2.00(20), 3.00(30), ...}*km");     
+  						        
 #endif
   
 }

@@ -327,7 +327,6 @@ namespace puq {
   // overloading quantity/array
   Quantity operator+(const Quantity& q, val::BaseValue::PointerType a) {
     UnitSystem us(q.stype);
-    q.value+UnitValue(std::move(a));
     return Quantity(q.value+UnitValue(std::move(a)));
   }  
   Quantity operator-(const Quantity& q, val::BaseValue::PointerType a) {
