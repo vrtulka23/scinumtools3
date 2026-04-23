@@ -1,12 +1,12 @@
-#include <snt/puq/math/floor.h>
+#include <snt/puq/math/ceil.h>
 #include <snt/puq/result.h>
 #include <snt/puq/measurement.h>
 #include <snt/puq/quantity.h>
 
 namespace snt::puq::math {
 
-  puq::Result floor(const puq::Result& res) {
-    auto est = res.estimate->math_floor();
+  puq::Result ceil(const puq::Result& res) {
+    auto est = res.estimate->math_ceil();
     
     if (!res.uncertainty) {
       return puq::Result(std::move(est));
@@ -16,11 +16,11 @@ namespace snt::puq::math {
     auto lower = res.estimate->math_sub(res.uncertainty.get());
     auto upper = res.estimate->math_add(res.uncertainty.get());
     
-    auto floor_lower = lower->math_floor();
-    auto floor_upper = upper->math_floor();
+    auto ceil_lower = lower->math_ceil();
+    auto ceil_upper = upper->math_ceil();
 
     // TODO: This should be evaluated piecewise and not all at once
-    if (floor_lower->compare_equal(floor_upper.get())->any_of()) {
+    if (ceil_lower->compare_equal(ceil_upper.get())->any_of()) {
       // No integer boundary crossed → stable
       return puq::Result(std::move(est), nullptr);
     } else {
@@ -29,13 +29,13 @@ namespace snt::puq::math {
     }
   }
 
-  puq::Measurement floor(const puq::Measurement& msr) {
-    return puq::Measurement(floor(msr.result),
+  puq::Measurement ceil(const puq::Measurement& msr) {
+    return puq::Measurement(ceil(msr.result),
 			    msr.baseunits);
   }
 
-  puq::Quantity floor(const puq::Quantity& quant) {
-    return puq::Quantity(floor(quant.measurement),
+  puq::Quantity ceil(const puq::Quantity& quant) {
+    return puq::Quantity(ceil(quant.measurement),
 			 quant.stype);
   }
     
