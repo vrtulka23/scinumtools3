@@ -2,9 +2,9 @@ import timeit
 import time
 import numpy as np
 import sys
-
-# Include `scinumtools3` from the current build directory
 sys.path.append("../../build/python")
+
+
 
 # ==========================================
 # 1. SETUP CODES (Executed once per library)
